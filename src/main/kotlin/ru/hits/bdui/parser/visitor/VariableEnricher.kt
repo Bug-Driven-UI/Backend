@@ -8,8 +8,7 @@ import ru.hits.bdui.domain.Row
 import ru.hits.bdui.domain.Text
 import ru.hits.bdui.domain.TextField
 
-@org.springframework.stereotype.Component
-class VariableEnricherImpl(
+class VariableEnricher(
     private val values: Map<String, String>
 ) : ComponentVisitor<Component> {
     override fun visit(text: Text): Component =
