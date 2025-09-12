@@ -1,36 +1,90 @@
 package ru.hits.bdui.domain
 
+import ru.hits.bdui.domain.size.Size
+import ru.hits.bdui.parser.visitor.ComponentVisitor
+
 sealed interface Leaf : Component
 
 data class Text(
-    val text: String
-) : Leaf
+    val text: String,
+    override val interactions: List<Interaction>,
+    override val insets: Insets,
+    override val width: Size,
+    override val height: Size
+) : Leaf {
+    override fun <V> accept(visitor: ComponentVisitor<V>): V =
+        visitor.visit(this)
+}
 
 data class TextField(
-    val text: String
-) : Leaf
+    val text: String,
+    override val interactions: List<Interaction>,
+    override val insets: Insets,
+    override val width: Size,
+    override val height: Size
+) : Leaf {
+    override fun <V> accept(visitor: ComponentVisitor<V>): V =
+        visitor.visit(this)
+}
 
 data class Image(
-    val field: String
-) : Leaf
+    override val interactions: List<Interaction>,
+    override val insets: Insets,
+    override val width: Size,
+    override val height: Size
+) : Leaf {
+    override fun <V> accept(visitor: ComponentVisitor<V>): V =
+        visitor.default(this)
+}
 
 data class Spacer(
-    val field: String
-) : Leaf
+    override val interactions: List<Interaction>,
+    override val insets: Insets,
+    override val width: Size,
+    override val height: Size
+) : Leaf {
+    override fun <V> accept(visitor: ComponentVisitor<V>): V =
+        visitor.default(this)
+}
 
 data class Divider(
-    val field: String
-) : Leaf
+    override val interactions: List<Interaction>,
+    override val insets: Insets,
+    override val width: Size,
+    override val height: Size
+) : Leaf {
+    override fun <V> accept(visitor: ComponentVisitor<V>): V =
+        visitor.default(this)
+}
 
 data class ProgressBar(
-    val field: String
-) : Leaf
+    override val interactions: List<Interaction>,
+    override val insets: Insets,
+    override val width: Size,
+    override val height: Size
+) : Leaf {
+    override fun <V> accept(visitor: ComponentVisitor<V>): V =
+        visitor.default(this)
+}
 
 data class Switch(
-    val field: String
-) : Leaf
+    override val interactions: List<Interaction>,
+    override val insets: Insets,
+    override val width: Size,
+    override val height: Size
+) : Leaf {
+    override fun <V> accept(visitor: ComponentVisitor<V>): V =
+        visitor.default(this)
+}
 
 data class Button(
     val text: String,
-    val enabled: Boolean
-) : Leaf
+    val enabled: Boolean,
+    override val interactions: List<Interaction>,
+    override val insets: Insets,
+    override val width: Size,
+    override val height: Size
+) : Leaf {
+    override fun <V> accept(visitor: ComponentVisitor<V>): V =
+        visitor.visit(this)
+}
