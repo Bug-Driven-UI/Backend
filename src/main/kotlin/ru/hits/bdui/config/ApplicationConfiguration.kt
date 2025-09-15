@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.client.RestClient
+import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
 class ApplicationConfiguration {
@@ -12,4 +14,9 @@ class ApplicationConfiguration {
     fun customObjectMapper(): ObjectMapper =
         jacksonObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+
+    @Bean("CustomWebClient")
+    fun webClient(): WebClient =
+        WebClient.builder()
+            .build()
 }

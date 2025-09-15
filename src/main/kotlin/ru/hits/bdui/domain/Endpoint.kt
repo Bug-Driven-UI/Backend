@@ -13,6 +13,6 @@ data class Endpoint(
     val url: String,
     val method: String,
     val responseName: String,
-    val timeoutMs: Long,
+    val timeoutMs: Long = 5000,
     val isRequired: Boolean,
 )

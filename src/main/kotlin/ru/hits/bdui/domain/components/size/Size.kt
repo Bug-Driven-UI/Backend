@@ -1,4 +1,4 @@
-package ru.hits.bdui.domain.size
+package ru.hits.bdui.domain.components.size
 
 sealed interface Size {
     val type: String
