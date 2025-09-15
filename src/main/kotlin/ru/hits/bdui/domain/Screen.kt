@@ -1,5 +1,7 @@
 package ru.hits.bdui.domain
 
+import ru.hits.bdui.domain.components.Component
+
 /**
  * Доменное представления ответа на получение экрана
  */

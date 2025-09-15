@@ -1,12 +1,12 @@
 package ru.hits.bdui.parser.visitor
 
-import ru.hits.bdui.domain.Box
-import ru.hits.bdui.domain.Button
-import ru.hits.bdui.domain.Column
-import ru.hits.bdui.domain.Component
-import ru.hits.bdui.domain.Row
-import ru.hits.bdui.domain.Text
-import ru.hits.bdui.domain.TextField
+import ru.hits.bdui.domain.components.Box
+import ru.hits.bdui.domain.components.Button
+import ru.hits.bdui.domain.components.Column
+import ru.hits.bdui.domain.components.Component
+import ru.hits.bdui.domain.components.Row
+import ru.hits.bdui.domain.components.Text
+import ru.hits.bdui.domain.components.TextField
 
 interface ComponentVisitor<V> {
     fun visit(text: Text): V

@@ -31,6 +31,9 @@ class ScreenVariableEnricherImpl(
                     is ScreenEndpointManager.Response.Success ->
                         ScreenVariableEnricher.Response.Success(replaceVariables(screen, response.data))
 
+                    is ScreenEndpointManager.Response.NothingToRequest ->
+                        ScreenVariableEnricher.Response.Success(screen)
+
                     is ScreenEndpointManager.Response.Error ->
                         ScreenVariableEnricher.Response.Error(response.error)
                 }
@@ -49,6 +52,11 @@ class ScreenVariableEnricherImpl(
         screen: Screen,
         responseNameToResult: Map<String, JsonNode>
     ): Screen {
+        if (responseNameToResult.isEmpty()) {
+            log.info("Отсутствует данные для подмены переменных. Пропуск подмены")
+            return screen
+        }
+
         val variableReplacer = VariableReplacer(responseNameToResult)
 
         val enrichedScreen = screen.copy(

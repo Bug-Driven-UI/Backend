@@ -4,11 +4,14 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.client.RestClient
 import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
+@ComponentScan(
+    basePackages = ["ru.hits.bdui.parser"]
+)
 class ApplicationConfiguration {
     @Bean("CustomObjectMapper")
     fun customObjectMapper(): ObjectMapper =

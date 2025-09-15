@@ -2,13 +2,13 @@ package ru.hits.bdui.parser.visitor
 
 import com.fasterxml.jackson.databind.JsonNode
 import org.slf4j.LoggerFactory
-import ru.hits.bdui.domain.Box
-import ru.hits.bdui.domain.Button
-import ru.hits.bdui.domain.Column
-import ru.hits.bdui.domain.Component
-import ru.hits.bdui.domain.Row
-import ru.hits.bdui.domain.Text
-import ru.hits.bdui.domain.TextField
+import ru.hits.bdui.domain.components.Box
+import ru.hits.bdui.domain.components.Button
+import ru.hits.bdui.domain.components.Column
+import ru.hits.bdui.domain.components.Component
+import ru.hits.bdui.domain.components.Row
+import ru.hits.bdui.domain.components.Text
+import ru.hits.bdui.domain.components.TextField
 
 /**
  * Подменяет переменные
@@ -56,7 +56,7 @@ class VariableReplacer(
                         .getOrNull()
                         ?.toString()
                 }
-                ?: throw VariableReplacerException("Н")
+                ?: throw VariableReplacerException("Значение для переменной отсутствует")
 
         } else {
             variable

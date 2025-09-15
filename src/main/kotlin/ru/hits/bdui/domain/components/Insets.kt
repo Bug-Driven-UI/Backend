@@ -1,4 +1,4 @@
-package ru.hits.bdui.domain
+package ru.hits.bdui.domain.components
 
 data class Insets(
     val left: Int,

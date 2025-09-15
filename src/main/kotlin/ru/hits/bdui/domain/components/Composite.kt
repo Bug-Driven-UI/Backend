@@ -1,4 +1,4 @@
-package ru.hits.bdui.domain
+package ru.hits.bdui.domain.components
 
 import ru.hits.bdui.domain.components.size.Size
 import ru.hits.bdui.parser.visitor.ComponentVisitor
@@ -14,6 +14,8 @@ data class Row(
     override val width: Size,
     override val height: Size
 ) : Composite {
+    override val type: String = "row"
+
     override fun <V> accept(visitor: ComponentVisitor<V>): V =
         visitor.default(this)
 }
@@ -25,6 +27,8 @@ data class Box(
     override val width: Size,
     override val height: Size
 ) : Composite {
+    override val type: String = "box"
+
     override fun <V> accept(visitor: ComponentVisitor<V>): V =
         visitor.default(this)
 }
@@ -36,6 +40,8 @@ data class Column(
     override val width: Size,
     override val height: Size
 ) : Composite {
+    override val type: String = "column"
+
     override fun <V> accept(visitor: ComponentVisitor<V>): V =
         visitor.default(this)
 }

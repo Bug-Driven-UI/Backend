@@ -34,7 +34,7 @@ class ApiCallerImpl(
     override fun call(endpoint: Endpoint): CompletableFuture<Response> =
         webClient
             .methodByString(endpoint.method)
-            .uri(endpoint.method)
+            .uri(endpoint.url)
             .retrieve()
             .bodyToMono(String::class.java)
             .map { objectMapper.readTree(it) }
@@ -44,7 +44,10 @@ class ApiCallerImpl(
                 Mono.error(ApiCallerException.TimeoutException("Не удалось получить ответ по запросу в течении ${endpoint.timeoutMs} мс"))
             )
             .doOnError { error ->
-                log.error("При отправке ${endpoint.method} запроса по пути ${endpoint.url} произошла ошибка", error)
+                log.error(
+                    "При отправке ${endpoint.method.lowercase()} запроса по пути ${endpoint.url} произошла ошибка",
+                    error
+                )
             }
             .onErrorMap { error ->
                 when (error) {

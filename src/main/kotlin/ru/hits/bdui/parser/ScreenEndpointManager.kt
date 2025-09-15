@@ -17,6 +17,7 @@ sealed interface ScreenEndpointManager {
 
     sealed interface Response {
         data class Success(val data: Map<String, JsonNode>) : Response
+        data object NothingToRequest : Response
         data class Error(val error: ScreenResponse.Error) : Response
     }
 }
@@ -28,6 +29,11 @@ class ScreenEndpointManagerImpl(
     private val log = LoggerFactory.getLogger(this::class.java)
 
     override fun getData(screen: Screen): CompletableFuture<ScreenEndpointManager.Response> {
+        if (screen.endpoints.isEmpty()) {
+            log.info("У данного экрана отсутствуют запросы. Пропуск этапа запроса данных")
+            return CompletableFuture.completedFuture(ScreenEndpointManager.Response.NothingToRequest)
+        }
+
         val endpointFutures = screen.endpoints
             .map { endpoint ->
                 apiCaller.call(endpoint)
