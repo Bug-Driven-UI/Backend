@@ -1,0 +1,447 @@
+openapi: 3.1.0
+info:
+  title: BDUI API
+  version: 1.0.0
+  description: |
+    Спецификация OpenAPI для Backend-Driven UI  приложения
+
+paths:
+  /v1/getScreen:
+    post:
+      summary: Получить описание экрана
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          description: "Идентификатор пользователя, от которого выполняется запрос"
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScreenRequest"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/ScreenRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ScreenRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ или ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponse'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponseError'
+  /v1/addScreen:
+    post:
+      summary: Добавить новый экран
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Screen"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Screen"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Screen"
+
+      responses:
+        '200':
+          description: Успешный ответ или ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponse'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenResponseError'
+
+components:
+  schemas:
+    ScreenRequest:
+      description: "Запрос на получение экрана"
+      type: object
+      properties:
+        data:
+          type: object
+          required: [ screenId ]
+          properties:
+            screenId:
+              type: string
+              description: "Идентификатор экрана"
+
+    ScreenResponse:
+      description: "Ответ на получение экрана: успех или список ошибок."
+      oneOf:
+        - $ref: '#/components/schemas/ScreenResponseSuccess'
+        - $ref: '#/components/schemas/ScreenResponseError'
+      unevaluatedProperties: false
+
+    ScreenResponseSuccess:
+      type: object
+      required: [ screen ]
+      properties:
+        screen:
+          $ref: '#/components/schemas/Screen'
+      additionalProperties: false
+
+    ScreenResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ErrorContent:
+      type: object
+      description: "Содержимое ошибки"
+      required: [ timestampMs, message ]
+      properties:
+        timestampMs:
+          type: integer
+          format: int64
+          description: "Время формирования ошибки (в мс)"
+        message:
+          type: string
+          description: "Описание ошибки"
+      additionalProperties: false
+
+    Screen:
+      type: object
+      required: [ components, endpoints ]
+      properties:
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+        endpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Endpoint'
+      additionalProperties: false
+
+    Endpoint:
+      type: object
+      description: "Модель внешнего запроса"
+      required: [ url, method, responseName, timeoutMs, isRequired ]
+      properties:
+        url:
+          type: string
+          description: "Путь/URL, на который должен быть выполнен запрос"
+        method:
+          type: string
+          description: "HTTP-метод"
+          example: GET
+        responseName:
+          type: string
+          description: "Имя для ассоциации ответа с запросом"
+        timeoutMs:
+          type: integer
+          format: int64
+          description: "Таймаут ожидания ответа (в мс)"
+          default: 5000
+        isRequired:
+          type: boolean
+          description: "Если true — ошибка клиента при неудаче получения ответа"
+      additionalProperties: false
+
+    Insets:
+      type: object
+      required: [ left, right, bottom, top ]
+      properties:
+        left: { type: integer }
+        right: { type: integer }
+        bottom: { type: integer }
+        top: { type: integer }
+      additionalProperties: false
+
+    Action:
+      type: object
+      description: Базовая модель действия.
+      required: [ type ]
+      properties:
+        type:
+          type: string
+      additionalProperties: true
+
+    Interaction:
+      type: object
+      description: Базовая модель взаимодействия.
+      required: [ type, actions ]
+      properties:
+        type:
+          type: string
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+      additionalProperties: true
+
+    Size:
+      required: [ type ]
+      description: "Полиморфный размер"
+      oneOf:
+        - $ref: '#/components/schemas/SizeFixed'
+        - $ref: '#/components/schemas/SizeWeighted'
+        - $ref: '#/components/schemas/SizeMatchParent'
+        - $ref: '#/components/schemas/SizeWrapContent'
+      discriminator:
+        propertyName: type
+        mapping:
+          fixed: '#/components/schemas/SizeFixed'
+          weighted: '#/components/schemas/SizeWeighted'
+          matchParent: '#/components/schemas/SizeMatchParent'
+          wrapContent: '#/components/schemas/SizeWrapContent'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: fixed, weighted, matchParent, wrapContent"
+      unevaluatedProperties: false
+
+    SizeBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ fixed, weighted, matchParent, wrapContent ]
+
+    SizeFixed:
+      allOf:
+        - $ref: '#/components/schemas/SizeBase'
+        - type: object
+          required: [ type, value ]
+          properties:
+            type:
+              const: fixed
+            value:
+              type: integer
+
+    SizeWeighted:
+      allOf:
+        - $ref: '#/components/schemas/SizeBase'
+        - type: object
+          required: [ type, value ]
+          properties:
+            type:
+              const: weighted
+            value:
+              type: integer
+
+    SizeMatchParent:
+      allOf:
+        - $ref: '#/components/schemas/SizeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: matchParent
+      additionalProperties: false
+
+    SizeWrapContent:
+      allOf:
+        - $ref: '#/components/schemas/SizeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: wrapContent
+      additionalProperties: false
+
+    Component:
+      required: [ type ]
+      description: "Полиморфный UI-компонент"
+      oneOf:
+        - $ref: '#/components/schemas/Row'
+        - $ref: '#/components/schemas/Box'
+        - $ref: '#/components/schemas/Column'
+        - $ref: '#/components/schemas/Text'
+        - $ref: '#/components/schemas/TextField'
+        - $ref: '#/components/schemas/Image'
+        - $ref: '#/components/schemas/Spacer'
+        - $ref: '#/components/schemas/Divider'
+        - $ref: '#/components/schemas/ProgressBar'
+        - $ref: '#/components/schemas/Switch'
+        - $ref: '#/components/schemas/Button'
+      discriminator:
+        propertyName: type
+        mapping:
+          row: '#/components/schemas/Row'
+          box: '#/components/schemas/Box'
+          column: '#/components/schemas/Column'
+          text: '#/components/schemas/Text'
+          textField: '#/components/schemas/TextField'
+          image: '#/components/schemas/Image'
+          spacer: '#/components/schemas/Spacer'
+          divider: '#/components/schemas/Divider'
+          progressBar: '#/components/schemas/ProgressBar'
+          switch: '#/components/schemas/Switch'
+          button: '#/components/schemas/Button'
+      properties:
+        type:
+          type: string
+      unevaluatedProperties: false
+
+    ComponentBase:
+      type: object
+      required: [ type, interactions, insets, width, height ]
+      properties:
+        type:
+          type: string
+          enum: [ row, box, column, text, textField, image, spacer, divider, progressBar, switch, button ]
+        interactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interaction'
+        insets:
+          $ref: '#/components/schemas/Insets'
+        width:
+          $ref: '#/components/schemas/Size'
+        height:
+          $ref: '#/components/schemas/Size'
+
+    CompositeBase:
+      allOf:
+        - $ref: '#/components/schemas/ComponentBase'
+        - type: object
+          required: [ children ]
+          properties:
+            children:
+              type: array
+              items:
+                $ref: '#/components/schemas/Component'
+          additionalProperties: false
+
+    LeafBase:
+      allOf:
+        - $ref: '#/components/schemas/ComponentBase'
+        - type: object
+          required: [ type ]
+          additionalProperties: false
+
+    Row:
+      allOf:
+        - $ref: '#/components/schemas/CompositeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: row }
+
+    Box:
+      allOf:
+        - $ref: '#/components/schemas/CompositeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: box }
+
+    Column:
+      allOf:
+        - $ref: '#/components/schemas/CompositeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: column }
+
+    Text:
+      allOf:
+        - $ref: '#/components/schemas/LeafBase'
+        - type: object
+          required: [ type, text ]
+          properties:
+            type: { const: text }
+            text:
+              type: string
+
+    TextField:
+      allOf:
+        - $ref: '#/components/schemas/LeafBase'
+        - type: object
+          required: [ type, text ]
+          properties:
+            type: { const: textField }
+            text:
+              type: string
+
+    Image:
+      allOf:
+        - $ref: '#/components/schemas/LeafBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: image }
+
+    Spacer:
+      allOf:
+        - $ref: '#/components/schemas/LeafBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: spacer }
+
+    Divider:
+      allOf:
+        - $ref: '#/components/schemas/LeafBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: divider }
+
+    ProgressBar:
+      allOf:
+        - $ref: '#/components/schemas/LeafBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: progressBar }
+
+    Switch:
+      allOf:
+        - $ref: '#/components/schemas/LeafBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: switch }
+
+    Button:
+      allOf:
+        - $ref: '#/components/schemas/LeafBase'
+        - type: object
+          required: [ type, text, enabled ]
+          properties:
+            type: { const: button }
+            text:
+              type: string
+            enabled:
+              type: boolean
