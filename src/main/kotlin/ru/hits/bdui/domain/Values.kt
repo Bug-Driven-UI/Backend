@@ -14,3 +14,6 @@ value class Condition(val value: String)
 
 @JvmInline
 value class CommandName(val value: String)
+
+@JvmInline
+value class ApiName(val value: String)

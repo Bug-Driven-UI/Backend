@@ -1,5 +1,6 @@
 package ru.hits.bdui.domain.api
 
+import ru.hits.bdui.domain.ApiName
 import ru.hits.bdui.domain.api.schema.Schema
 
 /**
@@ -13,7 +14,7 @@ import ru.hits.bdui.domain.api.schema.Schema
  * @param mappingScript JS скрипт для преобразования полученных данных в схему
  */
 data class ApiRepresentation(
-    val name: String,
+    val name: ApiName,
     val description: String,
     val params: Set<String>,
     val endpoints: List<ShortApiRepresentation>,

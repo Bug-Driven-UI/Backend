@@ -11,8 +11,12 @@ package ru.hits.bdui.domain.api
  */
 data class Endpoint(
     val url: String,
-    val method: String,
+    val method: HttpMethod,
     val responseName: String,
     val timeoutMs: Long = 5000,
     val isRequired: Boolean,
 )
+
+enum class HttpMethod {
+    GET, POST, PUT, DELETE, PATCH
+}
