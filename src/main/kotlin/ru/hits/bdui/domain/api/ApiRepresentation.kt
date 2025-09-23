@@ -6,12 +6,12 @@ import ru.hits.bdui.domain.api.schema.Schema
 /**
  * Модель для внешнего API
  *
- * @param name название API для использования
- * @param description краткое описание
- * @param params требуемые параметры
- * @param endpoints эндпоинты для запросов данных
- * @param schema схема для маппинга данных
- * @param mappingScript JS скрипт для преобразования полученных данных в схему
+ * @property name название API для использования
+ * @property description краткое описание
+ * @property params требуемые параметры
+ * @property endpoints эндпоинты для запросов данных
+ * @property schema схема для маппинга данных
+ * @property mappingScript JS скрипт для преобразования полученных данных в схему
  */
 data class ApiRepresentation(
     val name: ApiName,

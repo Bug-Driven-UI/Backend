@@ -1,5 +1,9 @@
 package ru.hits.bdui.domain.api.schema
 
+
+/**
+ * Интерфейс для представления объектов схемы маппинга API
+ */
 sealed interface Schema {
     val type: String
 }

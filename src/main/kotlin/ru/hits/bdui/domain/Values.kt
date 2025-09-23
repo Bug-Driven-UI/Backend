@@ -17,3 +17,6 @@ value class CommandName(val value: String)
 
 @JvmInline
 value class ApiName(val value: String)
+
+@JvmInline
+value class TemplateName(val value: String)

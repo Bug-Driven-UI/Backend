@@ -7,11 +7,11 @@ import ru.hits.bdui.domain.template.ComponentTemplate
 /**
  * Представление команды из реестра
  *
- * @param name название команды
- * @param commandParams параметры, требующиеся для исполнения команды
- * @param apis внешние API, требующиеся для исполнения команды
- * @param itemTemplate шаблон для заполнения ответа от команды (если указан)
- * @param fallbackOnErrorMessage сообщение об ошибке, в случае неудачного исполнения команды
+ * @property name название команды
+ * @property commandParams параметры, требующиеся для исполнения команды
+ * @property apis внешние API, требующиеся для исполнения команды
+ * @property itemTemplate шаблон для заполнения ответа от команды (если указан)
+ * @property fallbackOnErrorMessage сообщение об ошибке, в случае неудачного исполнения команды
  */
 data class Command(
     val name: CommandName,

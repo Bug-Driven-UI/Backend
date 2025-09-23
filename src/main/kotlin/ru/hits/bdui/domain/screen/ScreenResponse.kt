@@ -12,8 +12,8 @@ sealed interface ScreenResponse {
 /**
  * Содержимое ошибки
  *
- * @param timestampMs время формирования ошибки
- * @param message Описание ошибки
+ * @property timestampMs время формирования ошибки
+ * @property message Описание ошибки
  */
 data class ErrorContent(
     val timestampMs: Long,

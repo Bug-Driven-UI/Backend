@@ -9,7 +9,7 @@ import ru.hits.bdui.domain.screen.properties.Size
 /**
  * Обертка для компонентов, которые зависят от конкретных условий
  *
- * При возвращении клиенту преобразуем тип 'stateful' в 'box'
+ * При возвращении клиенту преобразуем тип 'stateful' в 'box' и отдаем только тот компонент, условие которого выполнилось
  */
 data class StatefulComponent(
     override val id: ComponentId,
