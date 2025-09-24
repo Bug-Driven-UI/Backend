@@ -11,7 +11,6 @@ sealed interface Composite : Component {
 
 data class Row(
     override val id: ComponentId,
-    override val hash: String,
     override val children: List<Component>,
     override val interactions: List<Interaction>,
     override val insets: Insets,
@@ -23,7 +22,6 @@ data class Row(
 
 data class Box(
     override val id: ComponentId,
-    override val hash: String,
     override val children: List<Component>,
     override val interactions: List<Interaction>,
     override val insets: Insets,
@@ -35,7 +33,6 @@ data class Box(
 
 data class Column(
     override val id: ComponentId,
-    override val hash: String,
     override val children: List<Component>,
     override val interactions: List<Interaction>,
     override val insets: Insets,

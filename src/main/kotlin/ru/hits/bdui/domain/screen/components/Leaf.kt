@@ -15,7 +15,6 @@ data class Text(
     val textStyle: TextStyle,
     val color: ColorStyle,
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction>,
     override val insets: Insets,
     override val width: Size,
@@ -29,7 +28,6 @@ data class TextField(
     val textStyle: TextStyle,
     val color: ColorStyle,
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction>,
     override val insets: Insets,
     override val width: Size,
@@ -41,7 +39,6 @@ data class TextField(
 data class Image(
     val imageUrl: ValueOrExpression,
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction>,
     override val insets: Insets,
     override val width: Size,
@@ -52,7 +49,6 @@ data class Image(
 
 data class Spacer(
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction>,
     override val insets: Insets,
     override val width: Size,
@@ -63,7 +59,6 @@ data class Spacer(
 
 data class Divider(
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction>,
     override val insets: Insets,
     override val width: Size,
@@ -74,7 +69,6 @@ data class Divider(
 
 data class ProgressBar(
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction>,
     override val insets: Insets,
     override val width: Size,
@@ -85,7 +79,6 @@ data class ProgressBar(
 
 data class Switch(
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction>,
     override val insets: Insets,
     override val width: Size,
@@ -98,7 +91,6 @@ data class Button(
     val text: ValueOrExpression,
     val enabled: Boolean,
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction>,
     override val insets: Insets,
     override val width: Size,

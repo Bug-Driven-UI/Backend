@@ -13,12 +13,12 @@ import ru.hits.bdui.domain.screen.styles.TextStyle
  * @property screenName название экрана
  * @property version версия экрана
  * @property screenNavigationParams параметры, требующиеся для загрузки данного экрана
- * @property apis внешние api, требуемые для загрузки данного экрана
+ * @property apis внешние API, требуемые для загрузки данного экрана, где ключ - alias для обращения к данным из API
  * @property rootComponent корневой компонент экрана
  * @property scaffold скаффолд экрана
  * @property loaders загрузочные экраны для навигации
- * @property textStyles словарь стилей текстов
- * @property colorStyles словарь стилей цветов
+ * @property textStyles словарь стилей текстов, где ключ - alias для обращения к стилю текста
+ * @property colorStyles словарь стилей цветов, где ключ - alias для обращения к стилю цвета
  */
 data class Screen(
     val screenName: ScreenName,

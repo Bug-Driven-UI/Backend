@@ -7,7 +7,7 @@ import ru.hits.bdui.domain.ValueOrExpression
  * Действие, отвечающее за вызов команд из реестра
  *
  * @property name название команды, которую нужно исполнить
- * @property params переданные параметры для исполнения команды
+ * @property params передаваемые параметры для исполнения команды
  */
 data class CommandAction(
     val name: CommandName,

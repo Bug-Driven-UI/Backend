@@ -9,11 +9,10 @@ import ru.hits.bdui.domain.screen.interactions.Interaction
 /**
  * Обертка для компонентов, которые зависят от конкретных условий
  *
- * При возвращении клиенту преобразуем тип 'stateful' в 'box' и отдаем только тот компонент, условие которого выполнилось
+ * При возвращении клиенту преобразуем тип 'stateful' в 'box' и отдаем в качестве ребенка только тот компонент, условие которого выполнилось
  */
 data class StatefulComponent(
     override val id: ComponentId,
-    override val hash: String,
     override val interactions: List<Interaction> = emptyList(),
     override val insets: Insets,
     override val width: Size,

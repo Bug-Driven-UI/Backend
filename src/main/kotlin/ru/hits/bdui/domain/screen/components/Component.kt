@@ -8,7 +8,6 @@ import ru.hits.bdui.domain.screen.interactions.Interaction
 sealed interface Component {
     val id: ComponentId
     val type: String
-    val hash: String
     val interactions: List<Interaction>
     val insets: Insets?
     val width: Size
