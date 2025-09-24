@@ -1,12 +1,16 @@
 package ru.hits.bdui.domain.screen.components
 
 import ru.hits.bdui.domain.ComponentId
+import ru.hits.bdui.domain.screen.components.properties.Insets
+import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
-import ru.hits.bdui.domain.screen.properties.Insets
-import ru.hits.bdui.domain.screen.properties.Size
 import ru.hits.bdui.domain.template.ComponentTemplate
 
-sealed interface DynamicComposite : Component
+sealed interface DynamicComposite : Component {
+    val itemsData: String
+    val itemAlias: String
+    val itemTemplate: ComponentTemplate
+}
 
 /**
  * Динамически заполняемая колонка
@@ -14,9 +18,9 @@ sealed interface DynamicComposite : Component
  * Преобразуется в column
  */
 data class DynamicColumn(
-    val itemsData: String,
-    val itemAlias: String,
-    val itemTemplate: ComponentTemplate,
+    override val itemsData: String,
+    override val itemAlias: String,
+    override val itemTemplate: ComponentTemplate,
     override val id: ComponentId,
     override val hash: String,
     override val interactions: List<Interaction>,
@@ -33,9 +37,9 @@ data class DynamicColumn(
  * Преобразуется в row
  */
 data class DynamicRow(
-    val itemsData: String,
-    val itemAlias: String,
-    val itemTemplate: ComponentTemplate,
+    override val itemsData: String,
+    override val itemAlias: String,
+    override val itemTemplate: ComponentTemplate,
     override val id: ComponentId,
     override val hash: String,
     override val interactions: List<Interaction>,

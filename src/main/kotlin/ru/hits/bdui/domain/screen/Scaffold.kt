@@ -1,6 +1,7 @@
 package ru.hits.bdui.domain.screen
 
-import org.springframework.stereotype.Component
+import ru.hits.bdui.domain.screen.components.Component
+
 
 data class Scaffold(
     val topBar: Component?,

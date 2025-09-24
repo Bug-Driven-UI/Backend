@@ -1,16 +1,17 @@
 package ru.hits.bdui.domain.screen.components
 
 import ru.hits.bdui.domain.ComponentId
+import ru.hits.bdui.domain.ValueOrExpression
+import ru.hits.bdui.domain.screen.components.properties.Insets
+import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
-import ru.hits.bdui.domain.screen.properties.Insets
-import ru.hits.bdui.domain.screen.properties.Size
 import ru.hits.bdui.domain.screen.styles.ColorStyle
 import ru.hits.bdui.domain.screen.styles.TextStyle
 
 sealed interface Leaf : Component
 
 data class Text(
-    val text: String,
+    val text: ValueOrExpression,
     val textStyle: TextStyle,
     val color: ColorStyle,
     override val id: ComponentId,
@@ -24,7 +25,7 @@ data class Text(
 }
 
 data class TextField(
-    val text: String,
+    val text: ValueOrExpression,
     val textStyle: TextStyle,
     val color: ColorStyle,
     override val id: ComponentId,
@@ -38,6 +39,7 @@ data class TextField(
 }
 
 data class Image(
+    val imageUrl: ValueOrExpression,
     override val id: ComponentId,
     override val hash: String,
     override val interactions: List<Interaction>,
@@ -93,7 +95,7 @@ data class Switch(
 }
 
 data class Button(
-    val text: String,
+    val text: ValueOrExpression,
     val enabled: Boolean,
     override val id: ComponentId,
     override val hash: String,

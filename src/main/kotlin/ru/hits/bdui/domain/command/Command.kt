@@ -11,12 +11,12 @@ import ru.hits.bdui.domain.template.ComponentTemplate
  * @property commandParams параметры, требующиеся для исполнения команды
  * @property apis внешние API, требующиеся для исполнения команды
  * @property itemTemplate шаблон для заполнения ответа от команды (если указан)
- * @property fallbackOnErrorMessage сообщение об ошибке, в случае неудачного исполнения команды
+ * @property fallbackMessage сообщение об ошибке, в случае неудачного исполнения команды
  */
 data class Command(
     val name: CommandName,
     val commandParams: Set<String>,
     val apis: Map<String, ShortApiRepresentation>,
     val itemTemplate: ComponentTemplate?,
-    val fallbackOnErrorMessage: String?
+    val fallbackMessage: String?
 )

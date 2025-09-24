@@ -10,7 +10,15 @@ package ru.hits.bdui.domain.screen.styles
  */
 data class TextStyle(
     val token: String,
-    val decoration: String,
-    val weight: String,
+    val decoration: TextDecoration,
+    val weight: Int,
     val size: Int
 )
+
+enum class TextDecoration {
+    BOLD,
+    ITALIC,
+    UNDERLINE,
+    STRIKETHROUGH,
+    OVERLINE
+}

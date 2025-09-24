@@ -1,10 +1,10 @@
 package ru.hits.bdui.domain.screen.components
 
 import ru.hits.bdui.domain.ComponentId
-import ru.hits.bdui.domain.Condition
+import ru.hits.bdui.domain.Expression
+import ru.hits.bdui.domain.screen.components.properties.Insets
+import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
-import ru.hits.bdui.domain.screen.properties.Insets
-import ru.hits.bdui.domain.screen.properties.Size
 
 /**
  * Обертка для компонентов, которые зависят от конкретных условий
@@ -23,7 +23,10 @@ data class StatefulComponent(
     override val type: String = "stateful"
 }
 
+/**
+ * @property condition условие, которое должно выполниться для использования объекта из данного состояния
+ */
 data class StateDefinition(
-    val condition: Condition,
+    val condition: Expression,
     val component: Component
 )

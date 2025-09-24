@@ -1,9 +1,9 @@
 package ru.hits.bdui.domain.screen.components
 
 import ru.hits.bdui.domain.ComponentId
+import ru.hits.bdui.domain.screen.components.properties.Insets
+import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
-import ru.hits.bdui.domain.screen.properties.Insets
-import ru.hits.bdui.domain.screen.properties.Size
 
 sealed interface Composite : Component {
     val children: List<Component>

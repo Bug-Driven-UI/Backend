@@ -1,6 +1,7 @@
 package ru.hits.bdui.domain.screen.interactions.actions
 
 import ru.hits.bdui.domain.CommandName
+import ru.hits.bdui.domain.ValueOrExpression
 
 /**
  * Действие, отвечающее за вызов команд из реестра
@@ -10,7 +11,7 @@ import ru.hits.bdui.domain.CommandName
  */
 data class CommandAction(
     val name: CommandName,
-    val params: Map<String, String>
+    val params: Map<String, ValueOrExpression>
 ) : Action {
     override val type: String = "command"
 }

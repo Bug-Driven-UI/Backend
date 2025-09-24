@@ -1,6 +1,7 @@
 package ru.hits.bdui.domain.screen.interactions.actions
 
 import ru.hits.bdui.domain.ScreenName
+import ru.hits.bdui.domain.ValueOrExpression
 
 /**
  * Действие, отвечающее за обновление экрана
@@ -10,7 +11,7 @@ import ru.hits.bdui.domain.ScreenName
  */
 data class UpdateScreenAction(
     val screenName: ScreenName,
-    val screenNavigationParams: Map<String, String>
+    val screenNavigationParams: Map<String, ValueOrExpression>
 ) : Action {
     override val type: String = "updateScreen"
 }
