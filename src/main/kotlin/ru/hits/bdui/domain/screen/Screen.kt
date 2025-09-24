@@ -14,7 +14,7 @@ import ru.hits.bdui.domain.screen.styles.TextStyle
  * @property version версия экрана
  * @property screenNavigationParams параметры, требующиеся для загрузки данного экрана
  * @property apis внешние API, требуемые для загрузки данного экрана, где ключ - alias для обращения к данным из API
- * @property rootComponent корневой компонент экрана
+ * @property components список компонентов экрана
  * @property scaffold скаффолд экрана
  * @property loaders загрузочные экраны для навигации
  * @property textStyles словарь стилей текстов, где ключ - alias для обращения к стилю текста
@@ -25,7 +25,7 @@ data class Screen(
     val version: ScreenVersion,
     val screenNavigationParams: Set<String>,
     val apis: Map<String, ShortApiRepresentation>,
-    val rootComponent: Component,
+    val components: List<Component>,
     val scaffold: Scaffold?,
     val loaders: Map<ScreenName, Loader>,
     val textStyles: Map<String, TextStyle>,
