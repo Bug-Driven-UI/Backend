@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.openjdk.nashorn:nashorn-core:15.7'
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
