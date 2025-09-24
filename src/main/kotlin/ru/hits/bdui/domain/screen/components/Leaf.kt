@@ -23,10 +23,15 @@ data class Text(
     override val type: String = "text"
 }
 
-data class TextField(
+data class Input(
     val text: ValueOrExpression,
     val textStyle: TextStyle,
     val color: ColorStyle,
+    val mask: String,
+    val regex: Regex,
+    val rightIcon: Image,
+    val hint: Hint?,
+    val placeholder: Placeholder?,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
     override val insets: Insets,
@@ -34,6 +39,22 @@ data class TextField(
     override val height: Size
 ) : Leaf {
     override val type: String = "textField"
+}
+
+data class Placeholder(
+    val text: ValueOrExpression,
+    val textStyle: TextStyle,
+    val color: ColorStyle,
+)
+
+data class Hint(
+    val text: ValueOrExpression,
+    val textStyle: TextStyle,
+    val color: ColorStyle,
+)
+
+enum class Regex {
+    EMAIL
 }
 
 data class Image(
@@ -89,6 +110,8 @@ data class Switch(
 
 data class Button(
     val text: ValueOrExpression,
+    val textStyle: TextStyle,
+    val color: ColorStyle,
     val enabled: Boolean,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
