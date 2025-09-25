@@ -209,11 +209,14 @@ components:
       properties:
         data:
           type: object
-          required: [ screenName ]
+          required: [ screenName, version ]
           properties:
             screenName:
               type: string
               description: "Название экрана"
+            version:
+              type: string
+              description: "Версия экрана"
 
     ScreenNamesRequest:
       description: "Запрос на получение всех экранов по названию"
