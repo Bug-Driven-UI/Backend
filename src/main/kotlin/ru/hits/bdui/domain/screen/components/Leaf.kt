@@ -58,6 +58,7 @@ data class Input(
 
 data class Image(
     val imageUrl: ValueOrExpression,
+    val badge: Badge?,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
     override val insets: Insets?,
@@ -66,6 +67,13 @@ data class Image(
     override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "image"
+
+    data class Badge(
+        val text: ValueOrExpression,
+        val textStyle: TextStyle,
+        val color: ColorStyle,
+        val imageUrl: String,
+    )
 }
 
 data class Spacer(
@@ -77,17 +85,6 @@ data class Spacer(
     override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "spacer"
-}
-
-data class Divider(
-    override val id: ComponentId,
-    override val interactions: List<Interaction>,
-    override val insets: Insets?,
-    override val width: Size,
-    override val height: Size,
-    override val backgroundColor: ColorStyle?,
-) : Leaf {
-    override val type: String = "divider"
 }
 
 data class ProgressBar(
@@ -126,18 +123,4 @@ data class Button(
     override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "button"
-}
-
-data class Badge(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
-    override val id: ComponentId,
-    override val interactions: List<Interaction>,
-    override val insets: Insets?,
-    override val width: Size,
-    override val height: Size,
-    override val backgroundColor: ColorStyle?,
-) : Leaf {
-    override val type: String = "badge"
 }

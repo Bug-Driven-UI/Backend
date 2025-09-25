@@ -27,7 +27,6 @@ data class Screen(
     val apis: Map<String, ShortApiRepresentation>,
     val components: List<Component>,
     val scaffold: Scaffold?,
-    val loaders: Map<ScreenName, Loader>,
     val textStyles: Map<String, TextStyle>,
     val colorStyles: Map<String, ColorStyle>
 )
