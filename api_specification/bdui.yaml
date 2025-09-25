@@ -375,7 +375,7 @@ components:
         method:
           type: string
           description: "HTTP-метод"
-          example: GET
+          examples: [ GET ]
         responseName:
           type: string
           description: "Имя для ассоциации ответа с запросом"
@@ -637,7 +637,6 @@ components:
         - $ref: '#/components/schemas/ComponentBase'
         - type: object
           required: [ type ]
-          additionalProperties: false
 
     Row:
       allOf:
@@ -1166,7 +1165,6 @@ components:
         - $ref: '#/components/schemas/RenderedComponentBase'
         - type: object
           required: [ type ]
-          additionalProperties: false
 
     RenderedRow:
       allOf:
