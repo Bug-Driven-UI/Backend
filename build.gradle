@@ -44,7 +44,7 @@ kotlin {
 openApiGenerate {
     generatorName = "kotlin"
 
-    inputSpec = layout.projectDirectory.file("api_specification/v1-api.yaml").asFile.toURI().toString()
+    inputSpec = layout.projectDirectory.file("api_specification/bdui.yaml").asFile.toURI().toString()
     outputDir = layout.buildDirectory.dir("generated").get().asFile.path
     modelPackage = "ru.hits.bdui.api.models"
 

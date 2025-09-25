@@ -2,6 +2,7 @@ package ru.hits.bdui.domain.screen.components
 
 import ru.hits.bdui.domain.ComponentId
 import ru.hits.bdui.domain.ValueOrExpression
+import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
@@ -16,9 +17,10 @@ data class Text(
     val color: ColorStyle,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "text"
 }
@@ -28,42 +30,40 @@ data class Input(
     val textStyle: TextStyle,
     val color: ColorStyle,
     val mask: String,
-    val regex: Regex,
+    val regex: Regex?,
     val rightIcon: Image,
     val hint: Hint?,
     val placeholder: Placeholder?,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "textField"
-}
 
-data class Placeholder(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
-)
+    data class Hint(
+        val text: ValueOrExpression,
+        val textStyle: TextStyle,
+        val color: ColorStyle,
+    )
 
-data class Hint(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
-)
-
-enum class Regex {
-    EMAIL
+    data class Placeholder(
+        val text: ValueOrExpression,
+        val textStyle: TextStyle,
+        val color: ColorStyle,
+    )
 }
 
 data class Image(
     val imageUrl: ValueOrExpression,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "image"
 }
@@ -71,9 +71,10 @@ data class Image(
 data class Spacer(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "spacer"
 }
@@ -81,9 +82,10 @@ data class Spacer(
 data class Divider(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "divider"
 }
@@ -91,9 +93,10 @@ data class Divider(
 data class ProgressBar(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "progressBar"
 }
@@ -101,9 +104,10 @@ data class ProgressBar(
 data class Switch(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "switch"
 }
@@ -113,11 +117,27 @@ data class Button(
     val textStyle: TextStyle,
     val color: ColorStyle,
     val enabled: Boolean,
+    val shape: Shape,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
 ) : Leaf {
     override val type: String = "button"
+}
+
+data class Badge(
+    val text: ValueOrExpression,
+    val textStyle: TextStyle,
+    val color: ColorStyle,
+    override val id: ComponentId,
+    override val interactions: List<Interaction>,
+    override val insets: Insets?,
+    override val width: Size,
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
+) : Leaf {
+    override val type: String = "badge"
 }

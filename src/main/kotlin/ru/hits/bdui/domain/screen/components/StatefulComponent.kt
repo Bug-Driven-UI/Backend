@@ -5,6 +5,7 @@ import ru.hits.bdui.domain.Expression
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
+import ru.hits.bdui.domain.screen.styles.ColorStyle
 
 /**
  * Обертка для компонентов, которые зависят от конкретных условий
@@ -14,9 +15,10 @@ import ru.hits.bdui.domain.screen.interactions.Interaction
 data class StatefulComponent(
     override val id: ComponentId,
     override val interactions: List<Interaction> = emptyList(),
-    override val insets: Insets,
+    override val insets: Insets?,
     override val width: Size,
     override val height: Size,
+    override val backgroundColor: ColorStyle?,
     val states: List<StateDefinition>
 ) : Component {
     override val type: String = "stateful"

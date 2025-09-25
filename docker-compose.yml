@@ -8,3 +8,13 @@ services:
       POSTGRES_DB: bdui
     ports:
       - "5432:5432"
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger-ui
+    ports:
+      - "1212:8080"
+    volumes:
+      - ./api_specification:/api
+    environment:
+      - SWAGGER_JSON=/api/bdui.yaml

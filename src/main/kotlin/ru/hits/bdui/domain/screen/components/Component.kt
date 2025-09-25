@@ -4,6 +4,7 @@ import ru.hits.bdui.domain.ComponentId
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
+import ru.hits.bdui.domain.screen.styles.ColorStyle
 
 sealed interface Component {
     val id: ComponentId
@@ -12,4 +13,5 @@ sealed interface Component {
     val insets: Insets?
     val width: Size
     val height: Size
+    val backgroundColor: ColorStyle?
 }
