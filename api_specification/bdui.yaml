@@ -10,19 +10,51 @@ tags:
     description: Операции с экранами из админки
   - name: ClientEngine
     description: Операции с экранами для выдачи клиенту
+  - name: AdminTemplates
+    description: Операции с шаблонами из админки
 
 paths:
+  # AdminScreen
+  /v1/getScreenNames:
+    post:
+      summary: Получить список названий экранов
+      tags: [ AdminScreen ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScreenNamesRequest"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/ScreenNamesRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ScreenNamesRequest"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenNamesResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenNamesResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenNamesResponseError'
+
   /v1/getScreen:
     post:
       summary: Получить описание экрана
       tags: [ AdminScreen ]
-      parameters:
-        - in: header
-          required: true
-          name: userId
-          description: "Идентификатор пользователя, от которого выполняется запрос"
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -121,10 +153,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScreenResponseError'
+  # AdminTemplates
+
+  # ClientEngine
   /v1/renderScreen:
     post:
       summary: Получить экран с данными для отрисовки
       tags: [ ClientEngine ]
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          description: "Идентификатор пользователя, от которого выполняется запрос"
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -173,6 +215,17 @@ components:
               type: string
               description: "Название экрана"
 
+    ScreenNamesRequest:
+      description: "Запрос на получение всех экранов по названию"
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "Название экрана"
+
     ScreenDeleteRequest:
       description: Запрос на удаление экрана
       type: object
@@ -201,6 +254,33 @@ components:
       additionalProperties: false
 
     ScreenResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ScreenNamesResponse:
+      description: "Ответ на получение списка названий экранов"
+      oneOf:
+        - $ref: '#/components/schemas/ScreenNamesResponseSuccess'
+        - $ref: '#/components/schemas/ScreenNamesResponseError'
+      unevaluatedProperties: false
+
+    ScreenNamesResponseSuccess:
+      type: object
+      required: [ screenNames ]
+      properties:
+        screenNames:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+
+    ScreenNamesResponseError:
       type: object
       required: [ errors ]
       properties:
