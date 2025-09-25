@@ -548,8 +548,8 @@ components:
           properties:
             type:
               const: weighted
-            value:
-              type: integer
+            fraction:
+              type: number
 
     SizeMatchParent:
       allOf:
