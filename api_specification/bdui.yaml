@@ -557,7 +557,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ColorStyleForSave"
-
       responses:
         '200':
           description: Успешный ответ
@@ -700,6 +699,162 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ColorStylesByTokenResponseError'
+
+  # AdminCommands
+
+  /v1/saveCommand:
+    post:
+      summary: Сохранить команду
+      tags: [ AdminCommands ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommandForSave"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandSaveResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandSaveResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandSaveResponseError'
+
+  /v1/updateCommand:
+    put:
+      summary: Обновить команду
+      tags: [ AdminCommands ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommandUpdateRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandUpdateResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandUpdateResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandUpdateResponseError'
+
+  /v1/deleteCommand:
+    delete:
+      summary: Удалить команду
+      tags: [ AdminCommands ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommandDeleteRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandDeleteResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandDeleteResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandDeleteResponseError'
+
+  /v1/getCommand:
+    post:
+      summary: Получить команду
+      tags: [ AdminCommands ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommandRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponseError'
+
+  /v1/getCommandsByName:
+    post:
+      summary: Получить список команд по query названию
+      tags: [ AdminCommands ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommandsByNameRequest"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandsByNameResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandsByNameResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandsByNameResponseError'
 
   # ClientEngine
   /v1/renderScreen:
@@ -1406,6 +1561,198 @@ components:
             $ref: '#/components/schemas/ErrorContent'
       additionalProperties: false
 
+    # Модели команд из реестра
+
+    CommandSaveRequest:
+      description: "Запрос на сохранение команды"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            textStyle:
+              $ref: '#/components/schemas/CommandForSave'
+
+    CommandSaveResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ command ]
+          properties:
+            command:
+              $ref: '#/components/schemas/Command'
+      additionalProperties: false
+
+    CommandSaveResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    CommandUpdateRequest:
+      description: "Запрос на обновление команды"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ id, command ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Идентификатор команды
+            command:
+              $ref: "#/components/schemas/CommandForSave"
+
+    CommandUpdateResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        command:
+          $ref: '#/components/schemas/Command'
+      additionalProperties: false
+
+    CommandUpdateResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    CommandDeleteRequest:
+      description: Запрос на удаление команды
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          required: [ id ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: "Идентификатор команды"
+
+    CommandDeleteResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        message:
+          type: string
+      additionalProperties: false
+
+    CommandDeleteResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    CommandRequest:
+      description: "Запрос на получение команды"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ id ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Идентификатор команды
+
+    CommandResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        command:
+          $ref: '#/components/schemas/Command'
+      additionalProperties: false
+
+    CommandResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    CommandsByNameRequest:
+      description: "Запрос на получение всех команд по query имени"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "Название команды"
+
+    CommandsByNameResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ commands ]
+          properties:
+            commands:
+              type: array
+              items:
+                type: object
+                required: [ id, name ]
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  name:
+                    type: string
+      additionalProperties: false
+
+    CommandsByNameResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
     # Модели запросов и ответов для реестра API
 
     APISaveResponseSuccess:
@@ -1679,6 +2026,65 @@ components:
         bottomBar:
           $ref: '#/components/schemas/Component'
       additionalProperties: false
+
+    Command:
+      type: object
+      description: "Представление команды из реестра"
+      required: [ id, name, commandParams, apis, createdAtTimestampMs ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: "Название команды"
+        commandParams:
+          type: array
+          description: "Параметры, требующиеся для исполнения команды"
+          items:
+            type: string
+          uniqueItems: true
+        apis:
+          type: object
+          description: "Внешние API, требующиеся для исполнения команды; ключ — имя зависимости, значение — краткое представление API"
+          additionalProperties:
+            ref: '#/components/schemas/ShortApiRepresentation'
+        itemTemplate:
+          $ref: '#/components/schemas/ComponentTemplate'
+          description: "Шаблон для заполнения ответа от команды (если указан)"
+        fallbackMessage:
+          type: string
+          description: "Сообщение об ошибке, в случае неудачного исполнения команды"
+        createdAtTimestampMs:
+          type: int64
+        lastModifiedAtTimestampMs:
+          type: int64
+
+    CommandForSave:
+      type: object
+      description: "Представление команды из реестра"
+      required: [ name, commandParams, apis ]
+      properties:
+        name:
+          type: string
+          description: "Название команды"
+        commandParams:
+          type: array
+          description: "Параметры, требующиеся для исполнения команды"
+          items:
+            type: string
+          uniqueItems: true
+        apis:
+          type: object
+          description: "Внешние API, требующиеся для исполнения команды; ключ — имя зависимости, значение — краткое представление API"
+          additionalProperties:
+            ref: '#/components/schemas/ShortApiRepresentation'
+        itemTemplate:
+          $ref: '#/components/schemas/ComponentTemplate'
+          description: "Шаблон для заполнения ответа от команды (если указан)"
+        fallbackMessage:
+          type: string
+          description: "Сообщение об ошибке, в случае неудачного исполнения команды"
 
     TextStyle:
       type: object
