@@ -389,6 +389,162 @@ paths:
               schema:
                 $ref: '#/components/schemas/APINamesResponseError'
 
+  # AdminTextStyles
+
+  /v1/saveTextStyle:
+    post:
+      summary: Сохранить стиль текста
+      tags: [ AdminTextStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextStyleForSave"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleSaveResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleSaveResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleSaveResponseError'
+
+  /v1/updateTextStyle:
+    put:
+      summary: Обновить стиль текста
+      tags: [ AdminTextStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextStyleUpdateRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIUpdateResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIUpdateResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIUpdateResponseError'
+
+  /v1/deleteTextStyle:
+    delete:
+      summary: Удалить стиль текста
+      tags: [ AdminTextStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextStyleDeleteRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleDeleteResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleDeleteResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleDeleteResponseError'
+
+  /v1/getTextStyle:
+    post:
+      summary: Получить стиль текста
+      tags: [ AdminTextStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextStyleRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStyleResponseError'
+
+  /v1/getTextStylesByToken:
+    post:
+      summary: Получить список токенов существующих текстовых стилей по query
+      tags: [ AdminTextStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextStylesByTokenRequest"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStylesByTokenResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStylesByTokenResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextStylesByTokenResponseError'
+
   # ClientEngine
   /v1/renderScreen:
     post:
@@ -441,10 +597,12 @@ components:
           required: [ screenId ]
           properties:
             screenId:
-              type: uuid
+              type: string
+              format: uuid
               description: "Идентификатор экрана"
             versionId:
-              type: uuid
+              type: string
+              format: uuid
               description: "Идентификатор версии экрана. Если null, возвращается последняя версия"
 
     ScreenResponseSuccess:
@@ -479,10 +637,12 @@ components:
           required: [ screenId, versionId ]
           properties:
             screenId:
-              type: uuid
+              type: string
+              format: uuid
               description: "Идентификатор экрана"
             versionId:
-              type: uuid
+              type: string
+              format: uuid
               description: "Идентификатор версии, которую требуется сделать продовой"
 
     SetProductionVersionResponseSuccess:
@@ -517,7 +677,8 @@ components:
           required: [ screenId ]
           properties:
             screenId:
-              type: uuid
+              type: string
+              format: uuid
               description: "Идентификатор экрана"
 
     ScreenVersionResponseSuccess:
@@ -673,7 +834,8 @@ components:
                 required: [ id, name, description ]
                 properties:
                   id:
-                    type: uuid
+                    type: string
+                    format: uuid
                   name:
                     type: string
                   description:
@@ -681,6 +843,196 @@ components:
       additionalProperties: false
 
     ScreenNamesResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    SaveTextStyleRequest:
+      description: "Запрос на сохранение стиля текста"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            textStyle:
+              $ref: '#/components/schemas/TextStyleForSave'
+
+    TextStyleSaveResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ textStyle ]
+          properties:
+            textStyle:
+              $ref: '#/components/schemas/TextStyleWithId'
+      additionalProperties: false
+
+    TextStyleSaveResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    TextStyleUpdateRequest:
+      description: "Запрос на обновление стиля текста"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ id, textStyle ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Идентификатор текстового стиля
+            textStyle:
+              $ref: "#/components/schemas/TextStyleForSave"
+
+    TextStyleUpdateResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        version:
+          $ref: '#/components/schemas/TextStyleWithId'
+      additionalProperties: false
+
+    TextStyleUpdateResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    TextStyleDeleteRequest:
+      description: Запрос на удаление текстового стиля
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          required: [ textStyleId ]
+          properties:
+            textStyleId:
+              type: string
+              format: uuid
+              description: "Идентификатор текстового стиля"
+
+    TextStyleDeleteResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        message:
+          type: string
+      additionalProperties: false
+
+    TextStyleDeleteResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    TextStyleRequest:
+      description: "Запрос на получение стиля текста"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ id ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Идентификатор текстового стиля
+
+    TextStyleResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        version:
+          $ref: '#/components/schemas/TextStyleWithId'
+      additionalProperties: false
+
+    TextStyleResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    TextStylesByTokenRequest:
+      description: "Запрос на получение всех текстовых стилей по query токену"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "Токен стиля"
+
+    TextStylesByTokenResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ textStyles ]
+          properties:
+            textStyles:
+              type: array
+              items:
+                type: object
+                required: [ id, token ]
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  token:
+                    type: string
+      additionalProperties: false
+
+    TextStylesByTokenResponseError:
       type: object
       required: [ errors ]
       properties:
@@ -778,6 +1130,7 @@ components:
           properties:
             apiId:
               type: string
+              format: uuid
               description: "Идентификатор API"
 
     APIDeleteResponseSuccess:
@@ -811,16 +1164,17 @@ components:
           required: [ apiId ]
           properties:
             apiId:
-              type: uuid
+              type: string
+              format: uuid
               description: "Идентификатор экрана"
 
     APIResponseSuccess:
       type: object
-      required: [ screen ]
+      required: [ api ]
       properties:
         type:
           const: success
-        screen:
+        api:
           $ref: '#/components/schemas/ApiRepresentation'
       additionalProperties: false
 
@@ -865,7 +1219,8 @@ components:
                 required: [ id, name, description ]
                 properties:
                   id:
-                    type: uuid
+                    type: string
+                    format: uuid
                   name:
                     type: string
                   description:
@@ -889,7 +1244,8 @@ components:
       required: [ screenId, screenName, version, components, apis ]
       properties:
         screenId:
-          type: uuid
+          type: string
+          format: uuid
         screenName:
           type: string
         version:
@@ -953,7 +1309,8 @@ components:
       required: [ id, version, isProduction, createdAtTimestampMs ]
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         version:
           type: string
         isProduction:
@@ -982,6 +1339,39 @@ components:
         token:
           type: string
       additionalProperties: false
+
+    TextStyleForSave:
+      type: object
+      required: [ token, size ]
+      properties:
+        token:
+          type: string
+        size:
+          type: integer
+        weight:
+          type: integer
+        decoration:
+          $ref: '#/components/schemas/TextDecorationType'
+
+    TextStyleWithId:
+      type: object
+      required: [ id, token, size ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        token:
+          type: string
+        size:
+          type: integer
+        weight:
+          type: integer
+        decoration:
+          $ref: '#/components/schemas/TextDecorationType'
+
+    TextDecorationType:
+      type: string
+      enum: [ overline, bold, italic, underline, strikeThrough, strikeThroughRed ]
 
     ColorStyle:
       type: object
@@ -1507,7 +1897,8 @@ components:
       required: [ id, name, description, params, endpoints, createdAtTimestampMs ]
       properties:
         id:
-          type: uuid
+          type: string
+          format: uuid
         name:
           type: string
           description: "Название API, условно alias для дальнейшего использования в админке"
@@ -1720,8 +2111,7 @@ components:
       required: [ size ]
       properties:
         decoration:
-          type: string
-          enum: [ overline, bold, italic, underline, strikeThrough, strikeThroughRed ]
+          $ref: '#/components/schemas/TextDecorationType'
         weight:
           type: integer
         size:
