@@ -8,8 +8,6 @@ info:
 tags:
   - name: AdminScreen
     description: Операции с экранами из админки
-  - name: ClientEngine
-    description: Операции с экранами для выдачи клиенту
   - name: AdminTemplates
     description: Операции с шаблонами из админки
   - name: AdminAPIRegistry
@@ -23,9 +21,9 @@ tags:
 
 paths:
   # AdminScreen
-  /v1/getScreenNames:
+  /v1/screen/getByName:
     post:
-      summary: Получить список названий экранов
+      summary: Получить список названий экранов по query
       tags: [ AdminScreen ]
       requestBody:
         required: true
@@ -53,7 +51,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ScreenNamesResponseError'
 
-  /v1/getScreenVersions:
+  /v1/screen/getVersions:
     post:
       summary: Получить список версий экрана
       tags: [ AdminScreen ]
@@ -83,7 +81,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ScreenVersionResponseError'
 
-  /v1/setProductionVersion:
+  /v1/screen/setProductionVersion:
     post:
       summary: Сделать версию экрана продовой
       tags: [ AdminScreen ]
@@ -113,7 +111,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SetProductionVersionResponseError'
 
-  /v1/getScreen:
+  /v1/screen/get:
     post:
       summary: Получить описание экрана
       tags: [ AdminScreen ]
@@ -143,7 +141,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScreenResponseError'
-  /v1/updateScreen:
+  /v1/screen/update:
     put:
       summary: Обновить скелет экрана
       tags: [ AdminScreen ]
@@ -173,7 +171,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ScreenUpdateResponseError'
 
-  /v1/saveScreen:
+  /v1/screen/save:
     post:
       summary: Сохранить новый экран
       tags: [ AdminScreen ]
@@ -203,7 +201,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScreenResponseError'
-  /v1/deleteScreen:
+  /v1/screen/delete:
     delete:
       summary: Удаление экрана (целиком, вместе со всеми версиями)
       tags: [ AdminScreen ]
@@ -235,7 +233,7 @@ paths:
 
   # AdminAPI
 
-  /v1/saveAPI:
+  /v1/api/save:
     post:
       summary: Сохранить внешнее API
       tags: [ AdminAPIRegistry ]
@@ -266,7 +264,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APISaveResponseError'
 
-  /v1/updateAPI:
+  /v1/api/update:
     put:
       summary: Обновить внешнее API
       tags: [ AdminAPIRegistry ]
@@ -297,7 +295,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIUpdateResponseError'
 
-  /v1/deleteAPI:
+  /v1/api/delete:
     delete:
       summary: Удалить внешнее API
       tags: [ AdminAPIRegistry ]
@@ -328,7 +326,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIDeleteResponseError'
 
-  /v1/getAPI:
+  /v1/api/get:
     post:
       summary: Получить внешнее API
       tags: [ AdminAPIRegistry ]
@@ -359,7 +357,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIResponseError'
 
-  /v1/getAPINames:
+  /v1/api/getByName:
     post:
       summary: Получить список названий существующих внешних API по query
       tags: [ AdminAPIRegistry ]
@@ -391,7 +389,7 @@ paths:
 
   # AdminTextStyles
 
-  /v1/saveTextStyle:
+  /v1/textStyle/save:
     post:
       summary: Сохранить стиль текста
       tags: [ AdminTextStyles ]
@@ -422,7 +420,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TextStyleSaveResponseError'
 
-  /v1/updateTextStyle:
+  /v1/textStyle/update:
     put:
       summary: Обновить стиль текста
       tags: [ AdminTextStyles ]
@@ -453,7 +451,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIUpdateResponseError'
 
-  /v1/deleteTextStyle:
+  /v1/textStyle/delete:
     delete:
       summary: Удалить стиль текста
       tags: [ AdminTextStyles ]
@@ -484,7 +482,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TextStyleDeleteResponseError'
 
-  /v1/getTextStyle:
+  /v1/textStyle/get:
     post:
       summary: Получить стиль текста
       tags: [ AdminTextStyles ]
@@ -515,7 +513,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TextStyleResponseError'
 
-  /v1/getTextStylesByToken:
+  /v1/textStyle/getByToken:
     post:
       summary: Получить список токенов существующих текстовых стилей по query
       tags: [ AdminTextStyles ]
@@ -547,7 +545,7 @@ paths:
 
   # AdminColorStyles
 
-  /v1/saveColorStyle:
+  /v1/colorStyle/save:
     post:
       summary: Сохранить стиль цвета
       tags: [ AdminColorStyles ]
@@ -577,7 +575,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ColorStyleSaveResponseError'
 
-  /v1/updateColorStyle:
+  /v1/colorStyle/update:
     put:
       summary: Обновить стиль цвета
       tags: [ AdminColorStyles ]
@@ -608,7 +606,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ColorStyleUpdateResponseError'
 
-  /v1/deleteColorStyle:
+  /v1/colorStyle/delete:
     delete:
       summary: Удалить стиль цвета
       tags: [ AdminColorStyles ]
@@ -639,7 +637,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ColorStyleDeleteResponseError'
 
-  /v1/getColorStyle:
+  /v1/colorStyle/get:
     post:
       summary: Получить стиль цвета
       tags: [ AdminColorStyles ]
@@ -670,7 +668,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ColorStyleResponseError'
 
-  /v1/getColorStylesByToken:
+  /v1/colorStyle/getByToken:
     post:
       summary: Получить список токенов существующих цветов по query
       tags: [ AdminColorStyles ]
@@ -702,7 +700,7 @@ paths:
 
   # AdminCommands
 
-  /v1/saveCommand:
+  /v1/command/save:
     post:
       summary: Сохранить команду
       tags: [ AdminCommands ]
@@ -733,7 +731,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommandSaveResponseError'
 
-  /v1/updateCommand:
+  /v1/command/update:
     put:
       summary: Обновить команду
       tags: [ AdminCommands ]
@@ -764,7 +762,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommandUpdateResponseError'
 
-  /v1/deleteCommand:
+  /v1/command/delete:
     delete:
       summary: Удалить команду
       tags: [ AdminCommands ]
@@ -795,7 +793,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommandDeleteResponseError'
 
-  /v1/getCommand:
+  /v1/command/get:
     post:
       summary: Получить команду
       tags: [ AdminCommands ]
@@ -826,7 +824,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommandResponseError'
 
-  /v1/getCommandsByName:
+  /v1/command/getByName:
     post:
       summary: Получить список команд по query названию
       tags: [ AdminCommands ]
@@ -856,24 +854,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommandsByNameResponseError'
 
-  # ClientEngine
-  /v1/renderScreen:
+  # AdminTemplates
+
+  /v1/template/save:
     post:
-      summary: Получить экран с данными для отрисовки
-      tags: [ ClientEngine ]
-      parameters:
-        - in: header
-          required: true
-          name: userId
-          description: "Идентификатор пользователя, от которого выполняется запрос"
-          schema:
-            type: string
+      summary: Сохранить шаблон компонента
+      tags: [ AdminTemplates ]
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ScreenRenderRequest"
+              $ref: "#/components/schemas/ComponentTemplateForSave"
 
       responses:
         '200':
@@ -881,19 +873,142 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RenderedScreenResponse'
+                $ref: '#/components/schemas/TemplateSaveResponseSuccess'
         '400':
           description: Некорректный запрос
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RenderedScreenResponseError'
+                $ref: '#/components/schemas/TemplateSaveResponseError'
         '500':
           description: Внутренняя ошибка
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RenderedScreenResponseError'
+                $ref: '#/components/schemas/TemplateSaveResponseError'
+
+  /v1/template/update:
+    put:
+      summary: Обновить шаблон компонента
+      tags: [ AdminTemplates ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemplateUpdateRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateUpdateResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateUpdateResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateUpdateResponseError'
+
+  /v1/template/delete:
+    delete:
+      summary: Удалить шаблон
+      tags: [ AdminTemplates ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemplateDeleteRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDeleteResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDeleteResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDeleteResponseError'
+
+  /v1/template/get:
+    post:
+      summary: Получить шаблон
+      tags: [ AdminTemplates ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemplateRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponseError'
+
+  /v1/template/getByName:
+    post:
+      summary: Получить список шаблонов по query названию
+      tags: [ AdminTemplates ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemplatesByNameRequest"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplatesByNameResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplatesByNameResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplatesByNameResponseError'
 
 components:
   schemas:
@@ -1097,6 +1212,7 @@ components:
 
     ScreenUpdateResponseSuccess:
       type: object
+      required: [ type, version ]
       properties:
         type:
           const: success
@@ -1220,6 +1336,7 @@ components:
 
     TextStyleUpdateResponseSuccess:
       type: object
+      required: [ type, textStyle ]
       properties:
         type:
           const: success
@@ -1378,8 +1495,9 @@ components:
       properties:
         data:
           type: object
+          required: [ colorStyle ]
           properties:
-            textStyle:
+            colorStyle:
               $ref: '#/components/schemas/ColorStyleForSave'
 
     ColorStyleSaveResponseSuccess:
@@ -1426,6 +1544,7 @@ components:
 
     ColorStyleUpdateResponseSuccess:
       type: object
+      required: [ type, colorStyle ]
       properties:
         type:
           const: success
@@ -1570,8 +1689,9 @@ components:
       properties:
         data:
           type: object
+          required: [ command ]
           properties:
-            textStyle:
+            command:
               $ref: '#/components/schemas/CommandForSave'
 
     CommandSaveResponseSuccess:
@@ -1618,6 +1738,7 @@ components:
 
     CommandUpdateResponseSuccess:
       type: object
+      required: [ type, command ]
       properties:
         type:
           const: success
@@ -1742,6 +1863,200 @@ components:
       additionalProperties: false
 
     CommandsByNameResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    # Модели запросов и ответов на шаблоы
+
+    TemplateSaveRequest:
+      description: "Запрос на сохранение шаблона компонента"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ template ]
+          properties:
+            template:
+              $ref: '#/components/schemas/ComponentTemplateForSave'
+
+    TemplateSaveResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ template ]
+          properties:
+            template:
+              $ref: '#/components/schemas/ComponentTemplate'
+      additionalProperties: false
+
+    TemplateSaveResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    TemplateUpdateRequest:
+      description: "Запрос на обновление шаблона компонента"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ id, template ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Идентификатор шаблона
+            template:
+              $ref: "#/components/schemas/ComponentTemplateForSave"
+
+    TemplateUpdateResponseSuccess:
+      type: object
+      required: [ type, template ]
+      properties:
+        type:
+          const: success
+        template:
+          $ref: '#/components/schemas/ComponentTemplate'
+      additionalProperties: false
+
+    TemplateUpdateResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    TemplateDeleteRequest:
+      description: Запрос на удаление шаблона компонента
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          required: [ id ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: "Идентификатор шаблона"
+
+    TemplateDeleteResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        message:
+          type: string
+      additionalProperties: false
+
+    TemplateDeleteResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    TemplateRequest:
+      description: "Запрос на получение шаблона компонента"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ id ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Идентификатор шаблона
+
+    TemplateResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        command:
+          $ref: '#/components/schemas/ComponentTemplate'
+      additionalProperties: false
+
+    TemplateResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    TemplatesByNameRequest:
+      description: "Запрос на получение всех шаблонов по query имени"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "Название шаблона"
+
+    TemplatesByNameResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ templates ]
+          properties:
+            templates:
+              type: array
+              items:
+                type: object
+                required: [ id, name ]
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  name:
+                    type: string
+      additionalProperties: false
+
+    TemplatesByNameResponseError:
       type: object
       required: [ errors ]
       properties:
@@ -2080,8 +2395,8 @@ components:
           additionalProperties:
             ref: '#/components/schemas/ShortApiRepresentation'
         itemTemplate:
-          $ref: '#/components/schemas/ComponentTemplate'
-          description: "Шаблон для заполнения ответа от команды (если указан)"
+          type: string
+          description: "Название шаблона для заполнения ответа от команды (если указан)"
         fallbackMessage:
           type: string
           description: "Сообщение об ошибке, в случае неудачного исполнения команды"
@@ -2439,6 +2754,22 @@ components:
           additionalProperties: false
 
     ComponentTemplate:
+      type: object
+      required: [ id, name, component, createdAtTimestampMs ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        component:
+          $ref: '#/components/schemas/Component'
+        createdAtTimestampMs:
+          type: int64
+        lastModifiedAtTimestampMs:
+          type: int64
+
+    ComponentTemplateForSave:
       type: object
       required: [ name, component ]
       properties:
@@ -2806,503 +3137,3 @@ components:
           type: boolean
           description: "Если true — ошибка клиента при неудаче получения ответа"
       additionalProperties: false
-
-    # CLIENT MODELS (Модели для рендеринга)
-
-    ScreenRenderRequest:
-      description: Запрос на отрисовку экрана
-      type: object
-      required: [ data ]
-      properties:
-        data:
-          required: [ screenName ]
-          properties:
-            screenName:
-              type: string
-              description: "Название экрана"
-            variables:
-              type: object
-              description: "Дополнительные переменные и их значения"
-              additionalProperties:
-                type: string
-
-    RenderedScreenResponse:
-      description: "Ответ на рендеринг экрана: успех или список ошибок."
-      oneOf:
-        - $ref: '#/components/schemas/RenderedScreenResponseSuccess'
-        - $ref: '#/components/schemas/RenderedScreenResponseError'
-      unevaluatedProperties: false
-
-    RenderedScreenResponseSuccess:
-      type: object
-      required: [ screen ]
-      properties:
-        screen:
-          $ref: '#/components/schemas/RenderedScreen'
-      additionalProperties: false
-
-    RenderedScreenResponseError:
-      type: object
-      required: [ errors ]
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorContent'
-      additionalProperties: false
-    RenderedScreen:
-      type: object
-      required: [ screenName, version, components ]
-      properties:
-        screenName:
-          type: string
-        version:
-          type: integer
-        components:
-          type: array
-          items:
-            $ref: '#/components/schemas/RenderedComponent'
-        scaffold:
-          $ref: '#/components/schemas/RenderedScaffold'
-        textStyles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RenderedTextStyle'
-        colorStyles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RenderedColorStyle'
-      additionalProperties: false
-
-    RenderedScaffold:
-      type: object
-      properties:
-        topBar:
-          $ref: '#/components/schemas/RenderedComponent'
-        bottomBar:
-          $ref: '#/components/schemas/RenderedComponent'
-      additionalProperties: false
-
-    RenderedTextStyle:
-      type: object
-      required: [ size ]
-      properties:
-        decoration:
-          $ref: '#/components/schemas/TextDecorationType'
-        weight:
-          type: integer
-        size:
-          type: integer
-      additionalProperties: false
-
-    RenderedColorStyle:
-      type: object
-      required: [ hex ]
-      properties:
-        hex:
-          type: string
-          description: "Цвет в HEX формате (#RRGGBB)"
-      additionalProperties: false
-
-    RenderedInsets:
-      type: object
-      required: [ left, right, bottom, top ]
-      properties:
-        left: { type: integer, default: 0 }
-        right: { type: integer, default: 0 }
-        bottom: { type: integer, default: 0 }
-        top: { type: integer, default: 0 }
-      additionalProperties: false
-
-    RenderedAction:
-      required: [ type ]
-      description: "Вызываемое действие при взаимодействии"
-      oneOf:
-        - $ref: '#/components/schemas/RenderedCommandAction'
-        - $ref: '#/components/schemas/RenderedUpdateScreenAction'
-      discriminator:
-        propertyName: type
-        mapping:
-          command: '#/components/schemas/RenderedCommandAction'
-          updateScreen: '#/components/schemas/RenderedUpdateScreenAction'
-      properties:
-        type:
-          type: string
-      unevaluatedProperties: false
-
-    RenderedCommandAction:
-      allOf:
-        - type: object
-          required: [ type, name ]
-          properties:
-            type:
-              const: command
-            name:
-              type: string
-              description: "Название команды, которую нужно исполнить"
-            params:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
-
-    RenderedUpdateScreenAction:
-      allOf:
-        - type: object
-          required: [ type, screenName ]
-          properties:
-            type:
-              const: updateScreen
-            screenName:
-              type: string
-              description: "Название экрана"
-            screenNavigationParams:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
-
-    RenderedInteraction:
-      type: object
-      description: Базовая модель взаимодействия.
-      required: [ type, actions ]
-      properties:
-        type:
-          type: string
-          enum: [ onClick, onShow ]
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/RenderedAction'
-      additionalProperties: true
-
-    RenderedSize:
-      required: [ type ]
-      description: "Полиморфный размер"
-      oneOf:
-        - $ref: '#/components/schemas/RenderedSizeFixed'
-        - $ref: '#/components/schemas/RenderedSizeWeighted'
-        - $ref: '#/components/schemas/RenderedSizeMatchParent'
-        - $ref: '#/components/schemas/RenderedSizeWrapContent'
-      discriminator:
-        propertyName: type
-        mapping:
-          fixed: '#/components/schemas/RenderedSizeFixed'
-          weighted: '#/components/schemas/RenderedSizeWeighted'
-          matchParent: '#/components/schemas/RenderedSizeMatchParent'
-          wrapContent: '#/components/schemas/RenderedSizeWrapContent'
-      properties:
-        type:
-          type: string
-          description: "Допустимые значения: fixed, weighted, matchParent, wrapContent"
-      unevaluatedProperties: false
-
-    RenderedSizeBase:
-      type: object
-      required: [ type ]
-      properties:
-        type:
-          type: string
-          enum: [ fixed, weighted, matchParent, wrapContent ]
-
-    RenderedSizeFixed:
-      allOf:
-        - $ref: '#/components/schemas/RenderedSizeBase'
-        - type: object
-          required: [ type, value ]
-          properties:
-            type:
-              const: fixed
-            value:
-              type: integer
-
-    RenderedSizeWeighted:
-      allOf:
-        - $ref: '#/components/schemas/RenderedSizeBase'
-        - type: object
-          required: [ type, value ]
-          properties:
-            type:
-              const: weighted
-            fraction:
-              type: number
-
-    RenderedSizeMatchParent:
-      allOf:
-        - $ref: '#/components/schemas/RenderedSizeBase'
-        - type: object
-          required: [ type ]
-          properties:
-            type:
-              const: matchParent
-      additionalProperties: false
-
-    RenderedSizeWrapContent:
-      allOf:
-        - $ref: '#/components/schemas/RenderedSizeBase'
-        - type: object
-          required: [ type ]
-          properties:
-            type:
-              const: wrapContent
-      additionalProperties: false
-
-    RenderedComponent:
-      required: [ type ]
-      description: "Полиморфный UI-компонент"
-      oneOf:
-        - $ref: '#/components/schemas/RenderedRow'
-        - $ref: '#/components/schemas/RenderedBox'
-        - $ref: '#/components/schemas/RenderedColumn'
-        - $ref: '#/components/schemas/RenderedText'
-        - $ref: '#/components/schemas/RenderedInput'
-        - $ref: '#/components/schemas/RenderedImage'
-        - $ref: '#/components/schemas/RenderedSpacer'
-        - $ref: '#/components/schemas/RenderedProgressBar'
-        - $ref: '#/components/schemas/RenderedSwitch'
-        - $ref: '#/components/schemas/RenderedButton'
-      discriminator:
-        propertyName: type
-        mapping:
-          row: '#/components/schemas/RenderedRow'
-          box: '#/components/schemas/RenderedBox'
-          column: '#/components/schemas/RenderedColumn'
-          text: '#/components/schemas/RenderedText'
-          textField: '#/components/schemas/RenderedInput'
-          image: '#/components/schemas/RenderedImage'
-          spacer: '#/components/schemas/RenderedSpacer'
-          progressBar: '#/components/schemas/RenderedProgressBar'
-          switch: '#/components/schemas/RenderedSwitch'
-          button: '#/components/schemas/RenderedButton'
-      properties:
-        type:
-          type: string
-      unevaluatedProperties: false
-
-    RenderedComponentBase:
-      type: object
-      required: [ id, hash, type, interactions, width, height ]
-      properties:
-        id:
-          type: string
-        hash:
-          type: string
-        type:
-          type: string
-        interactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/RenderedInteraction'
-        insets:
-          $ref: '#/components/schemas/RenderedInsets'
-        width:
-          $ref: '#/components/schemas/RenderedSize'
-        height:
-          $ref: '#/components/schemas/RenderedSize'
-        backgroundColor:
-          $ref: '#/components/schemas/RenderedColorStyle'
-        border:
-          $ref: '#/components/schemas/RenderedBorder'
-        shape:
-          $ref: '#/components/schemas/RenderedShape'
-
-    RenderedCompositeBase:
-      allOf:
-        - $ref: '#/components/schemas/RenderedComponentBase'
-        - type: object
-          required: [ children ]
-          properties:
-            children:
-              type: array
-              items:
-                $ref: '#/components/schemas/RenderedComponent'
-          additionalProperties: false
-
-    RenderedLeafBase:
-      allOf:
-        - $ref: '#/components/schemas/RenderedComponentBase'
-        - type: object
-          required: [ type ]
-
-    RenderedRow:
-      allOf:
-        - $ref: '#/components/schemas/RenderedCompositeBase'
-        - type: object
-          required: [ type ]
-          properties:
-            type: { const: row }
-
-    RenderedBox:
-      allOf:
-        - $ref: '#/components/schemas/RenderedCompositeBase'
-        - type: object
-          required: [ type ]
-          properties:
-            type: { const: box }
-
-    RenderedColumn:
-      allOf:
-        - $ref: '#/components/schemas/RenderedCompositeBase'
-        - type: object
-          required: [ type ]
-          properties:
-            type: { const: column }
-
-    RenderedText:
-      allOf:
-        - $ref: '#/components/schemas/RenderedLeafBase'
-        - type: object
-          required: [ type, text, textStyle, colorStyle ]
-          properties:
-            type: { const: text }
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/RenderedTextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/RenderedColorStyle'
-
-    RenderedInput:
-      allOf:
-        - $ref: '#/components/schemas/RenderedLeafBase'
-        - type: object
-          required: [ type, text, textStyle, colorStyle, rightIcon ]
-          properties:
-            type:
-              const: input
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/RenderedTextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/RenderedColorStyle'
-            mask:
-              type: string
-            rightIcon:
-              $ref: '#/components/schemas/RenderedImage'
-            regex:
-              $ref: '#/components/schemas/RenderedRegex'
-            placeholder:
-              $ref: '#/components/schemas/RenderedPlaceholder'
-            hint:
-              $ref: '#/components/schemas/RenderedHint'
-          additionalProperties: false
-
-    RenderedPlaceholder:
-      type: object
-      required: [ text, textStyle, colorStyle ]
-      properties:
-        text:
-          type: string
-        textStyle:
-          $ref: '#/components/schemas/RenderedTextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/RenderedColorStyle'
-      additionalProperties: false
-
-    RenderedHint:
-      type: object
-      required: [ text, textStyle, colorStyle ]
-      properties:
-        text:
-          type: string
-        textStyle:
-          $ref: '#/components/schemas/RenderedTextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/RenderedColorStyle'
-      additionalProperties: false
-
-    RenderedRegex:
-      type: string
-      enum: [ EMAIL ]
-
-    RenderedImage:
-      allOf:
-        - $ref: '#/components/schemas/RenderedLeafBase'
-        - type: object
-          required: [ type, imageUrl ]
-          properties:
-            type: { const: image }
-            imageUrl:
-              type: string
-            badge:
-              $ref: '#/components/schemas/RenderedBadge'
-
-    RenderedSpacer:
-      allOf:
-        - $ref: '#/components/schemas/RenderedLeafBase'
-        - type: object
-          required: [ type ]
-          properties:
-            type: { const: spacer }
-
-    RenderedProgressBar:
-      allOf:
-        - $ref: '#/components/schemas/RenderedLeafBase'
-        - type: object
-          required: [ type ]
-          properties:
-            type: { const: progressBar }
-
-    RenderedSwitch:
-      allOf:
-        - $ref: '#/components/schemas/RenderedLeafBase'
-        - type: object
-          required: [ type ]
-          properties:
-            type: { const: switch }
-
-    RenderedButton:
-      allOf:
-        - $ref: '#/components/schemas/RenderedLeafBase'
-        - type: object
-          required: [ type, text, enabled, textStyle, colorStyle ]
-          properties:
-            type: { const: button }
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/RenderedTextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/RenderedColorStyle'
-            enabled:
-              type: boolean
-
-    RenderedBadge:
-      type: object
-      required: [ type, text, textStyle, colorStyle ]
-      properties:
-        type: { const: badge }
-        text:
-          type: string
-        imageUrl:
-          type: string
-        textStyle:
-          $ref: '#/components/schemas/RenderedTextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/RenderedColorStyle'
-
-    RenderedBorder:
-      type: object
-      required: [ color, thickness ]
-      properties:
-        color:
-          $ref: '#/components/schemas/RenderedColorStyle'
-        thickness:
-          type: integer
-
-    RenderedShape:
-      type: object
-      required: [ type, topLeft, topRight, bottomLeft, bottomRight ]
-      properties:
-        type:
-          type: string
-          enum: [ roundedCorners ]
-        topRight:
-          type: integer
-          default: 0
-        topLeft:
-          type: integer
-          default: 0
-        bottomRight:
-          type: integer
-          default: 0
-        bottomLeft:
-          type: integer
-          default: 0
