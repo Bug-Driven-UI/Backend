@@ -400,7 +400,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TextStyleForSave"
+              $ref: "#/components/schemas/TextStyleSaveRequest"
 
       responses:
         '200':
@@ -439,13 +439,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/APIUpdateResponseSuccess'
+                $ref: '#/components/schemas/TextStyleUpdateResponseSuccess'
         '400':
           description: Некорректный запрос
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/APIUpdateResponseError'
+                $ref: '#/components/schemas/TextStyleUpdateResponseError'
         '500':
           description: Внутренняя ошибка
           content:
@@ -544,6 +544,162 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TextStylesByTokenResponseError'
+
+  # AdminColorStyles
+
+  /v1/saveColorStyle:
+    post:
+      summary: Сохранить стиль цвета
+      tags: [ AdminColorStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ColorStyleForSave"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleSaveResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleSaveResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleSaveResponseError'
+
+  /v1/updateColorStyle:
+    put:
+      summary: Обновить стиль цвета
+      tags: [ AdminColorStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ColorStyleUpdateRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleUpdateResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleUpdateResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleUpdateResponseError'
+
+  /v1/deleteColorStyle:
+    delete:
+      summary: Удалить стиль цвета
+      tags: [ AdminColorStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ColorStyleDeleteRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleDeleteResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleDeleteResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleDeleteResponseError'
+
+  /v1/getColorStyle:
+    post:
+      summary: Получить стиль цвета
+      tags: [ AdminColorStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ColorStyleRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStyleResponseError'
+
+  /v1/getColorStylesByToken:
+    post:
+      summary: Получить список токенов существующих цветов по query
+      tags: [ AdminColorStyles ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ColorStylesByTokenRequest"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStylesByTokenResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStylesByTokenResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorStylesByTokenResponseError'
 
   # ClientEngine
   /v1/renderScreen:
@@ -854,7 +1010,7 @@ components:
             $ref: '#/components/schemas/ErrorContent'
       additionalProperties: false
 
-    SaveTextStyleRequest:
+    TextStyleSaveRequest:
       description: "Запрос на сохранение стиля текста"
       type: object
       required: [ data ]
@@ -912,7 +1068,7 @@ components:
       properties:
         type:
           const: success
-        version:
+        textStyle:
           $ref: '#/components/schemas/TextStyleWithId'
       additionalProperties: false
 
@@ -934,9 +1090,9 @@ components:
       required: [ data ]
       properties:
         data:
-          required: [ textStyleId ]
+          required: [ id ]
           properties:
-            textStyleId:
+            id:
               type: string
               format: uuid
               description: "Идентификатор текстового стиля"
@@ -981,7 +1137,7 @@ components:
       properties:
         type:
           const: success
-        version:
+        textStyle:
           $ref: '#/components/schemas/TextStyleWithId'
       additionalProperties: false
 
@@ -1056,6 +1212,198 @@ components:
         message:
           type: string
           description: "Описание ошибки"
+      additionalProperties: false
+
+    # Модели запросов и ответов для стилей цветов
+
+    ColorStyleSaveRequest:
+      description: "Запрос на сохранение стиля цвета"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            textStyle:
+              $ref: '#/components/schemas/ColorStyleForSave'
+
+    ColorStyleSaveResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ colorStyle ]
+          properties:
+            colorStyle:
+              $ref: '#/components/schemas/ColorStyleWithId'
+      additionalProperties: false
+
+    ColorStyleSaveResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ColorStyleUpdateRequest:
+      description: "Запрос на обновление стиля цвета"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ id, colorStyle ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Идентификатор стиля цвета
+            colorStyle:
+              $ref: "#/components/schemas/ColorStyleForSave"
+
+    ColorStyleUpdateResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        colorStyle:
+          $ref: '#/components/schemas/ColorStyleWithId'
+      additionalProperties: false
+
+    ColorStyleUpdateResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ColorStyleDeleteRequest:
+      description: Запрос на удаление стиля цвета
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          required: [ id ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: "Идентификатор стиля цвета"
+
+    ColorStyleDeleteResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        message:
+          type: string
+      additionalProperties: false
+
+    ColorStyleDeleteResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ColorStyleRequest:
+      description: "Запрос на получение стиля цвета"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ id ]
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Идентификатор стиля цвета
+
+    ColorStyleResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        colorStyle:
+          $ref: '#/components/schemas/ColorStyleWithId'
+      additionalProperties: false
+
+    ColorStyleResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ColorStylesByTokenRequest:
+      description: "Запрос на получение всех стилей цветов по query токену"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "Токен стиля"
+
+    ColorStylesByTokenResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ colorStyles ]
+          properties:
+            colorStyles:
+              type: array
+              items:
+                type: object
+                required: [ id, token ]
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  token:
+                    type: string
+      additionalProperties: false
+
+    ColorStylesByTokenResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
       additionalProperties: false
 
     # Модели запросов и ответов для реестра API
@@ -1380,6 +1728,29 @@ components:
         token:
           type: string
       additionalProperties: false
+
+    ColorStyleForSave:
+      type: object
+      required: [ token, color ]
+      properties:
+        token:
+          type: string
+        color:
+          type: string
+          description: "Цвет в HEX"
+
+    ColorStyleWithId:
+      type: object
+      required: [ id, token, color ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        token:
+          type: string
+        color:
+          type: string
+          description: "Цвет в HEX"
 
     StatefulComponent:
       allOf:
