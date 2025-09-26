@@ -88,7 +88,7 @@ components:
         errors:
           type: array
           items:
-            $ref: './bdui.yaml#/components/schemas/ErrorContent'
+            $ref: './admin.yaml#/components/schemas/ErrorContent'
       additionalProperties: false
     RenderedScreen:
       type: object
@@ -128,7 +128,7 @@ components:
       required: [ size ]
       properties:
         decoration:
-          $ref: './bdui.yaml#/components/schemas/TextDecorationType'
+          $ref: './admin.yaml#/components/schemas/TextDecorationType'
         weight:
           type: integer
         size:
