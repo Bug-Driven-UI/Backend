@@ -14,6 +14,12 @@ tags:
     description: Операции с шаблонами из админки
   - name: AdminAPIRegistry
     description: Операции с реестром внешних API
+  - name: AdminCommands
+    description: Операции по работе с командами
+  - name: AdminTextStyles
+    description: Операции по работе с текстовыми стилями
+  - name: AdminColorStyles
+    description: Операции по работе с стилями цветов
 
 paths:
   # AdminScreen
@@ -1232,21 +1238,21 @@ components:
           $ref: '#/components/schemas/Size'
         backgroundColor:
           $ref: '#/components/schemas/ColorStyle'
+        border:
+          $ref: '#/components/schemas/Border'
+        shape:
+          $ref: '#/components/schemas/Shape'
 
     CompositeBase:
       allOf:
         - $ref: '#/components/schemas/ComponentBase'
         - type: object
-          required: [ children, border, shape ]
+          required: [ children ]
           properties:
             children:
               type: array
               items:
                 $ref: '#/components/schemas/Component'
-            border:
-              $ref: '#/components/schemas/Border'
-            shape:
-              $ref: '#/components/schemas/Shape'
           additionalProperties: false
 
     DynamicCompositeBase:
@@ -1412,7 +1418,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, enabled, textStyle, colorStyle, shape ]
+          required: [ type, text, enabled, textStyle, colorStyle ]
           properties:
             type: { const: button }
             text:
@@ -1423,8 +1429,6 @@ components:
               $ref: '#/components/schemas/ColorStyle'
             enabled:
               type: boolean
-            shape:
-              $ref: '#/components/schemas/Shape'
 
     Badge:
       type: object
@@ -1920,28 +1924,27 @@ components:
             $ref: '#/components/schemas/RenderedInteraction'
         insets:
           $ref: '#/components/schemas/RenderedInsets'
-
         width:
           $ref: '#/components/schemas/RenderedSize'
         height:
           $ref: '#/components/schemas/RenderedSize'
         backgroundColor:
           $ref: '#/components/schemas/RenderedColorStyle'
+        border:
+          $ref: '#/components/schemas/RenderedBorder'
+        shape:
+          $ref: '#/components/schemas/RenderedShape'
 
     RenderedCompositeBase:
       allOf:
         - $ref: '#/components/schemas/RenderedComponentBase'
         - type: object
-          required: [ children, border, shape ]
+          required: [ children ]
           properties:
             children:
               type: array
               items:
                 $ref: '#/components/schemas/RenderedComponent'
-            border:
-              $ref: '#/components/schemas/RenderedBorder'
-            shape:
-              $ref: '#/components/schemas/RenderedShape'
           additionalProperties: false
 
     RenderedLeafBase:
@@ -2082,7 +2085,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/RenderedLeafBase'
         - type: object
-          required: [ type, text, enabled, textStyle, colorStyle, shape ]
+          required: [ type, text, enabled, textStyle, colorStyle ]
           properties:
             type: { const: button }
             text:
@@ -2093,8 +2096,6 @@ components:
               $ref: '#/components/schemas/RenderedColorStyle'
             enabled:
               type: boolean
-            shape:
-              $ref: '#/components/schemas/RenderedShape'
 
     RenderedBadge:
       type: object
