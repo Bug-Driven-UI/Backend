@@ -12,6 +12,8 @@ tags:
     description: Операции с экранами для выдачи клиенту
   - name: AdminTemplates
     description: Операции с шаблонами из админки
+  - name: AdminAPIRegistry
+    description: Операции с реестром внешних API
 
 paths:
   # AdminScreen
@@ -45,6 +47,66 @@ paths:
               schema:
                 $ref: '#/components/schemas/ScreenNamesResponseError'
 
+  /v1/getScreenVersions:
+    post:
+      summary: Получить список версий экрана
+      tags: [ AdminScreen ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScreenVersionRequest"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenVersionResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenVersionResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenVersionResponseError'
+
+  /v1/setProductionVersion:
+    post:
+      summary: Сделать версию экрана продовой
+      tags: [ AdminScreen ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetProductionVersionRequest"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetProductionVersionResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetProductionVersionResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetProductionVersionResponseError'
+
   /v1/getScreen:
     post:
       summary: Получить описание экрана
@@ -62,7 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ScreenResponse'
+                $ref: '#/components/schemas/ScreenResponseSuccess'
         '400':
           description: Некорректный запрос
           content:
@@ -75,6 +137,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScreenResponseError'
+  /v1/updateScreen:
+    put:
+      summary: Обновить скелет экрана
+      tags: [ AdminScreen ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreenUpdateRequest'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenUpdateResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenUpdateResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenUpdateResponseError'
+
   /v1/saveScreen:
     post:
       summary: Сохранить новый экран
@@ -84,7 +176,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Screen"
+              $ref: "#/components/schemas/ScreenForSave"
 
       responses:
         '200':
@@ -92,7 +184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ScreenResponse'
+                $ref: '#/components/schemas/ScreenResponseSuccess'
         '400':
           description: Некорректный запрос
           content:
@@ -107,7 +199,7 @@ paths:
                 $ref: '#/components/schemas/ScreenResponseError'
   /v1/deleteScreen:
     delete:
-      summary: Удаление экрана
+      summary: Удаление экрана (целиком, вместе со всеми версиями)
       tags: [ AdminScreen ]
       requestBody:
         required: true
@@ -115,21 +207,181 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ScreenDeleteRequest"
-
       responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScreenDeleteResponseSuccess'
         '400':
           description: Некорректный запрос
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ScreenResponseError'
+                $ref: '#/components/schemas/ScreenDeleteResponseError'
         '500':
           description: Внутренняя ошибка
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ScreenResponseError'
-  # AdminTemplates
+                $ref: '#/components/schemas/ScreenDeleteResponseError'
+
+  # AdminAPI
+
+  /v1/saveAPI:
+    post:
+      summary: Сохранить внешнее API
+      tags: [ AdminAPIRegistry ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiRepresentationForSave"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APISaveResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APISaveResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APISaveResponseError'
+
+  /v1/updateAPI:
+    put:
+      summary: Обновить внешнее API
+      tags: [ AdminAPIRegistry ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/APIUpdateRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIUpdateResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIUpdateResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIUpdateResponseError'
+
+  /v1/deleteAPI:
+    delete:
+      summary: Удалить внешнее API
+      tags: [ AdminAPIRegistry ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/APIDeleteRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIDeleteResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIDeleteResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIDeleteResponseError'
+
+  /v1/getAPI:
+    post:
+      summary: Получить внешнее API
+      tags: [ AdminAPIRegistry ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/APIRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseError'
+
+  /v1/getAPINames:
+    post:
+      summary: Получить список названий экранов
+      tags: [ AdminAPIRegistry ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/APINamesRequest"
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APINamesResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APINamesResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APINamesResponseError'
 
   # ClientEngine
   /v1/renderScreen:
@@ -176,52 +428,25 @@ components:
     ScreenRequest:
       description: "Запрос на получение скелета экрана"
       type: object
-      properties:
-        data:
-          type: object
-          required: [ screenName, version ]
-          properties:
-            screenName:
-              type: string
-              description: "Название экрана"
-            version:
-              type: string
-              description: "Версия экрана"
-
-    ScreenNamesRequest:
-      description: "Запрос на получение всех экранов по названию"
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            query:
-              type: string
-              description: "Название экрана"
-
-    ScreenDeleteRequest:
-      description: Запрос на удаление экрана
-      type: object
       required: [ data ]
       properties:
         data:
-          required: [ screenName ]
+          type: object
+          required: [ screenId ]
           properties:
-            screenName:
-              type: string
-              description: "Название экрана"
-
-    ScreenResponse:
-      description: "Ответ на получение экрана: успех или список ошибок."
-      oneOf:
-        - $ref: '#/components/schemas/ScreenResponseSuccess'
-        - $ref: '#/components/schemas/ScreenResponseError'
-      unevaluatedProperties: false
+            screenId:
+              type: uuid
+              description: "Идентификатор экрана"
+            versionId:
+              type: uuid
+              description: "Идентификатор версии экрана. Если null, возвращается последняя версия"
 
     ScreenResponseSuccess:
       type: object
       required: [ screen ]
       properties:
+        type:
+          const: success
         screen:
           $ref: '#/components/schemas/Screen'
       additionalProperties: false
@@ -230,33 +455,230 @@ components:
       type: object
       required: [ errors ]
       properties:
+        type:
+          const: error
         errors:
           type: array
           items:
             $ref: '#/components/schemas/ErrorContent'
       additionalProperties: false
 
-    ScreenNamesResponse:
-      description: "Ответ на получение списка названий экранов"
-      oneOf:
-        - $ref: '#/components/schemas/ScreenNamesResponseSuccess'
-        - $ref: '#/components/schemas/ScreenNamesResponseError'
-      unevaluatedProperties: false
+    SetProductionVersionRequest:
+      description: "Запрос на установки версии экрана, как продовой"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ screenId, versionId ]
+          properties:
+            screenId:
+              type: uuid
+              description: "Идентификатор экрана"
+            versionId:
+              type: uuid
+              description: "Идентификатор версии, которую требуется сделать продовой"
+
+    SetProductionVersionResponseSuccess:
+      type: object
+      required: [ screen ]
+      properties:
+        type:
+          const: success
+        version:
+          $ref: '#/components/schemas/ScreenVersion'
+      additionalProperties: false
+
+    SetProductionVersionResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ScreenVersionRequest:
+      description: "Запрос на получение версий экрана"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ screenId ]
+          properties:
+            screenId:
+              type: uuid
+              description: "Идентификатор экрана"
+
+    ScreenVersionResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ versions ]
+          properties:
+            versions:
+              type: array
+              items:
+
+      additionalProperties: false
+
+    ScreenVersionResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ScreenSaveResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        screen:
+          $ref: '#/components/schemas/Screen'
+      additionalProperties: false
+
+    ScreenSaveResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ScreenDeleteRequest:
+      description: Запрос на удаление экрана
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          required: [ screenId ]
+          properties:
+            screenId:
+              type: string
+              description: "Идентификатор экрана"
+
+    ScreenDeleteResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        message:
+          type: string
+      additionalProperties: false
+
+    ScreenDeleteResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ScreenUpdateRequest:
+      description: "Запрос на обновление экрана"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ screenId, versionId, screen ]
+          properties:
+            screenId:
+              type: string
+              format: uuid
+              description: Идентификатор экрана
+            versionId:
+              type: string
+              format: uuid
+              description: Идентификатор версии
+            screen:
+              $ref: "#/components/schemas/ScreenForSave"
+
+    ScreenUpdateResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        version:
+          $ref: '#/components/schemas/ScreenVersion'
+      additionalProperties: false
+
+    ScreenUpdateResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ScreenNamesRequest:
+      description: "Запрос на получение всех экранов по названию"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "Название экрана"
 
     ScreenNamesResponseSuccess:
       type: object
-      required: [ screenNames ]
+      required: [ type, data ]
       properties:
-        screenNames:
-          type: array
-          items:
-            type: string
+        type:
+          const: success
+        data:
+          type: object
+          required: [ screenNames ]
+          properties:
+            screenNames:
+              type: array
+              items:
+                type: object
+                required: [ id, name, description ]
+                properties:
+                  id:
+                    type: uuid
+                  name:
+                    type: string
+                  description:
+                    type: string
       additionalProperties: false
 
     ScreenNamesResponseError:
       type: object
       required: [ errors ]
       properties:
+        type:
+          const: error
         errors:
           type: array
           items:
@@ -277,14 +699,194 @@ components:
           description: "Описание ошибки"
       additionalProperties: false
 
+    # Модели запросов и ответов для реестра API
+
+    APISaveResponseSuccess:
+      type: object
+      required: [ type, api ]
+      properties:
+        type:
+          const: success
+        api:
+          $ref: '#/components/schemas/ApiRepresentation'
+      additionalProperties: false
+
+    APISaveResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    APIUpdateRequest:
+      description: "Запрос на обновление API"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ apiId, api ]
+          properties:
+            apiId:
+              type: string
+              format: uuid
+              description: Идентификатор экрана
+            api:
+              $ref: "#/components/schemas/ApiRepresentationForSave"
+
+    APIUpdateResponseSuccess:
+      type: object
+      required: [ type, api ]
+      properties:
+        type:
+          const: success
+        api:
+          $ref: '#/components/schemas/ApiRepresentation'
+      additionalProperties: false
+
+    APIUpdateResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    APIDeleteRequest:
+      description: Запрос на удаление API
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          required: [ apiId ]
+          properties:
+            apiId:
+              type: string
+              description: "Идентификатор API"
+
+    APIDeleteResponseSuccess:
+      type: object
+      properties:
+        type:
+          const: success
+        message:
+          type: string
+      additionalProperties: false
+
+    APIDeleteResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    APIRequest:
+      description: "Запрос на получение API"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          required: [ apiId ]
+          properties:
+            apiId:
+              type: uuid
+              description: "Идентификатор экрана"
+
+    APIResponseSuccess:
+      type: object
+      required: [ screen ]
+      properties:
+        type:
+          const: success
+        screen:
+          $ref: '#/components/schemas/ApiRepresentation'
+      additionalProperties: false
+
+    APIResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    APINamesRequest:
+      description: "Запрос на получение всех API по названию"
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          type: object
+          properties:
+            query:
+              type: string
+              description: "Название API"
+
+    APINamesResponseSuccess:
+      type: object
+      required: [ type, data ]
+      properties:
+        type:
+          const: success
+        data:
+          type: object
+          required: [ apiNames ]
+          properties:
+            apiNames:
+              type: array
+              items:
+                type: object
+                required: [ id, name, description ]
+                properties:
+                  id:
+                    type: uuid
+                  name:
+                    type: string
+                  description:
+                    type: string
+      additionalProperties: false
+
+    APINamesResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        type:
+          const: error
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorContent'
+      additionalProperties: false
+
     Screen:
       type: object
-      required: [ screenName, version, components, apis ]
+      required: [ screenId, screenName, version, components, apis ]
       properties:
+        screenId:
+          type: uuid
         screenName:
           type: string
         version:
-          type: integer
+          $ref: '#/components/schemas/ScreenVersion'
         screenNavigationParams:
           type: array
           items:
@@ -309,6 +911,54 @@ components:
             $ref: '#/components/schemas/ColorStyle'
       additionalProperties: false
 
+    ScreenForSave:
+      type: object
+      required: [ screenName, components, apis ]
+      properties:
+        screenName:
+          type: string
+        screenNavigationParams:
+          type: array
+          items:
+            type: string
+        apis:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ShortApiRepresentation'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+        scaffold:
+          $ref: '#/components/schemas/Scaffold'
+        textStyles:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/TextStyle'
+        colorStyles:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ColorStyle'
+      additionalProperties: false
+
+    ScreenVersion:
+      type: object
+      required: [ id, version, isProduction, createdAtTimestampMs ]
+      properties:
+        id:
+          type: uuid
+        version:
+          type: string
+        isProduction:
+          type: boolean
+          description: "Используется ли эта версия прямо сейчас на продакшене"
+        createdAtTimestampMs:
+          type: int64
+          description: "Время создания версии в мс"
+        lastModifiedTimestampMs:
+          type: int64
+          description: "Время изменения версии в мс"
+
     Scaffold:
       type: object
       properties:
@@ -320,28 +970,18 @@ components:
 
     TextStyle:
       type: object
-      required: [ token, size ]
+      required: [ token ]
       properties:
         token:
           type: string
-        decoration:
-          type: string
-          enum: [ overline, bold, italic, underline, strikeThrough, strikeThroughRed ]
-        weight:
-          type: integer
-        size:
-          type: integer
       additionalProperties: false
 
     ColorStyle:
       type: object
-      required: [ token, hex ]
+      required: [ token ]
       properties:
         token:
           type: string
-        hex:
-          type: string
-          description: "Цвет в HEX формате (#RRGGBB)"
       additionalProperties: false
 
     StatefulComponent:
@@ -374,11 +1014,7 @@ components:
           properties:
             type:
               const: dynamicColumn
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/Component'
-          required: [ type, items ]
+          required: [ type ]
           additionalProperties: false
 
     DynamicRow:
@@ -388,11 +1024,7 @@ components:
           properties:
             type:
               const: dynamicRow
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/Component'
-          required: [ type, items ]
+          required: [ type ]
           additionalProperties: false
 
     ShortApiRepresentation:
@@ -405,31 +1037,6 @@ components:
           type: array
           items:
             type: string
-      additionalProperties: false
-
-    Endpoint:
-      type: object
-      description: "Модель внешнего запроса"
-      required: [ url, method, responseName, timeoutMs, isRequired ]
-      properties:
-        url:
-          type: string
-          description: "Путь/URL, на который должен быть выполнен запрос"
-        method:
-          type: string
-          description: "HTTP-метод"
-          examples: [ GET ]
-        responseName:
-          type: string
-          description: "Имя для ассоциации ответа с запросом"
-        timeoutMs:
-          type: integer
-          format: int64
-          description: "Таймаут ожидания ответа (в мс)"
-          default: 5000
-        isRequired:
-          type: boolean
-          description: "Если true — ошибка клиента при неудаче получения ответа"
       additionalProperties: false
 
     Insets:
@@ -572,7 +1179,6 @@ components:
       additionalProperties: false
 
     Component:
-      required: [ type ]
       description: "Полиморфный UI-компонент"
       oneOf:
         - $ref: '#/components/schemas/Row'
@@ -604,10 +1210,6 @@ components:
           stateful: '#/components/schemas/StatefulComponent'
           dynamicColumn: '#/components/schemas/DynamicColumn'
           dynamicRow: '#/components/schemas/DynamicRow'
-      properties:
-        type:
-          type: string
-      unevaluatedProperties: false
 
     ComponentBase:
       type: object
@@ -865,6 +1467,172 @@ components:
         bottomLeft:
           type: integer
           default: 0
+
+    TextStyleTemplate: # Нейминг неокончательный - это то, что будет возвращаться из реестра
+      type: object
+      required: [ token, size ]
+      properties:
+        token:
+          type: string
+        decoration:
+          type: string
+          enum: [ overline, bold, italic, underline, strikeThrough, strikeThroughRed ]
+        weight:
+          type: integer
+        size:
+          type: integer
+      additionalProperties: false
+
+    ColorStyleTemplate: # Нейминг неокончательный - это то, что будет возвращаться из реестра
+      type: object
+      required: [ token, hex ]
+      properties:
+        token:
+          type: string
+        hex:
+          type: string
+          description: "Цвет в HEX формате (#RRGGBB)"
+      additionalProperties: false
+
+    # Реестр внешних API
+
+    ApiRepresentation:
+      type: object
+      description: "Описание свойств для взаимодействия с внешней API"
+      required: [ id, name, description, params, endpoints, createdAtTimestampMs ]
+      properties:
+        id:
+          type: uuid
+        name:
+          type: string
+          description: "Название API, условно alias для дальнейшего использования в админке"
+        description:
+          type: string
+        params:
+          type: array
+          description: "Требуемые параметры для выполнения запроса к API/маппинга в схему"
+          items:
+            type: string
+        endpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Endpoint'
+        schema:
+          $ref: '#/components/schemas/Schema'
+        mappingScript:
+          type: string
+          description: "JS скрипт для превращения данных ответа API в данные соответствующие схеме"
+        createdAtTimestampMs:
+          type: int64
+          description: "Время создания версии в мс"
+        lastModifiedTimestampMs:
+          type: int64
+          description: "Время изменения версии в мс"
+
+    ApiRepresentationForSave:
+      type: object
+      description: "Описание свойств для взаимодействия с внешней API"
+      required: [ name, description, params, endpoints ]
+      properties:
+        name:
+          type: string
+          description: "Название API, условно alias для дальнейшего использования в админке"
+        description:
+          type: string
+        params:
+          type: array
+          description: "Требуемые параметры для выполнения запроса к API/маппинга в схему"
+          items:
+            type: string
+        endpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Endpoint'
+        schema:
+          $ref: '#/components/schemas/Schema'
+        mappingScript:
+          type: string
+          description: "JS скрипт для превращения данных ответа API в данные соответствующие схеме"
+
+    Schema:
+      oneOf:
+        - $ref: "#/components/schemas/SchemaObject"
+        - $ref: "#/components/schemas/SchemaArray"
+        - $ref: "#/components/schemas/SchemaString"
+        - $ref: "#/components/schemas/SchemaNumber"
+      discriminator:
+        propertyName: type
+        mapping:
+          object: "#/components/schemas/SchemaObject"
+          array: "#/components/schemas/SchemaArray"
+          string: "#/components/schemas/SchemaString"
+          number: "#/components/schemas/SchemaNumber"
+      description: |
+        Универсальная схема для представления типов: object, array, string, number.
+
+    SchemaObject:
+      type: object
+      additionalProperties: false
+      required: [ type, properties ]
+      properties:
+        type:
+          const: object
+        properties:
+          type: object
+          description: Словарь свойств объекта (поле -> схема).
+          additionalProperties:
+            $ref: "#/components/schemas/Schema"
+
+    SchemaArray:
+      type: object
+      additionalProperties: false
+      required: [ type, items ]
+      properties:
+        type:
+          const: array
+        items:
+          $ref: "#/components/schemas/Schema"
+
+    SchemaString:
+      type: object
+      additionalProperties: false
+      required: [ type ]
+      properties:
+        type:
+          const: string
+
+    SchemaNumber:
+      type: object
+      additionalProperties: false
+      required: [ type ]
+      properties:
+        type:
+          const: number
+
+    Endpoint:
+      type: object
+      description: "Модель внешнего запроса"
+      required: [ url, method, responseName, timeoutMs, isRequired ]
+      properties:
+        url:
+          type: string
+          description: "Путь/URL, на который должен быть выполнен запрос"
+        method:
+          type: string
+          description: "HTTP-метод"
+          examples: [ GET ]
+        responseName:
+          type: string
+          description: "Имя для ассоциации ответа с запросом"
+        timeoutMs:
+          type: integer
+          format: int64
+          description: "Таймаут ожидания ответа (в мс)"
+          default: 5000
+        isRequired:
+          type: boolean
+          description: "Если true — ошибка клиента при неудаче получения ответа"
+      additionalProperties: false
 
     # CLIENT MODELS (Модели для рендеринга)
 

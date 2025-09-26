@@ -52,8 +52,11 @@ openApiGenerate {
             String: "kotlin.String"
     ]
     additionalProperties = [
-            serializationLibrary: "jackson",
-            modelNameSuffix     : "Raw"
+            serializationLibrary       : "jackson",
+            modelNameSuffix            : "Raw",
+            useOneOfInterfaces         : "true",
+            legacyDiscriminatorBehavior: "false",
+            sealedClasses              : "true"
     ]
 
     globalProperties = [
