@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
     id 'org.springframework.boot' version '3.5.5'
     id 'io.spring.dependency-management' version '1.1.7'
-    id "org.openapi.generator" version "7.15.0"
 }
 
 group = 'ru.hits'
@@ -41,38 +40,7 @@ kotlin {
     }
 }
 
-openApiGenerate {
-    generatorName = "kotlin"
-
-    inputSpec = layout.projectDirectory.file("api_specification/bdui.yaml").asFile.toURI().toString()
-    outputDir = layout.buildDirectory.dir("generated").get().asFile.path
-    modelPackage = "ru.hits.bdui.api.models"
-
-    typeMappings = [
-            String: "kotlin.String"
-    ]
-    additionalProperties = [
-            serializationLibrary       : "jackson",
-            modelNameSuffix            : "Raw",
-            useOneOfInterfaces         : "true",
-            legacyDiscriminatorBehavior: "false",
-            sealedClasses              : "true"
-    ]
-
-    globalProperties = [
-            models                 : "",
-            apis                   : "false",
-            modelOverrideProperties: "true",
-            modelMutable           : "false"
-    ]
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-afterEvaluate {
-    tasks.named("compileKotlin") {
-        dependsOn tasks.named("openApiGenerate")
-    }
-}

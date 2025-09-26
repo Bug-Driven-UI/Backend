@@ -17,4 +17,4 @@ services:
     volumes:
       - ./api_specification:/api
     environment:
-      - SWAGGER_JSON=/api/bdui.yaml
+      - SWAGGER_JSON=/api/admin.yaml
