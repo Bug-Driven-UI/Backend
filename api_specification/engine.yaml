@@ -10,7 +10,7 @@ tags:
     description: Операции с экранами для выдачи клиенту
 
 paths:
-  /v1/renderScreen:
+  /v1/screen/render:
     post:
       summary: Получить экран с данными для отрисовки
       tags: [ ClientEngine ]
@@ -104,14 +104,6 @@ components:
             $ref: '#/components/schemas/RenderedComponent'
         scaffold:
           $ref: '#/components/schemas/RenderedScaffold'
-        textStyles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RenderedTextStyle'
-        colorStyles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RenderedColorStyle'
       additionalProperties: false
 
     RenderedScaffold:
@@ -143,6 +135,17 @@ components:
           type: string
           description: "Цвет в HEX формате (#RRGGBB)"
       additionalProperties: false
+
+    RenderedTextStyleRepresentation:
+      type: object
+      required: [ text, colorStyle, textStyle ]
+      properties:
+        text:
+          type: string
+        textStyle:
+          $ref: '#/components/schemas/RenderedTextStyle'
+        colorStyle:
+          $ref: '#/components/schemas/RenderedColorStyle'
 
     RenderedInsets:
       type: object
@@ -388,30 +391,22 @@ components:
       allOf:
         - $ref: '#/components/schemas/RenderedLeafBase'
         - type: object
-          required: [ type, text, textStyle, colorStyle ]
+          required: [ type, textWithStyle ]
           properties:
             type: { const: text }
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/RenderedTextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/RenderedColorStyle'
+            textWithStyle:
+              $ref: '#/components/schemas/RenderedTextStyleRepresentation'
 
     RenderedInput:
       allOf:
         - $ref: '#/components/schemas/RenderedLeafBase'
         - type: object
-          required: [ type, text, textStyle, colorStyle, rightIcon ]
+          required: [ type, textWithStyle, rightIcon ]
           properties:
             type:
               const: input
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/RenderedTextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/RenderedColorStyle'
+            textWithStyle:
+              $ref: '#/components/schemas/RenderedTextStyleRepresentation'
             mask:
               type: string
             rightIcon:
@@ -426,27 +421,20 @@ components:
 
     RenderedPlaceholder:
       type: object
-      required: [ text, textStyle, colorStyle ]
+      required: [ textWithStyle ]
       properties:
-        text:
-          type: string
-        textStyle:
-          $ref: '#/components/schemas/RenderedTextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/RenderedColorStyle'
+        textWithStyle:
+          $ref: '#/components/schemas/RenderedTextStyleRepresentation'
       additionalProperties: false
 
     RenderedHint:
       type: object
-      required: [ text, textStyle, colorStyle ]
+      required: [ textWithStyle ]
       properties:
-        text:
-          type: string
-        textStyle:
-          $ref: '#/components/schemas/RenderedTextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/RenderedColorStyle'
+        textWithStyle:
+          $ref: '#/components/schemas/RenderedTextStyleRepresentation'
       additionalProperties: false
+
 
     RenderedRegex:
       type: string
@@ -492,31 +480,23 @@ components:
       allOf:
         - $ref: '#/components/schemas/RenderedLeafBase'
         - type: object
-          required: [ type, text, enabled, textStyle, colorStyle ]
+          required: [ type, textWithStyle ]
           properties:
             type: { const: button }
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/RenderedTextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/RenderedColorStyle'
+            textWithStyle:
+              $ref: '#/components/schemas/RenderedTextStyleRepresentation'
             enabled:
               type: boolean
 
     RenderedBadge:
       type: object
-      required: [ type, text, textStyle, colorStyle ]
+      required: [ type, textWithStyle ]
       properties:
         type: { const: badge }
-        text:
-          type: string
+        textWithStyle:
+          $ref: '#/components/schemas/RenderedTextStyleRepresentation'
         imageUrl:
           type: string
-        textStyle:
-          $ref: '#/components/schemas/RenderedTextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/RenderedColorStyle'
 
     RenderedBorder:
       type: object

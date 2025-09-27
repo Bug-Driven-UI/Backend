@@ -1406,6 +1406,7 @@ components:
 
     TextStyleResponseSuccess:
       type: object
+      required: [ type, textStyle ]
       properties:
         type:
           const: success
@@ -1451,13 +1452,19 @@ components:
               type: array
               items:
                 type: object
-                required: [ id, token ]
+                required: [ id, token, size ]
                 properties:
                   id:
                     type: string
                     format: uuid
                   token:
                     type: string
+                  size:
+                    type: integer
+                  weight:
+                    type: integer
+                  decoration:
+                    $ref: '#/components/schemas/TextDecorationType'
       additionalProperties: false
 
     TextStylesByTokenResponseError:
@@ -1614,6 +1621,7 @@ components:
 
     ColorStyleResponseSuccess:
       type: object
+      required: [ type, colorStyle ]
       properties:
         type:
           const: success
@@ -1659,12 +1667,14 @@ components:
               type: array
               items:
                 type: object
-                required: [ id, token ]
+                required: [ id, token, hex ]
                 properties:
                   id:
                     type: string
                     format: uuid
                   token:
+                    type: string
+                  hex:
                     type: string
       additionalProperties: false
 
@@ -2265,8 +2275,8 @@ components:
           items:
             type: string
         apis:
-          type: object
-          additionalProperties:
+          type: array
+          items:
             $ref: '#/components/schemas/ShortApiRepresentation'
         components:
           type: array
@@ -2274,14 +2284,6 @@ components:
             $ref: '#/components/schemas/Component'
         scaffold:
           $ref: '#/components/schemas/Scaffold'
-        textStyles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/TextStyle'
-        colorStyles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ColorStyle'
       additionalProperties: false
 
     ScreenForSave:
@@ -2295,8 +2297,8 @@ components:
           items:
             type: string
         apis:
-          type: object
-          additionalProperties:
+          type: array
+          items:
             $ref: '#/components/schemas/ShortApiRepresentation'
         components:
           type: array
@@ -2304,14 +2306,6 @@ components:
             $ref: '#/components/schemas/Component'
         scaffold:
           $ref: '#/components/schemas/Scaffold'
-        textStyles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/TextStyle'
-        colorStyles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ColorStyle'
       additionalProperties: false
 
     ScreenVersion:
@@ -2360,10 +2354,10 @@ components:
             type: string
           uniqueItems: true
         apis:
-          type: object
-          description: "Внешние API, требующиеся для исполнения команды; ключ — имя зависимости, значение — краткое представление API"
-          additionalProperties:
-            ref: '#/components/schemas/ShortApiRepresentation'
+          type: array
+          description: "Внешние API, требующиеся для исполнения команды"
+          items:
+            $ref: '#/components/schemas/ShortApiRepresentation'
         itemTemplate:
           $ref: '#/components/schemas/ComponentTemplate'
           description: "Шаблон для заполнения ответа от команды (если указан)"
@@ -2390,10 +2384,10 @@ components:
             type: string
           uniqueItems: true
         apis:
-          type: object
-          description: "Внешние API, требующиеся для исполнения команды; ключ — имя зависимости, значение — краткое представление API"
-          additionalProperties:
-            ref: '#/components/schemas/ShortApiRepresentation'
+          type: array
+          description: "Внешние API, требующиеся для исполнения команды"
+          items:
+            $ref: '#/components/schemas/ShortApiRepresentation'
         itemTemplate:
           type: string
           description: "Название шаблона для заполнения ответа от команды (если указан)"
@@ -2440,7 +2434,7 @@ components:
 
     TextDecorationType:
       type: string
-      enum: [ overline, bold, italic, underline, strikeThrough, strikeThroughRed ]
+      enum: [ italic, underline, strikeThrough, strikeThroughRed, regular ]
 
     ColorStyle:
       type: object
@@ -2472,6 +2466,17 @@ components:
         color:
           type: string
           description: "Цвет в HEX"
+
+    TextStyleRepresentation:
+      type: object
+      required: [ text, colorStyle, textStyle ]
+      properties:
+        text:
+          type: string
+        textStyle:
+          $ref: '#/components/schemas/TextStyle'
+        colorStyle:
+          $ref: '#/components/schemas/ColorStyle'
 
     StatefulComponent:
       allOf:
@@ -2520,10 +2525,15 @@ components:
       type: object
       required: [ apiName, apiParams ]
       properties:
+        apiAlias:
+          type: string
+          description: "Алиас для использования результатов вызова внешнего API"
         apiName:
           type: string
+          description: "Название API из реестра внешних API"
         apiParams:
           type: array
+          description: "Набор ключей параметров, которые необходимо заполнить для выполнения запроса"
           items:
             type: string
       additionalProperties: false
@@ -2594,7 +2604,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Action'
-      additionalProperties: true
 
     Size:
       required: [ type ]
@@ -2815,12 +2824,8 @@ components:
           required: [ type, text, textStyle, colorStyle ]
           properties:
             type: { const: text }
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/TextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/ColorStyle'
+            textWithStyle:
+              $ref: '#/components/schemas/TextStyleRepresentation'
 
     Input:
       allOf:
@@ -2830,12 +2835,8 @@ components:
           properties:
             type:
               const: input
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/TextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/ColorStyle'
+            textWithStyle:
+              $ref: '#/components/schemas/TextStyleRepresentation'
             mask:
               type: string
             rightIcon:
@@ -2852,24 +2853,16 @@ components:
       type: object
       required: [ text, textStyle, colorStyle ]
       properties:
-        text:
-          type: string
-        textStyle:
-          $ref: '#/components/schemas/TextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/ColorStyle'
+        textWithStyle:
+          $ref: '#/components/schemas/TextStyleRepresentation'
       additionalProperties: false
 
     Hint:
       type: object
       required: [ text, textStyle, colorStyle ]
       properties:
-        text:
-          type: string
-        textStyle:
-          $ref: '#/components/schemas/TextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/ColorStyle'
+        textWithStyle:
+          $ref: '#/components/schemas/TextStyleRepresentation'
       additionalProperties: false
 
     Regex:
@@ -2916,15 +2909,11 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, enabled, textStyle, colorStyle ]
+          required: [ type, text, enabled, textStyle, textColorStyle ]
           properties:
             type: { const: button }
-            text:
-              type: string
-            textStyle:
-              $ref: '#/components/schemas/TextStyle'
-            colorStyle:
-              $ref: '#/components/schemas/ColorStyle'
+            textWithStyle:
+              $ref: '#/components/schemas/TextStyleRepresentation'
             enabled:
               type: boolean
 
@@ -2933,14 +2922,10 @@ components:
       required: [ type, text, textStyle, colorStyle ]
       properties:
         type: { const: badge }
-        text:
-          type: string
         imageUrl:
           type: string
-        textStyle:
-          $ref: '#/components/schemas/TextStyle'
-        colorStyle:
-          $ref: '#/components/schemas/ColorStyle'
+        textWithStyle:
+          $ref: '#/components/schemas/TextStyleRepresentation'
 
     Border:
       type: object

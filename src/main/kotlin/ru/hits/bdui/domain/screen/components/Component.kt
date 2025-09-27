@@ -12,7 +12,8 @@ sealed interface Component {
     val id: ComponentId
     val type: String
     val interactions: List<Interaction>
-    val insets: Insets?
+    val margins: Insets?
+    val paddings: Insets?
     val width: Size
     val height: Size
     val backgroundColor: ColorStyle?

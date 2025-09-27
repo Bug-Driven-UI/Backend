@@ -12,10 +12,12 @@ data class TextStyle(
     val token: String,
     val decoration: TextDecoration?,
     val weight: Int?,
-    val size: Int
+    val size: Int,
+    val lineHeight: Int,
 )
 
 enum class TextDecoration {
+    REGULAR,
     BOLD,
     ITALIC,
     UNDERLINE,

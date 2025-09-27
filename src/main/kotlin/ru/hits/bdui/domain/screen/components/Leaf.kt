@@ -8,17 +8,16 @@ import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
 import ru.hits.bdui.domain.screen.styles.ColorStyle
-import ru.hits.bdui.domain.screen.styles.TextStyle
+import ru.hits.bdui.domain.screen.styles.TextWithStyle
 
 sealed interface Leaf : Component
 
 data class Text(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
+    val textWithStyle: TextWithStyle,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets?,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
     override val height: Size,
     override val backgroundColor: ColorStyle?,
@@ -29,9 +28,7 @@ data class Text(
 }
 
 data class Input(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
+    val textWithStyle: TextWithStyle,
     val mask: String,
     val regex: Regex?,
     val rightIcon: Image,
@@ -39,7 +36,8 @@ data class Input(
     val placeholder: Placeholder?,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets?,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
     override val height: Size,
     override val backgroundColor: ColorStyle?,
@@ -49,15 +47,11 @@ data class Input(
     override val type: String = "textField"
 
     data class Hint(
-        val text: ValueOrExpression,
-        val textStyle: TextStyle,
-        val color: ColorStyle,
+        val textWithStyle: TextWithStyle
     )
 
     data class Placeholder(
-        val text: ValueOrExpression,
-        val textStyle: TextStyle,
-        val color: ColorStyle,
+        val textWithStyle: TextWithStyle
     )
 }
 
@@ -66,7 +60,8 @@ data class Image(
     val badge: Badge?,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets?,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
     override val height: Size,
     override val backgroundColor: ColorStyle?,
@@ -76,9 +71,7 @@ data class Image(
     override val type: String = "image"
 
     data class Badge(
-        val text: ValueOrExpression,
-        val textStyle: TextStyle,
-        val color: ColorStyle,
+        val textWithStyle: TextWithStyle,
         val imageUrl: String,
     )
 }
@@ -86,7 +79,8 @@ data class Image(
 data class Spacer(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets?,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
     override val height: Size,
     override val backgroundColor: ColorStyle?,
@@ -99,7 +93,8 @@ data class Spacer(
 data class ProgressBar(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets?,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
     override val height: Size,
     override val backgroundColor: ColorStyle?,
@@ -112,7 +107,8 @@ data class ProgressBar(
 data class Switch(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets?,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
     override val height: Size,
     override val backgroundColor: ColorStyle?,
@@ -123,13 +119,12 @@ data class Switch(
 }
 
 data class Button(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
+    val textWithStyle: TextWithStyle,
     val enabled: Boolean,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets?,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
     override val height: Size,
     override val backgroundColor: ColorStyle?,
