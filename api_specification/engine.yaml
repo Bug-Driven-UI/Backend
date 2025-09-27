@@ -332,7 +332,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RenderedInteraction'
-        insets:
+        paddings:
+          $ref: '#/components/schemas/RenderedInsets'
+        margins:
           $ref: '#/components/schemas/RenderedInsets'
         width:
           $ref: '#/components/schemas/RenderedSize'
