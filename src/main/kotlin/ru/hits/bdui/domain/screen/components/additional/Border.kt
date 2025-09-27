@@ -1,6 +1,6 @@
 package ru.hits.bdui.domain.screen.components.additional
 
-import ru.hits.bdui.domain.screen.styles.ColorStyle
+import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 
 /**
  * Границы компонентов

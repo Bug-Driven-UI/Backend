@@ -6,7 +6,7 @@ import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import ru.hits.bdui.domain.screen.styles.TextDecoration
+import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import java.util.UUID
 
 @Entity

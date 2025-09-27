@@ -6,7 +6,7 @@ import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
-import ru.hits.bdui.domain.screen.styles.ColorStyle
+import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.template.ComponentTemplate
 
 sealed interface DynamicComposite : Component {
