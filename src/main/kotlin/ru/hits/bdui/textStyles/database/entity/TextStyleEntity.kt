@@ -25,4 +25,6 @@ data class TextStyleEntity(
     val size: Int,
     @Column(name = "line_height", nullable = false)
     val lineHeight: Int,
-)
+) {
+    companion object
+}
