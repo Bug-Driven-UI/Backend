@@ -2,7 +2,7 @@ package ru.hits.bdui.domain.screen
 
 import ru.hits.bdui.domain.ScreenName
 import ru.hits.bdui.domain.ScreenVersion
-import ru.hits.bdui.domain.api.ShortApiRepresentation
+import ru.hits.bdui.domain.api.ApiRepresentation
 import ru.hits.bdui.domain.screen.components.Component
 import ru.hits.bdui.domain.screen.styles.ColorStyle
 import ru.hits.bdui.domain.screen.styles.TextStyle
@@ -24,7 +24,7 @@ data class Screen(
     val screenName: ScreenName,
     val version: ScreenVersion,
     val screenNavigationParams: Set<String>,
-    val apis: Map<String, ShortApiRepresentation>,
+    val apis: Map<String, ApiRepresentation>,
     val components: List<Component>,
     val scaffold: Scaffold?,
     val loaders: Map<ScreenName, Loader>,
