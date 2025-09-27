@@ -2407,13 +2407,15 @@ components:
 
     TextStyleForSave:
       type: object
-      required: [ token, size ]
+      required: [ token, size, lineHeight ]
       properties:
         token:
           type: string
         size:
           type: integer
         weight:
+          type: integer
+        lineHeight:
           type: integer
         decoration:
           $ref: '#/components/schemas/TextDecorationType'
@@ -2430,6 +2432,8 @@ components:
         size:
           type: integer
         weight:
+          type: integer
+        lineHeight:
           type: integer
         decoration:
           $ref: '#/components/schemas/TextDecorationType'
