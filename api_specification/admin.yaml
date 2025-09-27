@@ -2357,10 +2357,11 @@ components:
           type: array
           description: "Внешние API, требующиеся для исполнения команды"
           items:
-            $ref: '#/components/schemas/ApiRepresentation'
-        itemTemplate:
-          $ref: '#/components/schemas/ComponentTemplate'
-          description: "Шаблон для заполнения ответа от команды (если указан)"
+            $ref: '#/components/schemas/ShortApiRepresentation'
+        itemTemplateId:
+          type: string
+          format: uuid
+          description: "Идентификатор шаблона для заполнения ответа от команды (если указан)"
         fallbackMessage:
           type: string
           description: "Сообщение об ошибке, в случае неудачного исполнения команды"
@@ -2388,7 +2389,7 @@ components:
           description: "Внешние API, требующиеся для исполнения команды"
           items:
             $ref: '#/components/schemas/ShortApiRepresentation'
-        itemTemplate:
+        itemTemplateId:
           type: string
           format: uuid
           description: "Идентификатор шаблона для заполнения ответа от команды (если указан)"
@@ -2524,7 +2525,7 @@ components:
 
     ShortApiRepresentation:
       type: object
-      required: [ id, name ]
+      required: [ id, alias ]
       properties:
         id:
           type: string
@@ -2749,7 +2750,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/ComponentBase'
         - type: object
-          required: [ itemsData, itemAlias, itemTemplate ]
+          required: [ itemsData, itemAlias, itemTemplateId ]
           properties:
             itemsData:
               type: string
@@ -2757,8 +2758,10 @@ components:
             itemAlias:
               type: string
               description: "Алиас, для ссылки на данные"
-            itemTemplate:
-              $ref: '#/components/schemas/Component'
+            itemTemplateId:
+              type: string
+              format: uuid
+              description: "Идентификатор шаблона для заполнения ответа от команды (если указан)"
           additionalProperties: false
 
     ComponentTemplate:
