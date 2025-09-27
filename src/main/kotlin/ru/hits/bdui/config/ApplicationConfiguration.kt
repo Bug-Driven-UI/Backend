@@ -6,6 +6,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
+import ru.hits.bdui.expression.ExpressionEvaluator
+import ru.hits.bdui.expression.JSInterpreter
 
 @Configuration
 
@@ -19,4 +21,10 @@ class ApplicationConfiguration {
     fun webClient(): WebClient =
         WebClient.builder()
             .build()
+
+    @Bean("JSInterpreter")
+    fun jsInterpreter(objectMapper: ObjectMapper): JSInterpreter = JSInterpreter(objectMapper)
+
+    @Bean("ExpressionEvaluator")
+    fun expressionEvaluator(jsInterpreter: JSInterpreter): ExpressionEvaluator = ExpressionEvaluator(jsInterpreter)
 }
