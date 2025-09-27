@@ -1288,6 +1288,7 @@ components:
       properties:
         data:
           type: object
+          required: [ textStyle ]
           properties:
             textStyle:
               $ref: '#/components/schemas/TextStyleForSave'
