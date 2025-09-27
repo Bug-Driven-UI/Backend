@@ -2339,7 +2339,7 @@ components:
     Command:
       type: object
       description: "Представление команды из реестра"
-      required: [ id, name, commandParams, apis, createdAtTimestampMs ]
+      required: [ id, name, params, apis, createdAtTimestampMs ]
       properties:
         id:
           type: string
@@ -2347,7 +2347,7 @@ components:
         name:
           type: string
           description: "Название команды"
-        commandParams:
+        params:
           type: array
           description: "Параметры, требующиеся для исполнения команды"
           items:
@@ -2357,7 +2357,7 @@ components:
           type: array
           description: "Внешние API, требующиеся для исполнения команды"
           items:
-            $ref: '#/components/schemas/ShortApiRepresentation'
+            $ref: '#/components/schemas/ApiRepresentation'
         itemTemplate:
           $ref: '#/components/schemas/ComponentTemplate'
           description: "Шаблон для заполнения ответа от команды (если указан)"
@@ -2372,12 +2372,12 @@ components:
     CommandForSave:
       type: object
       description: "Представление команды из реестра"
-      required: [ name, commandParams, apis ]
+      required: [ name, params, apis ]
       properties:
         name:
           type: string
           description: "Название команды"
-        commandParams:
+        params:
           type: array
           description: "Параметры, требующиеся для исполнения команды"
           items:
@@ -2390,7 +2390,8 @@ components:
             $ref: '#/components/schemas/ShortApiRepresentation'
         itemTemplate:
           type: string
-          description: "Название шаблона для заполнения ответа от команды (если указан)"
+          format: uuid
+          description: "Идентификатор шаблона для заполнения ответа от команды (если указан)"
         fallbackMessage:
           type: string
           description: "Сообщение об ошибке, в случае неудачного исполнения команды"
@@ -2523,19 +2524,15 @@ components:
 
     ShortApiRepresentation:
       type: object
-      required: [ apiName, apiParams ]
+      required: [ id, name ]
       properties:
-        apiAlias:
+        id:
+          type: string
+          format: uuid
+          description: "Идентификатор внешнего API из реестра"
+        alias:
           type: string
           description: "Алиас для использования результатов вызова внешнего API"
-        apiName:
-          type: string
-          description: "Название API из реестра внешних API"
-        apiParams:
-          type: array
-          description: "Набор ключей параметров, которые необходимо заполнить для выполнения запроса"
-          items:
-            type: string
       additionalProperties: false
 
     Insets:
