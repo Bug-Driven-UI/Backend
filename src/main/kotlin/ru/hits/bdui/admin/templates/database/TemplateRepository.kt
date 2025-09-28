@@ -12,6 +12,8 @@ import ru.hits.bdui.admin.templates.database.TemplateRepository.SaveResponse
 import ru.hits.bdui.admin.templates.database.emerge.emerge
 import ru.hits.bdui.admin.templates.database.entity.TemplateEntity
 import ru.hits.bdui.admin.templates.database.repository.ComponentTemplateJpaRepository
+import ru.hits.bdui.admin.templates.models.ComponentTemplateUpdateCommand
+import ru.hits.bdui.domain.TemplateName
 import ru.hits.bdui.domain.template.ComponentTemplate
 import ru.hits.bdui.domain.template.ComponentTemplateFromDatabase
 import java.util.UUID
@@ -28,7 +30,10 @@ interface TemplateRepository {
 
     fun save(template: ComponentTemplate): Mono<SaveResponse>
 
-    fun update(template: ComponentTemplateFromDatabase): Mono<SaveResponse>
+    fun update(
+        template: ComponentTemplateFromDatabase,
+        updateCommand: ComponentTemplateUpdateCommand
+    ): Mono<SaveResponse>
 
     sealed interface SaveResponse {
         data class Success(val template: ComponentTemplateFromDatabase) : SaveResponse
@@ -89,8 +94,17 @@ class TemplateRepositoryImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun update(template: ComponentTemplateFromDatabase): Mono<SaveResponse> {
-        val entity = TemplateEntity.emerge(template)
+    override fun update(
+        template: ComponentTemplateFromDatabase,
+        updateCommand: ComponentTemplateUpdateCommand
+    ): Mono<SaveResponse> {
+        val updatedTemplate = template.copy(
+            template = ComponentTemplate(
+                name = TemplateName(updateCommand.name),
+                component = updateCommand.component
+            )
+        )
+        val entity = TemplateEntity.emerge(updatedTemplate)
 
         return save(entity)
     }

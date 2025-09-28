@@ -3,15 +3,13 @@ package ru.hits.bdui.admin.templates
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
 import ru.hits.bdui.admin.templates.database.TemplateRepository
+import ru.hits.bdui.admin.templates.models.ComponentTemplateUpdateCommand
 import ru.hits.bdui.common.exceptions.AlreadyExistsException
 import ru.hits.bdui.common.exceptions.notFound
-import ru.hits.bdui.domain.screen.styles.color.ColorStyleFromDatabase
 import ru.hits.bdui.domain.template.ComponentTemplate
 import ru.hits.bdui.domain.template.ComponentTemplateFromDatabase
 import ru.hits.bdui.utils.isUniqueViolation
-import java.time.Instant
 import java.util.UUID
 
 interface TemplateService {
@@ -19,7 +17,7 @@ interface TemplateService {
     fun findById(id: UUID): Mono<ComponentTemplateFromDatabase>
     fun findByName(name: String): Mono<ComponentTemplateFromDatabase>
     fun delete(id: UUID): Mono<Unit>
-    fun update(templateFromDatabase: ComponentTemplateFromDatabase): Mono<ComponentTemplateFromDatabase>
+    fun update(updateCommand: ComponentTemplateUpdateCommand): Mono<ComponentTemplateFromDatabase>
     fun findAllLikeName(name: String): Mono<List<ComponentTemplateFromDatabase>>
 }
 
@@ -63,16 +61,15 @@ class TemplateServiceImpl(
         repository.delete(id)
 
     @Transactional
-    override fun update(templateFromDatabase: ComponentTemplateFromDatabase): Mono<ComponentTemplateFromDatabase> =
-        repository.existsById(templateFromDatabase.id)
-            .flatMap { exists ->
-                if (exists) {
-                    val updatedTemplate = templateFromDatabase.copy(
-                        lastModifiedTimestampMs = Instant.now().toEpochMilli()
-                    )
-                    repository.update(updatedTemplate)
-                } else {
-                    notFound<ColorStyleFromDatabase>(templateFromDatabase.id).toMono()
+    override fun update(updateCommand: ComponentTemplateUpdateCommand): Mono<ComponentTemplateFromDatabase> =
+        repository.findById(updateCommand.id)
+            .flatMap { response ->
+                when (response) {
+                    is TemplateRepository.FindResponse.Found ->
+                        repository.update(response.template, updateCommand)
+
+                    is TemplateRepository.FindResponse.NotFound ->
+                        throw notFound<ComponentTemplateFromDatabase>(updateCommand.id)
                 }
             }
             .handleSaveResponse()
