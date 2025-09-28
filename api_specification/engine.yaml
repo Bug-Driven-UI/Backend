@@ -138,7 +138,7 @@ components:
           description: "Цвет в HEX формате (#RRGGBB)"
       additionalProperties: false
 
-    RenderedTextStyleRepresentation:
+    RenderedStyledTextRepresentation:
       type: object
       required: [ text, colorStyle, textStyle ]
       properties:
@@ -309,7 +309,7 @@ components:
           box: '#/components/schemas/RenderedBox'
           column: '#/components/schemas/RenderedColumn'
           text: '#/components/schemas/RenderedText'
-          textField: '#/components/schemas/RenderedInput'
+          input: '#/components/schemas/RenderedInput'
           image: '#/components/schemas/RenderedImage'
           spacer: '#/components/schemas/RenderedSpacer'
           progressBar: '#/components/schemas/RenderedProgressBar'
@@ -399,20 +399,21 @@ components:
           properties:
             type: { const: text }
             textWithStyle:
-              $ref: '#/components/schemas/RenderedTextStyleRepresentation'
+              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
 
     RenderedInput:
       allOf:
         - $ref: '#/components/schemas/RenderedLeafBase'
         - type: object
-          required: [ type, textWithStyle, rightIcon ]
+          required: [ type, textWithStyle ]
           properties:
             type:
               const: input
             textWithStyle:
-              $ref: '#/components/schemas/RenderedTextStyleRepresentation'
+              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
             mask:
               type: string
+              enum: [ phone ]
             rightIcon:
               $ref: '#/components/schemas/RenderedImage'
             regex:
@@ -428,7 +429,7 @@ components:
       required: [ textWithStyle ]
       properties:
         textWithStyle:
-          $ref: '#/components/schemas/RenderedTextStyleRepresentation'
+          $ref: '#/components/schemas/RenderedStyledTextRepresentation'
       additionalProperties: false
 
     RenderedHint:
@@ -436,13 +437,13 @@ components:
       required: [ textWithStyle ]
       properties:
         textWithStyle:
-          $ref: '#/components/schemas/RenderedTextStyleRepresentation'
+          $ref: '#/components/schemas/RenderedStyledTextRepresentation'
       additionalProperties: false
 
 
     RenderedRegex:
       type: string
-      enum: [ EMAIL ]
+      enum: [ email ]
 
     RenderedImage:
       allOf:
@@ -484,23 +485,56 @@ components:
       allOf:
         - $ref: '#/components/schemas/RenderedLeafBase'
         - type: object
-          required: [ type, textWithStyle ]
+          required: [ type, textWithStyle, enabled ]
           properties:
             type: { const: button }
             textWithStyle:
-              $ref: '#/components/schemas/RenderedTextStyleRepresentation'
+              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
             enabled:
               type: boolean
+              default: true
 
     RenderedBadge:
-      type: object
-      required: [ type, textWithStyle ]
+      required: [ type ]
+      oneOf:
+        - $ref: '#/components/schemas/RenderedBadgeWithImage'
+        - $ref: '#/components/schemas/RenderedBadgeWithText'
+      discriminator:
+        propertyName: type
+        mapping:
+          badgeWithImage: '#/components/schemas/RenderedBadgeWithImage'
+          badgeWithText: '#/components/schemas/RenderedBadgeWithText'
       properties:
-        type: { const: badge }
-        textWithStyle:
-          $ref: '#/components/schemas/RenderedTextStyleRepresentation'
-        imageUrl:
+        type:
           type: string
+      unevaluatedProperties: false
+
+    RenderedBadgeBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+
+    RenderedBadgeWithImage:
+      allOf:
+        - $ref: '#/components/schemas/RenderedBadgeBase'
+        - type: object
+          required: [ type, imageUrl ]
+          properties:
+            type: { const: badgeWithImage }
+            imageUrl:
+              type: string
+
+    RenderedBadgeWithText:
+      allOf:
+        - $ref: '#/components/schemas/RenderedBadgeBase'
+        - type: object
+          required: [ type, textWithStyle ]
+          properties:
+            type: { const: badgeWithText }
+            textWithStyle:
+              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
 
     RenderedBorder:
       type: object

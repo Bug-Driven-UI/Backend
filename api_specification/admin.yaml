@@ -19,6 +19,12 @@ tags:
   - name: AdminColorStyles
     description: Операции по работе с стилями цветов
 
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер
+  - url: https://hits-bdui.ru/api
+    description: Продовый сервер
+
 paths:
   # AdminScreen
   /v1/screen/getByName:
@@ -1819,6 +1825,7 @@ components:
 
     CommandResponseSuccess:
       type: object
+      required: [ command ]
       properties:
         type:
           const: success
@@ -2474,7 +2481,7 @@ components:
           type: string
           description: "Цвет в HEX"
 
-    TextStyleRepresentation:
+    StyledTextRepresentation:
       type: object
       required: [ text, colorStyle, textStyle ]
       properties:
@@ -2714,7 +2721,7 @@ components:
           box: '#/components/schemas/Box'
           column: '#/components/schemas/Column'
           text: '#/components/schemas/Text'
-          textField: '#/components/schemas/Input'
+          input: '#/components/schemas/Input'
           image: '#/components/schemas/Image'
           spacer: '#/components/schemas/Spacer'
           progressBar: '#/components/schemas/ProgressBar'
@@ -2844,7 +2851,7 @@ components:
           properties:
             type: { const: text }
             textWithStyle:
-              $ref: '#/components/schemas/TextStyleRepresentation'
+              $ref: '#/components/schemas/StyledTextRepresentation'
 
     Input:
       allOf:
@@ -2855,9 +2862,10 @@ components:
             type:
               const: input
             textWithStyle:
-              $ref: '#/components/schemas/TextStyleRepresentation'
+              $ref: '#/components/schemas/StyledTextRepresentation'
             mask:
               type: string
+              enum: [ phone ]
             rightIcon:
               $ref: '#/components/schemas/Image'
             regex:
@@ -2873,7 +2881,7 @@ components:
       required: [ text, textStyle, colorStyle ]
       properties:
         textWithStyle:
-          $ref: '#/components/schemas/TextStyleRepresentation'
+          $ref: '#/components/schemas/StyledTextRepresentation'
       additionalProperties: false
 
     Hint:
@@ -2881,12 +2889,12 @@ components:
       required: [ text, textStyle, colorStyle ]
       properties:
         textWithStyle:
-          $ref: '#/components/schemas/TextStyleRepresentation'
+          $ref: '#/components/schemas/StyledTextRepresentation'
       additionalProperties: false
 
     Regex:
       type: string
-      enum: [ EMAIL ]
+      enum: [ email ]
 
     Image:
       allOf:
@@ -2932,19 +2940,52 @@ components:
           properties:
             type: { const: button }
             textWithStyle:
-              $ref: '#/components/schemas/TextStyleRepresentation'
+              $ref: '#/components/schemas/StyledTextRepresentation'
             enabled:
               type: boolean
 
     Badge:
-      type: object
-      required: [ type, text, textStyle, colorStyle ]
+      required: [ type ]
+      oneOf:
+        - $ref: '#/components/schemas/BadgeWithImage'
+        - $ref: '#/components/schemas/BadgeWithText'
+      discriminator:
+        propertyName: type
+        mapping:
+          badgeWithImage: '#/components/schemas/BadgeWithImage'
+          badgeWithText: '#/components/schemas/BadgeWithText'
       properties:
-        type: { const: badge }
-        imageUrl:
+        type:
           type: string
-        textWithStyle:
-          $ref: '#/components/schemas/TextStyleRepresentation'
+      unevaluatedProperties: false
+
+    BadgeBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+
+
+    BadgeWithImage:
+      allOf:
+        - $ref: '#/components/schemas/BadgeBase'
+        - type: object
+          required: [ type, imageUrl ]
+          properties:
+            type: { const: badgeWithImage }
+            imageUrl:
+              type: string
+
+    BadgeWithText:
+      allOf:
+        - $ref: '#/components/schemas/BadgeBase'
+        - type: object
+          required: [ type, textWithStyle ]
+          properties:
+            type: { const: badgeWithText }
+            textWithStyle:
+              $ref: '#/components/schemas/StyledTextRepresentation'
 
     Border:
       type: object
@@ -3068,6 +3109,7 @@ components:
         - $ref: "#/components/schemas/SchemaArray"
         - $ref: "#/components/schemas/SchemaString"
         - $ref: "#/components/schemas/SchemaNumber"
+        - $ref: "#/components/schemas/SchemaBoolean"
       discriminator:
         propertyName: type
         mapping:
@@ -3075,6 +3117,7 @@ components:
           array: "#/components/schemas/SchemaArray"
           string: "#/components/schemas/SchemaString"
           number: "#/components/schemas/SchemaNumber"
+          boolean: "#/components/schemas/SchemaBoolean"
       description: |
         Универсальная схема для представления типов: object, array, string, number.
 
@@ -3116,6 +3159,14 @@ components:
       properties:
         type:
           const: number
+
+    SchemaBoolean:
+      type: object
+      additionalProperties: false
+      required: [ type ]
+      properties:
+        type:
+          const: boolean
 
     Endpoint:
       type: object
