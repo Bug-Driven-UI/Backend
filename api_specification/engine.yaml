@@ -413,6 +413,7 @@ components:
               $ref: '#/components/schemas/RenderedStyledTextRepresentation'
             mask:
               type: string
+              enum: [ phone ]
             rightIcon:
               $ref: '#/components/schemas/RenderedImage'
             regex:

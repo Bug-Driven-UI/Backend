@@ -29,7 +29,7 @@ data class Text(
 
 data class Input(
     val textWithStyle: TextWithStyle,
-    val mask: String,
+    val mask: Mask,
     val regex: Regex?,
     val rightIcon: Image,
     val hint: Hint?,
@@ -53,6 +53,10 @@ data class Input(
     data class Placeholder(
         val textWithStyle: TextWithStyle
     )
+}
+
+enum class Mask {
+    PHONE
 }
 
 data class Image(
