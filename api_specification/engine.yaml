@@ -509,9 +509,16 @@ components:
           type: string
       unevaluatedProperties: false
 
+    RenderedBadgeBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+
     RenderedBadgeWithImage:
       allOf:
-        - $ref: '#/components/schemas/RenderedBadge'
+        - $ref: '#/components/schemas/RenderedBadgeBase'
         - type: object
           required: [ type, imageUrl ]
           properties:
@@ -521,7 +528,7 @@ components:
 
     RenderedBadgeWithText:
       allOf:
-        - $ref: '#/components/schemas/RenderedBadge'
+        - $ref: '#/components/schemas/RenderedBadgeBase'
         - type: object
           required: [ type, textWithStyle ]
           properties:
