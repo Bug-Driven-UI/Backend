@@ -1,4 +1,4 @@
-package ru.hits.bdui.api.external
+package ru.hits.bdui.core.api.caller
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
-import ru.hits.bdui.api.external.ExternalApiCaller.Response
+import ru.hits.bdui.core.api.caller.ExternalApiCaller.Response
 import ru.hits.bdui.domain.api.Endpoint
 import ru.hits.bdui.domain.api.HttpMethod
 import java.time.Duration
@@ -34,8 +34,8 @@ class ExternalApiCallerImpl(
 
     override fun call(endpoint: Endpoint): Mono<Response> =
         webClient
-            .methodByString(endpoint.method)
-            .uri(endpoint.url)
+            .withMethodAndUri(endpoint.method, endpoint.url)
+            .requestBodyWhenPossible(endpoint.requestBody)
             .retrieve()
             .bodyToMono(String::class.java)
             .map { objectMapper.readTree(it) }
@@ -58,12 +58,15 @@ class ExternalApiCallerImpl(
             }
             .onErrorResume { Response.Error(it).toMono() }
 
-    private fun WebClient.methodByString(method: HttpMethod): WebClient.RequestHeadersUriSpec<*> =
+    private fun WebClient.withMethodAndUri(method: HttpMethod, uri: String): WebClient.RequestHeadersSpec<*> =
         when (method) {
-            HttpMethod.GET -> this.get()
-            HttpMethod.POST -> this.post()
-            HttpMethod.PUT -> this.put()
-            HttpMethod.DELETE -> this.delete()
-            HttpMethod.PATCH -> this.patch()
+            HttpMethod.GET -> this.get().uri(uri)
+            HttpMethod.POST -> this.post().uri(uri)
+            HttpMethod.PUT -> this.put().uri(uri)
+            HttpMethod.DELETE -> this.delete().uri(uri)
+            HttpMethod.PATCH -> this.patch().uri(uri)
         }
+
+    private fun WebClient.RequestHeadersSpec<*>.requestBodyWhenPossible(body: JsonNode?): WebClient.RequestHeadersSpec<*> =
+        if (body != null && this is WebClient.RequestBodySpec) this.bodyValue(body) else this
 }

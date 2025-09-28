@@ -6,10 +6,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import ru.hits.bdui.core.expression.Interpreter
 
 @SpringBootTest
 class JSInterpreterTest(
-    @Autowired private val jsInterpreter: JSInterpreter,
+    @Autowired private val jsInterpreter: Interpreter,
     @Autowired private val objectMapper: ObjectMapper,
 ) {
 
@@ -107,7 +108,7 @@ class JSInterpreterTest(
             JSON.stringify(transformCartData(data));
         """
 
-        val result = jsInterpreter.evaluate(mappingScript)
+        val result = jsInterpreter.execute(mappingScript)
 
         assertEquals(result, objectMapper.writeValueAsString(objectMapper.readTree(expected)))
     }

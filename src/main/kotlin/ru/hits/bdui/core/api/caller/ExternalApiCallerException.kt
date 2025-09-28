@@ -1,4 +1,4 @@
-package ru.hits.bdui.api.external
+package ru.hits.bdui.core.api.caller
 
 sealed class ExternalApiCallerException(
     override val message: String?,
