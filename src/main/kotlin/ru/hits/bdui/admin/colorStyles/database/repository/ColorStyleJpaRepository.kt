@@ -11,8 +11,8 @@ interface ColorStyleJpaRepository : JpaRepository<ColorStyleEntity, UUID> {
 
     @Query(
         value = """
-            SELECT * FROM text_styles ts
-            WHERE ts.token LIKE '%' || :token || '%'
+            SELECT * FROM color_styles cs
+            WHERE cs.token LIKE '%' || :token || '%'
         """,
         nativeQuery = true
     )
