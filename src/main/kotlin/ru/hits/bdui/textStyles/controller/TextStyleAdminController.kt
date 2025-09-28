@@ -2,6 +2,7 @@ package ru.hits.bdui.textStyles.controller
 
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
@@ -30,7 +31,7 @@ class TextStyleAdminController(
             .map { TextStyleRaw.of(it) }
             .map { ApiResponse.success(TextStyleResponseRaw(it)) }
 
-    @PostMapping("/v1/textStyle/update")
+    @PutMapping("/v1/textStyle/update")
     fun update(@RequestBody request: TextStyleUpdateRequestRaw): Mono<ApiResponse<TextStyleResponseRaw>> =
         Mono.fromCallable { TextStyleFromRawMapper.TextStyleFromDatabase(request.data.id, request.data.textStyle) }
             .flatMap { textStyle -> service.update(textStyle) }
