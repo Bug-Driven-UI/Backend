@@ -70,10 +70,21 @@ data class Image(
 ) : Leaf {
     override val type: String = "image"
 
-    data class Badge(
-        val textWithStyle: TextWithStyle,
-        val imageUrl: String,
-    )
+    sealed interface Badge {
+        val type: String
+
+        data class BadgeWithText(
+            val textWithStyle: TextWithStyle,
+        ) : Badge {
+            override val type: String = "badgeWithText"
+        }
+
+        data class BadgeWithImage(
+            val imageUrl: String,
+        ) : Badge {
+            override val type: String = "badgeWithImage"
+        }
+    }
 }
 
 data class Spacer(
