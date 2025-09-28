@@ -1,13 +1,15 @@
 package ru.hits.bdui.expression
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import kotlin.test.assertEquals
 
-@SpringBootTest
-class ExpressionEvaluatorTest(@Autowired private val evaluator: ExpressionEvaluator) {
+class ExpressionEvaluatorTest() {
+    private val objectMapper: ObjectMapper = jacksonObjectMapper()
+    private val jsInterpreter = JSInterpreter(objectMapper)
+    private val evaluator = ExpressionEvaluator(jsInterpreter)
 
     @BeforeEach
     fun setUp() {
@@ -75,7 +77,8 @@ class ExpressionEvaluatorTest(@Autowired private val evaluator: ExpressionEvalua
 
     @Test
     fun `GIVEN expression with JSON variables WHEN evaluate THEN return evaluated expression`() {
-        evaluator.setVariable("data", """
+        evaluator.setVariable(
+            "data", """
             {
                 "user": {
                     "name": "Alice",
@@ -86,9 +89,11 @@ class ExpressionEvaluatorTest(@Autowired private val evaluator: ExpressionEvalua
                 },
                 "scores": [85, 90, 78]
             }
-        """)
+        """
+        )
 
-        val expression = "Name: \${data.user.name}, Age: \${data.user.details.age}, Member: \${data.user.details.isMember}, First Score: \${data.scores[0]}"
+        val expression =
+            "Name: \${data.user.name}, Age: \${data.user.details.age}, Member: \${data.user.details.isMember}, First Score: \${data.scores[0]}"
         val result = evaluator.evaluate(expression)
 
         assertEquals("Name: Alice, Age: 28, Member: true, First Score: 85", result)

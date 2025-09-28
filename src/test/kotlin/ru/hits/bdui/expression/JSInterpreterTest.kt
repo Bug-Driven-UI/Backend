@@ -1,17 +1,14 @@
 package ru.hits.bdui.expression
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
-class JSInterpreterTest(
-    @Autowired private val jsInterpreter: JSInterpreter,
-    @Autowired private val objectMapper: ObjectMapper,
-) {
+class JSInterpreterTest {
+    private val objectMapper: ObjectMapper = jacksonObjectMapper()
+    private val jsInterpreter: JSInterpreter = JSInterpreter(objectMapper)
 
     @BeforeEach
     fun setUp() {
@@ -20,7 +17,8 @@ class JSInterpreterTest(
 
     @Test
     fun `GIVEN complex script and JSON variables WHEN evaluate THEN return evaluated result`() {
-        jsInterpreter.setVariable("data", """
+        jsInterpreter.setVariable(
+            "data", """
             {
               "items": [
                 {
@@ -41,7 +39,8 @@ class JSInterpreterTest(
                 }
               ]
             }
-        """)
+        """
+        )
         val expected = """
             {
               "cartItems": [
