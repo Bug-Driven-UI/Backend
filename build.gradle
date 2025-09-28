@@ -1,11 +1,10 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.25'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
+    id "org.jetbrains.kotlin.plugin.jpa" version "1.9.25"
+    id "org.jetbrains.kotlin.plugin.allopen" version "1.9.25"
     id 'org.springframework.boot' version '3.5.5'
     id 'io.spring.dependency-management' version '1.1.7'
-    id "org.openapi.generator" version "7.15.0"
-    id "org.jetbrains.kotlin.plugin.noarg" version "2.2.20"
-    id "org.jetbrains.kotlin.plugin.jpa" version "2.2.20"
 }
 
 group = 'ru.hits'
@@ -27,13 +26,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.projectreactor.kotlin:reactor-kotlin-extensions'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
-    implementation 'io.micrometer:micrometer-core'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.openjdk.nashorn:nashorn-core:15.7'
     runtimeOnly 'org.postgresql:postgresql'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
@@ -46,35 +43,11 @@ kotlin {
     }
 }
 
-openApiGenerate {
-    generatorName = "kotlin"
-
-    inputSpec = layout.projectDirectory.file("api_specification/v1-api.yaml").asFile.toURI().toString()
-    outputDir = layout.buildDirectory.dir("generated").get().asFile.path
-    modelPackage = "ru.hits.bdui.api.models"
-
-    typeMappings = [
-            String: "kotlin.String"
-    ]
-    additionalProperties = [
-            serializationLibrary: "jackson",
-            modelNameSuffix     : "Raw"
-    ]
-
-    globalProperties = [
-            models                 : "",
-            apis                   : "false",
-            modelOverrideProperties: "true",
-            modelMutable           : "false"
-    ]
+allOpen {
+    annotations("javax.persistence.Entity", "javax.persistence.MappedSuperclass", "javax.persistence.Embedabble")
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-afterEvaluate {
-    tasks.named("compileKotlin") {
-        dependsOn tasks.named("openApiGenerate")
-    }
-}

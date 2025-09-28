@@ -1,0 +1,566 @@
+openapi: 3.1.0
+info:
+  title: BDUI API
+  version: 1.0.0
+  description: |
+    Спецификация OpenAPI для Backend-Driven UI  приложения
+
+tags:
+  - name: ClientEngine
+    description: Операции с экранами для выдачи клиенту
+
+paths:
+  /v1/screen/render:
+    post:
+      summary: Получить экран с данными для отрисовки
+      tags: [ ClientEngine ]
+      parameters:
+        - in: header
+          name: userId
+          description: "Идентификатор пользователя, от которого выполняется запрос"
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScreenRenderRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenderedScreenResponse'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenderedScreenResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenderedScreenResponseError'
+
+components:
+  schemas:
+    ScreenRenderRequest:
+      description: Запрос на отрисовку экрана
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          required: [ screenName ]
+          properties:
+            screenName:
+              type: string
+              description: "Название экрана"
+            variables:
+              type: object
+              description: "Дополнительные переменные и их значения"
+              additionalProperties:
+                type: string
+
+    RenderedScreenResponse:
+      description: "Ответ на рендеринг экрана: успех или список ошибок."
+      oneOf:
+        - $ref: '#/components/schemas/RenderedScreenResponseSuccess'
+        - $ref: '#/components/schemas/RenderedScreenResponseError'
+      unevaluatedProperties: false
+
+    RenderedScreenResponseSuccess:
+      type: object
+      required: [ screen ]
+      properties:
+        screen:
+          $ref: '#/components/schemas/RenderedScreen'
+      additionalProperties: false
+
+    RenderedScreenResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: './admin.yaml#/components/schemas/ErrorContent'
+      additionalProperties: false
+    RenderedScreen:
+      type: object
+      required: [ screenName, version, components ]
+      properties:
+        screenName:
+          type: string
+        version:
+          type: integer
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/RenderedComponent'
+        scaffold:
+          $ref: '#/components/schemas/RenderedScaffold'
+      additionalProperties: false
+
+    RenderedScaffold:
+      type: object
+      properties:
+        topBar:
+          $ref: '#/components/schemas/RenderedComponent'
+        bottomBar:
+          $ref: '#/components/schemas/RenderedComponent'
+      additionalProperties: false
+
+    RenderedTextStyle:
+      type: object
+      required: [ size, lineHeight ]
+      properties:
+        decoration:
+          $ref: './admin.yaml#/components/schemas/TextDecorationType'
+        weight:
+          type: integer
+        size:
+          type: integer
+        lineHeight:
+          type: integer
+      additionalProperties: false
+
+    RenderedColorStyle:
+      type: object
+      required: [ hex ]
+      properties:
+        hex:
+          type: string
+          description: "Цвет в HEX формате (#RRGGBB)"
+      additionalProperties: false
+
+    RenderedStyledTextRepresentation:
+      type: object
+      required: [ text, colorStyle, textStyle ]
+      properties:
+        text:
+          type: string
+        textStyle:
+          $ref: '#/components/schemas/RenderedTextStyle'
+        colorStyle:
+          $ref: '#/components/schemas/RenderedColorStyle'
+
+    RenderedInsets:
+      type: object
+      required: [ left, right, bottom, top ]
+      properties:
+        left: { type: integer, default: 0 }
+        right: { type: integer, default: 0 }
+        bottom: { type: integer, default: 0 }
+        top: { type: integer, default: 0 }
+      additionalProperties: false
+
+    RenderedAction:
+      required: [ type ]
+      description: "Вызываемое действие при взаимодействии"
+      oneOf:
+        - $ref: '#/components/schemas/RenderedCommandAction'
+        - $ref: '#/components/schemas/RenderedUpdateScreenAction'
+      discriminator:
+        propertyName: type
+        mapping:
+          command: '#/components/schemas/RenderedCommandAction'
+          updateScreen: '#/components/schemas/RenderedUpdateScreenAction'
+      properties:
+        type:
+          type: string
+      unevaluatedProperties: false
+
+    RenderedCommandAction:
+      allOf:
+        - type: object
+          required: [ type, name ]
+          properties:
+            type:
+              const: command
+            name:
+              type: string
+              description: "Название команды, которую нужно исполнить"
+            params:
+              description: "Передаваемые параметры для исполнения команды"
+              additionalProperties: true
+
+    RenderedUpdateScreenAction:
+      allOf:
+        - type: object
+          required: [ type, screenName ]
+          properties:
+            type:
+              const: updateScreen
+            screenName:
+              type: string
+              description: "Название экрана"
+            screenNavigationParams:
+              description: "Передаваемые параметры для исполнения команды"
+              additionalProperties: true
+
+    RenderedInteraction:
+      type: object
+      description: Базовая модель взаимодействия.
+      required: [ type, actions ]
+      properties:
+        type:
+          type: string
+          enum: [ onClick, onShow ]
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RenderedAction'
+      additionalProperties: true
+
+    RenderedSize:
+      required: [ type ]
+      description: "Полиморфный размер"
+      oneOf:
+        - $ref: '#/components/schemas/RenderedSizeFixed'
+        - $ref: '#/components/schemas/RenderedSizeWeighted'
+        - $ref: '#/components/schemas/RenderedSizeMatchParent'
+        - $ref: '#/components/schemas/RenderedSizeWrapContent'
+      discriminator:
+        propertyName: type
+        mapping:
+          fixed: '#/components/schemas/RenderedSizeFixed'
+          weighted: '#/components/schemas/RenderedSizeWeighted'
+          matchParent: '#/components/schemas/RenderedSizeMatchParent'
+          wrapContent: '#/components/schemas/RenderedSizeWrapContent'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: fixed, weighted, matchParent, wrapContent"
+      unevaluatedProperties: false
+
+    RenderedSizeBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ fixed, weighted, matchParent, wrapContent ]
+
+    RenderedSizeFixed:
+      allOf:
+        - $ref: '#/components/schemas/RenderedSizeBase'
+        - type: object
+          required: [ type, value ]
+          properties:
+            type:
+              const: fixed
+            value:
+              type: integer
+
+    RenderedSizeWeighted:
+      allOf:
+        - $ref: '#/components/schemas/RenderedSizeBase'
+        - type: object
+          required: [ type, value ]
+          properties:
+            type:
+              const: weighted
+            fraction:
+              type: number
+
+    RenderedSizeMatchParent:
+      allOf:
+        - $ref: '#/components/schemas/RenderedSizeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: matchParent
+      additionalProperties: false
+
+    RenderedSizeWrapContent:
+      allOf:
+        - $ref: '#/components/schemas/RenderedSizeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: wrapContent
+      additionalProperties: false
+
+    RenderedComponent:
+      required: [ type ]
+      description: "Полиморфный UI-компонент"
+      oneOf:
+        - $ref: '#/components/schemas/RenderedRow'
+        - $ref: '#/components/schemas/RenderedBox'
+        - $ref: '#/components/schemas/RenderedColumn'
+        - $ref: '#/components/schemas/RenderedText'
+        - $ref: '#/components/schemas/RenderedInput'
+        - $ref: '#/components/schemas/RenderedImage'
+        - $ref: '#/components/schemas/RenderedSpacer'
+        - $ref: '#/components/schemas/RenderedProgressBar'
+        - $ref: '#/components/schemas/RenderedSwitch'
+        - $ref: '#/components/schemas/RenderedButton'
+      discriminator:
+        propertyName: type
+        mapping:
+          row: '#/components/schemas/RenderedRow'
+          box: '#/components/schemas/RenderedBox'
+          column: '#/components/schemas/RenderedColumn'
+          text: '#/components/schemas/RenderedText'
+          input: '#/components/schemas/RenderedInput'
+          image: '#/components/schemas/RenderedImage'
+          spacer: '#/components/schemas/RenderedSpacer'
+          progressBar: '#/components/schemas/RenderedProgressBar'
+          switch: '#/components/schemas/RenderedSwitch'
+          button: '#/components/schemas/RenderedButton'
+      properties:
+        type:
+          type: string
+      unevaluatedProperties: false
+
+    RenderedComponentBase:
+      type: object
+      required: [ id, hash, type, interactions, width, height ]
+      properties:
+        id:
+          type: string
+        hash:
+          type: string
+        type:
+          type: string
+        interactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RenderedInteraction'
+        paddings:
+          $ref: '#/components/schemas/RenderedInsets'
+        margins:
+          $ref: '#/components/schemas/RenderedInsets'
+        width:
+          $ref: '#/components/schemas/RenderedSize'
+        height:
+          $ref: '#/components/schemas/RenderedSize'
+        backgroundColor:
+          $ref: '#/components/schemas/RenderedColorStyle'
+        border:
+          $ref: '#/components/schemas/RenderedBorder'
+        shape:
+          $ref: '#/components/schemas/RenderedShape'
+
+    RenderedCompositeBase:
+      allOf:
+        - $ref: '#/components/schemas/RenderedComponentBase'
+        - type: object
+          required: [ children ]
+          properties:
+            children:
+              type: array
+              items:
+                $ref: '#/components/schemas/RenderedComponent'
+          additionalProperties: false
+
+    RenderedLeafBase:
+      allOf:
+        - $ref: '#/components/schemas/RenderedComponentBase'
+        - type: object
+          required: [ type ]
+
+    RenderedRow:
+      allOf:
+        - $ref: '#/components/schemas/RenderedCompositeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: row }
+
+    RenderedBox:
+      allOf:
+        - $ref: '#/components/schemas/RenderedCompositeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: box }
+
+    RenderedColumn:
+      allOf:
+        - $ref: '#/components/schemas/RenderedCompositeBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: column }
+
+    RenderedText:
+      allOf:
+        - $ref: '#/components/schemas/RenderedLeafBase'
+        - type: object
+          required: [ type, textWithStyle ]
+          properties:
+            type: { const: text }
+            textWithStyle:
+              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
+
+    RenderedInput:
+      allOf:
+        - $ref: '#/components/schemas/RenderedLeafBase'
+        - type: object
+          required: [ type, textWithStyle ]
+          properties:
+            type:
+              const: input
+            textWithStyle:
+              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
+            mask:
+              type: string
+              enum: [ phone ]
+            rightIcon:
+              $ref: '#/components/schemas/RenderedImage'
+            regex:
+              $ref: '#/components/schemas/RenderedRegex'
+            placeholder:
+              $ref: '#/components/schemas/RenderedPlaceholder'
+            hint:
+              $ref: '#/components/schemas/RenderedHint'
+          additionalProperties: false
+
+    RenderedPlaceholder:
+      type: object
+      required: [ textWithStyle ]
+      properties:
+        textWithStyle:
+          $ref: '#/components/schemas/RenderedStyledTextRepresentation'
+      additionalProperties: false
+
+    RenderedHint:
+      type: object
+      required: [ textWithStyle ]
+      properties:
+        textWithStyle:
+          $ref: '#/components/schemas/RenderedStyledTextRepresentation'
+      additionalProperties: false
+
+
+    RenderedRegex:
+      type: string
+      enum: [ email ]
+
+    RenderedImage:
+      allOf:
+        - $ref: '#/components/schemas/RenderedLeafBase'
+        - type: object
+          required: [ type, imageUrl ]
+          properties:
+            type: { const: image }
+            imageUrl:
+              type: string
+            badge:
+              $ref: '#/components/schemas/RenderedBadge'
+
+    RenderedSpacer:
+      allOf:
+        - $ref: '#/components/schemas/RenderedLeafBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: spacer }
+
+    RenderedProgressBar:
+      allOf:
+        - $ref: '#/components/schemas/RenderedLeafBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: progressBar }
+
+    RenderedSwitch:
+      allOf:
+        - $ref: '#/components/schemas/RenderedLeafBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type: { const: switch }
+
+    RenderedButton:
+      allOf:
+        - $ref: '#/components/schemas/RenderedLeafBase'
+        - type: object
+          required: [ type, textWithStyle, enabled ]
+          properties:
+            type: { const: button }
+            textWithStyle:
+              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
+            enabled:
+              type: boolean
+              default: true
+
+    RenderedBadge:
+      required: [ type ]
+      oneOf:
+        - $ref: '#/components/schemas/RenderedBadgeWithImage'
+        - $ref: '#/components/schemas/RenderedBadgeWithText'
+      discriminator:
+        propertyName: type
+        mapping:
+          badgeWithImage: '#/components/schemas/RenderedBadgeWithImage'
+          badgeWithText: '#/components/schemas/RenderedBadgeWithText'
+      properties:
+        type:
+          type: string
+      unevaluatedProperties: false
+
+    RenderedBadgeBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+
+    RenderedBadgeWithImage:
+      allOf:
+        - $ref: '#/components/schemas/RenderedBadgeBase'
+        - type: object
+          required: [ type, imageUrl ]
+          properties:
+            type: { const: badgeWithImage }
+            imageUrl:
+              type: string
+
+    RenderedBadgeWithText:
+      allOf:
+        - $ref: '#/components/schemas/RenderedBadgeBase'
+        - type: object
+          required: [ type, textWithStyle ]
+          properties:
+            type: { const: badgeWithText }
+            textWithStyle:
+              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
+
+    RenderedBorder:
+      type: object
+      required: [ color, thickness ]
+      properties:
+        color:
+          $ref: '#/components/schemas/RenderedColorStyle'
+        thickness:
+          type: integer
+
+    RenderedShape:
+      type: object
+      required: [ type, topLeft, topRight, bottomLeft, bottomRight ]
+      properties:
+        type:
+          type: string
+          enum: [ roundedCorners ]
+        topRight:
+          type: integer
+          default: 0
+        topLeft:
+          type: integer
+          default: 0
+        bottomRight:
+          type: integer
+          default: 0
+        bottomLeft:
+          type: integer
+          default: 0

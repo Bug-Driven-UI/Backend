@@ -2,98 +2,119 @@ package ru.hits.bdui.domain.screen.components
 
 import ru.hits.bdui.domain.ComponentId
 import ru.hits.bdui.domain.ValueOrExpression
+import ru.hits.bdui.domain.screen.components.additional.Border
+import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
-import ru.hits.bdui.domain.screen.styles.ColorStyle
-import ru.hits.bdui.domain.screen.styles.TextStyle
+import ru.hits.bdui.domain.screen.styles.color.ColorStyle
+import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
 
 sealed interface Leaf : Component
 
 data class Text(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
+    val textWithStyle: TextWithStyle,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
+    override val border: Border?,
+    override val shape: Shape?,
 ) : Leaf {
     override val type: String = "text"
 }
 
 data class Input(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
-    val mask: String,
-    val regex: Regex,
+    val textWithStyle: TextWithStyle,
+    val mask: Mask?,
+    val regex: Regex?,
     val rightIcon: Image,
     val hint: Hint?,
     val placeholder: Placeholder?,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
+    override val border: Border?,
+    override val shape: Shape?,
 ) : Leaf {
     override val type: String = "textField"
+
+    data class Hint(
+        val textWithStyle: TextWithStyle
+    )
+
+    data class Placeholder(
+        val textWithStyle: TextWithStyle
+    )
 }
 
-data class Placeholder(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
-)
-
-data class Hint(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
-)
-
-enum class Regex {
-    EMAIL
+enum class Mask {
+    PHONE
 }
 
 data class Image(
     val imageUrl: ValueOrExpression,
+    val badge: Badge?,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
+    override val border: Border?,
+    override val shape: Shape?,
 ) : Leaf {
     override val type: String = "image"
+
+    sealed interface Badge {
+        val type: String
+
+        data class BadgeWithText(
+            val textWithStyle: TextWithStyle,
+        ) : Badge {
+            override val type: String = "badgeWithText"
+        }
+
+        data class BadgeWithImage(
+            val imageUrl: String,
+        ) : Badge {
+            override val type: String = "badgeWithImage"
+        }
+    }
 }
 
 data class Spacer(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
+    override val border: Border?,
+    override val shape: Shape?,
 ) : Leaf {
     override val type: String = "spacer"
-}
-
-data class Divider(
-    override val id: ComponentId,
-    override val interactions: List<Interaction>,
-    override val insets: Insets,
-    override val width: Size,
-    override val height: Size
-) : Leaf {
-    override val type: String = "divider"
 }
 
 data class ProgressBar(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
+    override val border: Border?,
+    override val shape: Shape?,
 ) : Leaf {
     override val type: String = "progressBar"
 }
@@ -101,23 +122,29 @@ data class ProgressBar(
 data class Switch(
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
+    override val border: Border?,
+    override val shape: Shape?,
 ) : Leaf {
     override val type: String = "switch"
 }
 
 data class Button(
-    val text: ValueOrExpression,
-    val textStyle: TextStyle,
-    val color: ColorStyle,
+    val textWithStyle: TextWithStyle,
     val enabled: Boolean,
     override val id: ComponentId,
     override val interactions: List<Interaction>,
-    override val insets: Insets,
+    override val margins: Insets?,
+    override val paddings: Insets?,
     override val width: Size,
-    override val height: Size
+    override val height: Size,
+    override val backgroundColor: ColorStyle?,
+    override val border: Border?,
+    override val shape: Shape?,
 ) : Leaf {
     override val type: String = "button"
 }

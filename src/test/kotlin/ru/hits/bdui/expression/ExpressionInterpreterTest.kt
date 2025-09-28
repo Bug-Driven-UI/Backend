@@ -1,15 +1,16 @@
 package ru.hits.bdui.expression
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import ru.hits.bdui.core.expression.Interpreter
+import ru.hits.bdui.core.expression.JSInterpreter
 import ru.hits.bdui.core.expression.evaluateExpression
 import kotlin.test.assertEquals
 
-@SpringBootTest
-class ExpressionInterpreterTest(@Autowired private val interpreter: Interpreter) {
+class ExpressionEvaluatorTest {
+    private val objectMapper: ObjectMapper = jacksonObjectMapper()
+    private val interpreter = JSInterpreter(objectMapper)
 
     @BeforeEach
     fun setUp() {
