@@ -9,7 +9,9 @@ data class TextStyleRaw(
     val weight: Int?,
     val lineHeight: Int,
     val decoration: String?
-)
+) {
+    companion object
+}
 
 data class TextStyleForSaveRaw(
     val token: String,

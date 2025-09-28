@@ -42,6 +42,8 @@ interface TextStyleRepository {
         data class Success(val textStyles: List<TextStyleFromDatabase>) : FindAllResponse
         data class Error(val error: Throwable) : FindAllResponse
     }
+
+    fun existsById(id: UUID): Mono<Boolean>
 }
 
 @Repository
@@ -108,5 +110,10 @@ class TextStyleRepositoryImpl(
             .map<FindAllResponse>(FindAllResponse::Success)
             .doOnError { error -> log.error("При получении стилей текста по токену произошла ошибка", error) }
             .onErrorResume { FindAllResponse.Error(it).toMono() }
+            .subscribeOn(Schedulers.boundedElastic())
+
+    override fun existsById(id: UUID): Mono<Boolean> =
+        Mono.fromCallable { repository.existsById(id) }
+            .doOnError { error -> log.error("При проверке наличия текстового стиля произошла ошибка", error) }
             .subscribeOn(Schedulers.boundedElastic())
 }

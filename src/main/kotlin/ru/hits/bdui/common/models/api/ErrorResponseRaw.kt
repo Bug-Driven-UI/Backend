@@ -1,4 +1,4 @@
-package ru.hits.bdui.common.models.raw
+package ru.hits.bdui.common.models.api
 
 data class ErrorResponseRaw(
     val errors: List<ErrorContentRaw>,

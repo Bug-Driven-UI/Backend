@@ -3,6 +3,7 @@ package ru.hits.bdui.textStyles.controller.raw
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyleFromDatabase
+import ru.hits.bdui.exceptions.BadRequestException
 import java.util.UUID
 
 object TextStyleFromRawMapper {
@@ -29,9 +30,7 @@ object TextStyleFromRawMapper {
 
     private fun extractDecoration(decoration: String): TextDecoration =
         runCatching {
-            decoration.let { TextDecoration.valueOf(it) }
+            decoration.let { TextDecoration.valueOf(it.uppercase()) }
         }
-            .getOrElse { throw SerializationException("Неопознанный тип декорации текста: ${decoration}") }
+            .getOrElse { throw BadRequestException("Неопознанный тип декорации текста: $decoration") }
 }
-
-class SerializationException(message: String) : RuntimeException(message)
