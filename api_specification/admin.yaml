@@ -1288,6 +1288,7 @@ components:
       properties:
         data:
           type: object
+          required: [ textStyle ]
           properties:
             textStyle:
               $ref: '#/components/schemas/TextStyleForSave'
@@ -2407,13 +2408,15 @@ components:
 
     TextStyleForSave:
       type: object
-      required: [ token, size ]
+      required: [ token, size, lineHeight ]
       properties:
         token:
           type: string
         size:
           type: integer
         weight:
+          type: integer
+        lineHeight:
           type: integer
         decoration:
           $ref: '#/components/schemas/TextDecorationType'
@@ -2430,6 +2433,8 @@ components:
         size:
           type: integer
         weight:
+          type: integer
+        lineHeight:
           type: integer
         decoration:
           $ref: '#/components/schemas/TextDecorationType'
@@ -2525,7 +2530,7 @@ components:
 
     ShortApiRepresentation:
       type: object
-      required: [ id, alias ]
+      required: [ id, alias, params ]
       properties:
         id:
           type: string
@@ -2534,6 +2539,18 @@ components:
         alias:
           type: string
           description: "Алиас для использования результатов вызова внешнего API"
+        params:
+          type: array
+          items:
+            type: object
+            required: [ name, value ]
+            properties:
+              name:
+                type: string
+                description: "Название параметра для запроса"
+              value:
+                type: string
+                description: "Значение или выражение для параметра запроса"
       additionalProperties: false
 
     Insets:

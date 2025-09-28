@@ -117,13 +117,15 @@ components:
 
     RenderedTextStyle:
       type: object
-      required: [ size ]
+      required: [ size, lineHeight ]
       properties:
         decoration:
           $ref: './admin.yaml#/components/schemas/TextDecorationType'
         weight:
           type: integer
         size:
+          type: integer
+        lineHeight:
           type: integer
       additionalProperties: false
 
