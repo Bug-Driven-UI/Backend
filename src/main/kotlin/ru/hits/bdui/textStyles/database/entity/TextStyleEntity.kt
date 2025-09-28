@@ -9,6 +9,9 @@ import jakarta.persistence.Table
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import java.util.UUID
 
+/**
+ * Сущность для текстового стиля
+ */
 @Entity
 @Table(name = "text_styles")
 data class TextStyleEntity(
