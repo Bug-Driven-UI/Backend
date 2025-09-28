@@ -15,4 +15,6 @@ data class ComponentTemplateFromDatabase(
     val createdAtTimestampMs: Long,
     val lastModifiedTimestampMs: Long?,
     val template: ComponentTemplate,
-)
+) {
+    companion object
+}
