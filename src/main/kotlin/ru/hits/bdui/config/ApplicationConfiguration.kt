@@ -10,7 +10,6 @@ import ru.hits.bdui.expression.ExpressionEvaluator
 import ru.hits.bdui.expression.JSInterpreter
 
 @Configuration
-
 class ApplicationConfiguration {
     @Bean("CustomObjectMapper")
     fun customObjectMapper(): ObjectMapper =
