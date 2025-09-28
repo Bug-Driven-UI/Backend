@@ -65,7 +65,6 @@ class TextStyleRepositoryImpl(
                 }
             }
             .doOnError { error -> log.error("При получении стиля текста произошла ошибка", error) }
-            .onErrorResume { FindResponse.NotFound.toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 
     @Transactional(readOnly = true)
@@ -80,7 +79,6 @@ class TextStyleRepositoryImpl(
                 }
             }
             .doOnError { error -> log.error("При получении стиля текста по токену произошла ошибка", error) }
-            .onErrorResume { FindResponse.NotFound.toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 
     @Transactional
