@@ -2014,10 +2014,11 @@ components:
 
     TemplateResponseSuccess:
       type: object
+      required: [ type, template ]
       properties:
         type:
           const: success
-        command:
+        template:
           $ref: '#/components/schemas/ComponentTemplate'
       additionalProperties: false
 
