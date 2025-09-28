@@ -309,7 +309,7 @@ components:
           box: '#/components/schemas/RenderedBox'
           column: '#/components/schemas/RenderedColumn'
           text: '#/components/schemas/RenderedText'
-          textField: '#/components/schemas/RenderedInput'
+          input: '#/components/schemas/RenderedInput'
           image: '#/components/schemas/RenderedImage'
           spacer: '#/components/schemas/RenderedSpacer'
           progressBar: '#/components/schemas/RenderedProgressBar'
