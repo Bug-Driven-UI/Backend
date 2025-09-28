@@ -1,4 +1,4 @@
-package ru.hits.bdui.domain.screen.styles
+package ru.hits.bdui.domain.screen.styles.color
 
 /**
  * Стиль цвета

@@ -5,7 +5,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/bdui
     driverClassName: org.postgresql.Driver
     username: postgres
-    password: admin
+    password: postgres
   jpa:
     show-sql: true
     hibernate:

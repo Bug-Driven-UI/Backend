@@ -20,5 +20,5 @@ data class Screen(
     val screenNavigationParams: Set<String>,
     val apis: Map<String, ShortApiRepresentation>,
     val components: List<Component>,
-    val scaffold: Scaffold?
+    val scaffold: Scaffold?,
 )
