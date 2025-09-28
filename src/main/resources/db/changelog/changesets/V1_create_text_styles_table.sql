@@ -1,6 +1,6 @@
 CREATE TABLE text_styles
 (
-    id          UUID         NOT NULL,
+    id    UUID PRIMARY KEY,
     token VARCHAR(100) NOT NULL UNIQUE,
     size        INTEGER      NOT NULL,
     weight      INTEGER,

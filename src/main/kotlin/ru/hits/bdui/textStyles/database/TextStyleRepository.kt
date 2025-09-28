@@ -2,6 +2,7 @@ package ru.hits.bdui.textStyles.database
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 import reactor.kotlin.core.publisher.toMono
@@ -52,6 +53,7 @@ class TextStyleRepositoryImpl(
 ) : TextStyleRepository {
     private val log = LoggerFactory.getLogger(this::class.java)
 
+    @Transactional(readOnly = true)
     override fun findById(id: UUID): Mono<FindResponse> =
         Mono.fromCallable { repository.findById(id) }
             .map { result ->
@@ -66,6 +68,7 @@ class TextStyleRepositoryImpl(
             .onErrorResume { FindResponse.NotFound.toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 
+    @Transactional(readOnly = true)
     override fun findByToken(token: String): Mono<FindResponse> =
         Mono.fromCallable { repository.findByToken(token) }
             .map { result ->
@@ -80,12 +83,14 @@ class TextStyleRepositoryImpl(
             .onErrorResume { FindResponse.NotFound.toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 
+    @Transactional
     override fun save(textStyle: TextStyle): Mono<SaveResponse> {
         val entity = TextStyleEntity.emerge(textStyle)
 
         return save(entity)
     }
 
+    @Transactional(readOnly = true)
     override fun update(textStyle: TextStyleFromDatabase): Mono<SaveResponse> {
         val entity = TextStyleEntity.emerge(textStyle)
 
@@ -104,6 +109,7 @@ class TextStyleRepositoryImpl(
         Mono.fromCallable { repository.deleteById(id) }
             .subscribeOn(Schedulers.boundedElastic())
 
+    @Transactional(readOnly = true)
     override fun findAllLikeToken(token: String): Mono<FindAllResponse> =
         Mono.fromCallable { repository.findAllLikeTokens(token) }
             .map { list -> list.map(TextStyleFromDatabase::emerge) }
@@ -112,6 +118,7 @@ class TextStyleRepositoryImpl(
             .onErrorResume { FindAllResponse.Error(it).toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 
+    @Transactional(readOnly = true)
     override fun existsById(id: UUID): Mono<Boolean> =
         Mono.fromCallable { repository.existsById(id) }
             .doOnError { error -> log.error("При проверке наличия текстового стиля произошла ошибка", error) }
