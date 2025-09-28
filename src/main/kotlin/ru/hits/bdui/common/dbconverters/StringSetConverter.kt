@@ -1,4 +1,4 @@
-package ru.hits.bdui.entity.dbconverters
+package ru.hits.bdui.common.dbconverters
 
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter

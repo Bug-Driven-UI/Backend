@@ -2,6 +2,7 @@ package ru.hits.bdui.core.api.caller
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.NullNode
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
@@ -68,5 +69,5 @@ class ExternalApiCallerImpl(
         }
 
     private fun WebClient.RequestHeadersSpec<*>.requestBodyWhenPossible(body: JsonNode?): WebClient.RequestHeadersSpec<*> =
-        if (body != null && this is WebClient.RequestBodySpec) this.bodyValue(body) else this
+        if (body != null && body !is NullNode && this is WebClient.RequestBodySpec) this.bodyValue(body) else this
 }

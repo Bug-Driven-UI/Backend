@@ -4,8 +4,8 @@ CREATE TABLE external_apis (
     description TEXT NOT NULL,
     params TEXT NOT NULL,
     endpoints TEXT NOT NULL,
-    schema TEXT NOT NULL,
-    mapping_script TEXT NOT NULL,
+    schema TEXT,
+    mapping_script TEXT,
     created_at BIGINT NOT NULL,
     updated_at BIGINT NOT NULL
 );

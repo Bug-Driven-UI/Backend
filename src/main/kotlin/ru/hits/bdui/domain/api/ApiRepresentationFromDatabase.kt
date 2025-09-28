@@ -13,5 +13,7 @@ data class ApiRepresentationFromDatabase(
     val id: UUID,
     val api: ApiRepresentation,
     val createdAtTimestampMs: Long,
-    val lastModifiedTimestampMs: Long?
-)
+    val lastModifiedTimestampMs: Long?,
+) {
+    companion object
+}

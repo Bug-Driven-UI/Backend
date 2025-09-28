@@ -1,0 +1,89 @@
+package ru.hits.bdui.admin.externalapi.controller
+
+import com.fasterxml.jackson.databind.JsonNode
+import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Mono
+import ru.hits.bdui.admin.externalapi.ApiRepresentationStorageService
+import ru.hits.bdui.admin.externalapi.controller.raw.*
+import ru.hits.bdui.common.models.api.ApiResponse
+import ru.hits.bdui.common.models.api.DataModel
+import ru.hits.bdui.common.models.api.DeleteResponseRaw
+import ru.hits.bdui.common.models.api.ErrorContentRaw
+import ru.hits.bdui.core.api.ExternalApiManager
+import ru.hits.bdui.core.api.ExternalApisCallResult
+import ru.hits.bdui.core.expression.Interpreter
+import ru.hits.bdui.domain.api.ApiCallRepresentation
+
+@RestController
+@RequestMapping("/v1/api")
+class ApiRepresentationController(
+    private val apiRepresentationService: ApiRepresentationStorageService,
+    private val interpreter: Interpreter,
+    private val externalApiManager: ExternalApiManager,
+) {
+
+    @PostMapping("/save")
+    fun saveApiRepresentation(
+        @RequestBody saveModel: ApiRepresentationCreateRequestRaw,
+    ): Mono<ApiResponse<ApiRepresentationResponseRaw>> =
+        Mono.fromCallable { ApiRepresentationRawMapper.toDomain(saveModel) }
+            .flatMap { domainModel -> apiRepresentationService.createApiRepresentation(domainModel) }
+            .map(ApiRepresentationRawMapper::fromDomain)
+            .map(ApiResponse.Companion::success)
+
+    @PutMapping("/update")
+    fun updateApiRepresentation(
+        @RequestBody updateModel: DataModel<ApiRepresentationUpdateRequestRaw>,
+    ): Mono<ApiResponse<ApiRepresentationResponseRaw>> =
+        Mono.fromCallable { ApiRepresentationRawMapper.toDomain(updateModel.data) }
+            .flatMap { domainModel ->
+                apiRepresentationService.updateApiRepresentation(updateModel.data.apiId, domainModel)
+            }
+            .map(ApiRepresentationRawMapper::fromDomain)
+            .map(ApiResponse.Companion::success)
+
+    @DeleteMapping("/delete")
+    fun deleteApiRepresentation(
+        @RequestBody deleteModel: DataModel<ApiRepresentationDeleteRequestRaw>,
+    ): Mono<ApiResponse<DeleteResponseRaw>> =
+        Mono.fromCallable { deleteModel.data.apiId }
+            .flatMap { apiId -> apiRepresentationService.deleteApiRepresentation(apiId) }
+            .map { DeleteResponseRaw("Api representation with id $it deleted successfully") }
+            .map(ApiResponse.Companion::success)
+
+    @PostMapping("/get")
+    fun getApiRepresentation(
+        @RequestBody getModel: DataModel<ApiRepresentationGetRequestRaw>,
+    ): Mono<ApiResponse<ApiRepresentationResponseRaw>> =
+        Mono.fromCallable { getModel.data.apiId }
+            .flatMap { apiId -> apiRepresentationService.getApiRepresentation(apiId) }
+            .map(ApiRepresentationRawMapper::fromDomain)
+            .map(ApiResponse.Companion::success)
+
+    @PostMapping("/getByName")
+    fun queryApiNames(
+        @RequestBody queryModel: DataModel<ApiRepresentationQueryRequestRaw>,
+    ): Mono<ApiResponse<ApiRepresentationShortListResponseRaw>> =
+        Mono.fromCallable { queryModel.data.query }
+            .flatMap { query -> apiRepresentationService.queryApiNames(query) }
+            .map { list -> list.map(ApiRepresentationRawMapper::fromDomain) }
+            .map { ApiRepresentationShortListResponseRaw(it) }
+            .map(ApiResponse.Companion::success)
+
+    @PostMapping("/test/callApis")
+    fun testCallApis(
+        @RequestBody apiCalls: DataModel<List<ApiCallRepresentation>>,
+    ): Mono<ApiResponse<Map<String, JsonNode>>> =
+        externalApiManager.getData(interpreter, apiCalls.data)
+            .map { apisCallResult ->
+                when (apisCallResult) {
+                    is ExternalApisCallResult.Success -> {
+                        ApiResponse.success(apisCallResult.data)
+                    }
+
+                    is ExternalApisCallResult.Error -> {
+                        ApiResponse.error(ErrorContentRaw.emerge(apisCallResult.error.stackTraceToString()))
+                    }
+                }
+            }
+}

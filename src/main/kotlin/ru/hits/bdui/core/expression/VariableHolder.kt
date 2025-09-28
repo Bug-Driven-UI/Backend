@@ -20,3 +20,9 @@ interface Interpreter {
 }
 
 interface ScopedInterpreter : Interpreter
+
+fun Interpreter.setVariables(variables: Map<String, JsonNode>) {
+    variables.forEach { (name, value) ->
+        setVariable(name, value)
+    }
+}

@@ -1,4 +1,4 @@
-package ru.hits.bdui.entity.dbconverters
+package ru.hits.bdui.common.dbconverters
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.persistence.AttributeConverter
