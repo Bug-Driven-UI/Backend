@@ -1,6 +1,6 @@
-package ru.hits.bdui.textStyles.controller.raw.save
+package ru.hits.bdui.admin.textStyles.controller.raw.save
 
-import ru.hits.bdui.textStyles.controller.raw.TextStyleForSaveRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleForSaveRaw
 
 data class TextStyleSaveRequestRaw(
     val data: DataRaw

@@ -1,4 +1,4 @@
-package ru.hits.bdui.textStyles.database
+package ru.hits.bdui.admin.textStyles.database
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
@@ -6,14 +6,14 @@ import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 import reactor.kotlin.core.publisher.toMono
+import ru.hits.bdui.admin.textStyles.database.TextStyleRepository.FindAllResponse
+import ru.hits.bdui.admin.textStyles.database.TextStyleRepository.FindResponse
+import ru.hits.bdui.admin.textStyles.database.TextStyleRepository.SaveResponse
+import ru.hits.bdui.admin.textStyles.database.emerge.emerge
+import ru.hits.bdui.admin.textStyles.database.entity.TextStyleEntity
+import ru.hits.bdui.admin.textStyles.database.repository.TextStyleJpaRepository
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyleFromDatabase
-import ru.hits.bdui.textStyles.database.TextStyleRepository.FindAllResponse
-import ru.hits.bdui.textStyles.database.TextStyleRepository.FindResponse
-import ru.hits.bdui.textStyles.database.TextStyleRepository.SaveResponse
-import ru.hits.bdui.textStyles.database.emerge.emerge
-import ru.hits.bdui.textStyles.database.entity.TextStyleEntity
-import ru.hits.bdui.textStyles.database.repository.TextStyleJpaRepository
 import java.util.UUID
 
 interface TextStyleRepository {

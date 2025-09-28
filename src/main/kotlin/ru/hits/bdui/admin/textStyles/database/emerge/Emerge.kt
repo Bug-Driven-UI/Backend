@@ -1,8 +1,8 @@
-package ru.hits.bdui.textStyles.database.emerge
+package ru.hits.bdui.admin.textStyles.database.emerge
 
+import ru.hits.bdui.admin.textStyles.database.entity.TextStyleEntity
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyleFromDatabase
-import ru.hits.bdui.textStyles.database.entity.TextStyleEntity
 import java.util.UUID
 
 fun TextStyleEntity.Companion.emerge(textStyle: TextStyle): TextStyleEntity =

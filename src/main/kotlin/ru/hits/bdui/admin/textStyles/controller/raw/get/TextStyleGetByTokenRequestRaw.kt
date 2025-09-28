@@ -1,4 +1,4 @@
-package ru.hits.bdui.textStyles.controller.raw.get
+package ru.hits.bdui.admin.textStyles.controller.raw.get
 
 data class TextStyleGetByTokenRequestRaw(
     val data: DataRaw

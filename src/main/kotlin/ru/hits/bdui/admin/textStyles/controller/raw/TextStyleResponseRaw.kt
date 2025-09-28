@@ -1,4 +1,4 @@
-package ru.hits.bdui.textStyles.controller.raw
+package ru.hits.bdui.admin.textStyles.controller.raw
 
 data class TextStyleResponseRaw(
     val textStyle: TextStyleRaw

@@ -4,5 +4,5 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ComponentScan(basePackages = ["ru.hits.bdui.textStyles"])
-class TextStyleConfiguration
+@ComponentScan(basePackages = ["ru.hits.bdui.admin"])
+class AdminConfiguration

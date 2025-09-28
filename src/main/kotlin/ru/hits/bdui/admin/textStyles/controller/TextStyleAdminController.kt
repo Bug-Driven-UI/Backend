@@ -1,4 +1,4 @@
-package ru.hits.bdui.textStyles.controller
+package ru.hits.bdui.admin.textStyles.controller
 
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
+import ru.hits.bdui.admin.textStyles.TextStyleService
+import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleFromRawMapper
+import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleListResponseRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleResponseRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.delete.TextStyleDeleteRequestRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.delete.TextStyleDeleteResponseSuccessRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.get.TextStyleGetByTokenRequestRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.get.TextStyleGetRequestRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.of
+import ru.hits.bdui.admin.textStyles.controller.raw.save.TextStyleSaveRequestRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.update.TextStyleUpdateRequestRaw
 import ru.hits.bdui.common.models.api.ApiResponse
-import ru.hits.bdui.textStyles.TextStyleService
-import ru.hits.bdui.textStyles.controller.raw.TextStyleFromRawMapper
-import ru.hits.bdui.textStyles.controller.raw.TextStyleListResponseRaw
-import ru.hits.bdui.textStyles.controller.raw.TextStyleRaw
-import ru.hits.bdui.textStyles.controller.raw.TextStyleResponseRaw
-import ru.hits.bdui.textStyles.controller.raw.delete.TextStyleDeleteRequestRaw
-import ru.hits.bdui.textStyles.controller.raw.delete.TextStyleDeleteResponseSuccessRaw
-import ru.hits.bdui.textStyles.controller.raw.get.TextStyleGetByTokenRequestRaw
-import ru.hits.bdui.textStyles.controller.raw.get.TextStyleGetRequestRaw
-import ru.hits.bdui.textStyles.controller.raw.of
-import ru.hits.bdui.textStyles.controller.raw.save.TextStyleSaveRequestRaw
-import ru.hits.bdui.textStyles.controller.raw.update.TextStyleUpdateRequestRaw
 
 @RestController
 class TextStyleAdminController(

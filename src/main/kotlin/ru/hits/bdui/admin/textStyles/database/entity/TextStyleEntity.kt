@@ -1,4 +1,4 @@
-package ru.hits.bdui.textStyles.database.entity
+package ru.hits.bdui.admin.textStyles.database.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

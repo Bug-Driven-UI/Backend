@@ -19,6 +19,12 @@ tags:
   - name: AdminColorStyles
     description: Операции по работе с стилями цветов
 
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер
+  - url: https://hits-bdui.ru/api
+    description: Продовый сервер
+
 paths:
   # AdminScreen
   /v1/screen/getByName:

@@ -1,8 +1,8 @@
-package ru.hits.bdui.textStyles.controller.raw.delete
+package ru.hits.bdui.admin.textStyles.controller.raw.get
 
 import java.util.UUID
 
-data class TextStyleDeleteRequestRaw(
+data class TextStyleGetRequestRaw(
     val data: DataRaw
 ) {
     data class DataRaw(

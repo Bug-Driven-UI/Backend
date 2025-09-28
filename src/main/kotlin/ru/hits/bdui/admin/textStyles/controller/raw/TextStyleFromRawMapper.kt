@@ -1,4 +1,4 @@
-package ru.hits.bdui.textStyles.controller.raw
+package ru.hits.bdui.admin.textStyles.controller.raw
 
 import ru.hits.bdui.common.exceptions.BadRequestException
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
@@ -10,7 +10,7 @@ object TextStyleFromRawMapper {
     fun TextStyle(raw: TextStyleForSaveRaw): TextStyle =
         TextStyle(
             token = raw.token,
-            decoration = raw.decoration?.let(::extractDecoration),
+            decoration = raw.decoration?.let(TextStyleFromRawMapper::extractDecoration),
             weight = raw.weight,
             size = raw.size,
             lineHeight = raw.lineHeight
@@ -21,7 +21,7 @@ object TextStyleFromRawMapper {
             id = id,
             textStyle = TextStyle(
                 token = raw.token,
-                decoration = raw.decoration?.let(::extractDecoration),
+                decoration = raw.decoration?.let(TextStyleFromRawMapper::extractDecoration),
                 weight = raw.weight,
                 size = raw.size,
                 lineHeight = raw.lineHeight

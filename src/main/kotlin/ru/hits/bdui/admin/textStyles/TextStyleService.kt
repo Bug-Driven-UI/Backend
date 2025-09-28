@@ -1,13 +1,15 @@
-package ru.hits.bdui.textStyles
+package ru.hits.bdui.admin.textStyles
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
+import ru.hits.bdui.admin.textStyles.database.TextStyleRepository
+import ru.hits.bdui.common.exceptions.AlreadyExistsException
 import ru.hits.bdui.common.exceptions.notFound
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyleFromDatabase
-import ru.hits.bdui.textStyles.database.TextStyleRepository
+import ru.hits.bdui.utils.isUniqueViolation
 import java.util.UUID
 
 interface TextStyleService {
@@ -26,15 +28,7 @@ class TextStylesServiceImpl(
     @Transactional
     override fun save(textStyle: TextStyle): Mono<TextStyleFromDatabase> =
         repository.save(textStyle)
-            .map { response ->
-                when (response) {
-                    is TextStyleRepository.SaveResponse.Success ->
-                        response.textStyle
-
-                    is TextStyleRepository.SaveResponse.Error ->
-                        throw response.error
-                }
-            }
+            .handleSaveResponse()
 
     @Transactional(readOnly = true)
     override fun findById(id: UUID): Mono<TextStyleFromDatabase> =
@@ -76,13 +70,21 @@ class TextStylesServiceImpl(
                 else
                     notFound<TextStyleFromDatabase>(textStyleFromDatabase.id).toMono()
             }
+            .handleSaveResponse()
+
+
+    private fun Mono<TextStyleRepository.SaveResponse>.handleSaveResponse(): Mono<TextStyleFromDatabase> =
+        this
             .map { response ->
                 when (response) {
                     is TextStyleRepository.SaveResponse.Success ->
                         response.textStyle
 
                     is TextStyleRepository.SaveResponse.Error ->
-                        throw response.error
+                        if (response.error.isUniqueViolation())
+                            throw AlreadyExistsException("Текстовый стиль с таким токеном уже существует")
+                        else
+                            throw response.error
                 }
             }
 

@@ -1,8 +1,8 @@
-package ru.hits.bdui.textStyles.database.repository
+package ru.hits.bdui.admin.textStyles.database.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import ru.hits.bdui.textStyles.database.entity.TextStyleEntity
+import ru.hits.bdui.admin.textStyles.database.entity.TextStyleEntity
 import java.util.Optional
 import java.util.UUID
 

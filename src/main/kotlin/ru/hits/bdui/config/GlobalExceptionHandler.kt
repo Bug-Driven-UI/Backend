@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
+import ru.hits.bdui.common.exceptions.AlreadyExistsException
 import ru.hits.bdui.common.exceptions.BadRequestException
 import ru.hits.bdui.common.exceptions.NotFoundException
 import ru.hits.bdui.common.models.api.ApiResponse
@@ -24,6 +25,18 @@ class GlobalExceptionHandler {
                 ApiResponse.error(
                     listOfNotNull(
                         "Не удалось распарсить тело запроса".let(ErrorContentRaw.Companion::emerge)
+                    )
+                )
+            )
+            .toMono()
+
+    @ExceptionHandler(AlreadyExistsException::class)
+    fun handle(ex: AlreadyExistsException): Mono<ResponseEntity<ApiResponse.Error>> =
+        ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(
+                ApiResponse.error(
+                    listOfNotNull(
+                        ex.message?.let(ErrorContentRaw.Companion::emerge)
                     )
                 )
             )

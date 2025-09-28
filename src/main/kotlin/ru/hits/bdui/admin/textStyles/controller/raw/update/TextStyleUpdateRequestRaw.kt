@@ -1,6 +1,6 @@
-package ru.hits.bdui.textStyles.controller.raw.update
+package ru.hits.bdui.admin.textStyles.controller.raw.update
 
-import ru.hits.bdui.textStyles.controller.raw.TextStyleForSaveRaw
+import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleForSaveRaw
 import java.util.UUID
 
 data class TextStyleUpdateRequestRaw(
