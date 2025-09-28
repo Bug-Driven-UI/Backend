@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
+import ru.hits.bdui.common.exceptions.BadRequestException
+import ru.hits.bdui.common.exceptions.NotFoundException
 import ru.hits.bdui.common.models.api.ApiResponse
 import ru.hits.bdui.common.models.api.ErrorContentRaw
-import ru.hits.bdui.exceptions.BadRequestException
-import ru.hits.bdui.exceptions.NotFoundException
-import ru.hits.bdui.exceptions.UnexpectedException
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
@@ -53,17 +52,6 @@ class GlobalExceptionHandler {
                 )
             )
             .toMono()
-
-    @ExceptionHandler(UnexpectedException::class)
-    fun handle(ex: UnexpectedException): Mono<ResponseEntity<ApiResponse.Error>> {
-        log.error("Произошла неожиданная ошибка", ex)
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(
-                ApiResponse.error(ErrorContentRaw.emerge("Произошла неожиданная ошибка"))
-            )
-            .toMono()
-    }
 
     @ExceptionHandler(Exception::class)
     fun handle(ex: Exception): Mono<ResponseEntity<ApiResponse.Error>> {

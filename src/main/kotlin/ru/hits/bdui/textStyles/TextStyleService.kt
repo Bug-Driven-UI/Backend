@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
+import ru.hits.bdui.common.exceptions.notFound
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyleFromDatabase
-import ru.hits.bdui.exceptions.notFound
 import ru.hits.bdui.textStyles.database.TextStyleRepository
 import java.util.UUID
 

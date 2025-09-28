@@ -1,9 +1,9 @@
 package ru.hits.bdui.textStyles.controller.raw
 
+import ru.hits.bdui.common.exceptions.BadRequestException
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyleFromDatabase
-import ru.hits.bdui.exceptions.BadRequestException
 import java.util.UUID
 
 object TextStyleFromRawMapper {
