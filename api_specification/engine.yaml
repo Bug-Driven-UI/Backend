@@ -149,36 +149,34 @@ components:
       unevaluatedProperties: false
 
     UpdateScreenActionRequest:
-      allOf:
-        - type: object
-          required: [ type, hashes, screenName ]
-          properties:
-            type:
-              const: updateScreen
-            screenName:
-              type: string
-              description: "Название экрана"
-            hashes:
-              type: array
-              items:
-                $ref: '#/components/schemas/HashNode'
-            screenNavigationParams:
-              description: "Передаваемые параметры для обновления экрана"
-              additionalProperties: true
+      type: object
+      required: [ type, hashes, screenName ]
+      properties:
+        type:
+          const: updateScreen
+        screenName:
+          type: string
+          description: "Название экрана"
+        hashes:
+          type: array
+          items:
+            $ref: '#/components/schemas/HashNode'
+        screenNavigationParams:
+          description: "Передаваемые параметры для обновления экрана"
+          additionalProperties: true
 
     CommandActionRequest:
-      allOf:
-        - type: object
-          required: [ type, name ]
-          properties:
-            type:
-              const: command
-            name:
-              type: string
-              description: "Название команды"
-            params:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, name ]
+      properties:
+        type:
+          const: command
+        name:
+          type: string
+          description: "Название команды"
+        params:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     HashNode:
       type: object
@@ -232,54 +230,52 @@ components:
       unevaluatedProperties: false
 
     UpdateScreenActionResponse:
-      allOf:
-        - type: object
-          required: [ type, response ]
+      type: object
+      required: [ type, response ]
+      properties:
+        type:
+          const: updateScreen
+        response:
+          type: object
+          description: "Ответ на обновление экрана"
+          required: [ data ]
           properties:
-            type:
-              const: updateScreen
-            response:
-              type: object
-              description: "Ответ на обновление экрана"
-              required: [ data ]
-              properties:
-                data:
-                  type: array
-                  items:
-                    type: object
-                    required: [ target, method ]
-                    properties:
-                      target:
-                        type: string
-                      method:
-                        type: string
-                        enum: [ update, insert, delete ]
-                      content:
-                        $ref: '#/components/schemas/RenderedComponent'
+            data:
+              type: array
+              items:
+                type: object
+                required: [ target, method ]
+                properties:
+                  target:
+                    type: string
+                  method:
+                    type: string
+                    enum: [ update, insert, delete ]
+                  content:
+                    $ref: '#/components/schemas/RenderedComponent'
 
     CommandActionResponse:
-      allOf:
-        - type: object
-          required: [ type, name, response ]
+      type: object
+      required: [ type, name, response ]
+      properties:
+        type:
+          const: command
+        name:
+          type: string
+          description: "Название команды"
+        response:
+          type: object
+          description: "Ответ на выполнение команды"
+          required: [ data ]
           properties:
-            type:
-              const: command
-            name:
-              type: string
-              description: "Название команды"
-            response:
+            data:
               type: object
-              description: "Ответ на выполнение команды"
-              required: [ data ]
               properties:
-                data:
-                  type: object
-                  properties:
-                    component:
-                      $ref: '#/components/schemas/RenderedComponent'
-                    fallbackMessage:
-                      type: string
-                      description: "Сообщение об ошибке, в случае неудачного исполнения команды"
+                component:
+                  $ref: '#/components/schemas/RenderedComponent'
+                fallbackMessage:
+                  type: string
+                  description: "Сообщение об ошибке, в случае неудачного исполнения команды"
 
     RenderedScreen:
       type: object
@@ -356,43 +352,65 @@ components:
       oneOf:
         - $ref: '#/components/schemas/RenderedCommandAction'
         - $ref: '#/components/schemas/RenderedUpdateScreenAction'
+        - $ref: '#/components/schemas/RenderedNavigateToAction'
+        - $ref: '#/components/schemas/RenderedNavigateBackAction'
       discriminator:
         propertyName: type
         mapping:
           command: '#/components/schemas/RenderedCommandAction'
           updateScreen: '#/components/schemas/RenderedUpdateScreenAction'
+          navigateTo: '#/components/schemas/RenderedNavigateToAction'
+          navigateBack: '#/components/schemas/RenderedNavigateBackAction'
       properties:
         type:
           type: string
       unevaluatedProperties: false
 
     RenderedCommandAction:
-      allOf:
-        - type: object
-          required: [ type, name ]
-          properties:
-            type:
-              const: command
-            name:
-              type: string
-              description: "Название команды, которую нужно исполнить"
-            params:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, name ]
+      properties:
+        type:
+          const: command
+        name:
+          type: string
+          description: "Название команды, которую нужно исполнить"
+        params:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     RenderedUpdateScreenAction:
-      allOf:
-        - type: object
-          required: [ type, screenName ]
-          properties:
-            type:
-              const: updateScreen
-            screenName:
-              type: string
-              description: "Название экрана"
-            screenNavigationParams:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: updateScreen
+        screenName:
+          type: string
+          description: "Название экрана"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
+
+    RenderedNavigateToAction:
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: navigateTo
+        screenName:
+          type: string
+          description: "Название экрана"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
+
+    RenderedNavigateBackAction:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          const: navigateBack
 
     RenderedInteraction:
       type: object

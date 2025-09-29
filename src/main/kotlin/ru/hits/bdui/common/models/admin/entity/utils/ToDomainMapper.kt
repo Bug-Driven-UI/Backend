@@ -25,6 +25,8 @@ import ru.hits.bdui.common.models.admin.entity.interactions.InteractionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.InteractionTypeEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.ActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.CommandActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateBackActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.UpdateScreenActionEntity
 import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextDecorationEntity
@@ -61,6 +63,8 @@ import ru.hits.bdui.domain.screen.interactions.Interaction
 import ru.hits.bdui.domain.screen.interactions.InteractionType
 import ru.hits.bdui.domain.screen.interactions.actions.Action
 import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
@@ -303,6 +307,13 @@ private fun ActionEntity.toDomain(): Action =
             name = CommandName(this.name),
             params = this.params.mapValues { ExpressionUtils.getValueOrExpression(it.value) }
         )
+
+        is NavigateToActionEntity -> NavigateToAction(
+            screenName = ScreenName(this.screenName),
+            screenNavigationParams = this.screenNavigationParams.mapValues { ExpressionUtils.getValueOrExpression(it.value) }
+        )
+
+        is NavigateBackActionEntity -> NavigateBackAction()
     }
 
 private fun Any.toDomainValueOrExpression(): ValueOrExpression =
