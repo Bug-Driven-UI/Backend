@@ -47,6 +47,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/RenderedScreenResponseError'
 
+  /v1/screen/action:
+    post:
+      summary: Отвечает за выполнение действий
+      tags: [ ClientEngine ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ActionRequest"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoActionResponseSuccess'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoActionResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoActionResponseError'
+
 components:
   schemas:
     ScreenRenderRequest:
@@ -90,6 +121,164 @@ components:
           items:
             $ref: './admin.yaml#/components/schemas/ErrorContent'
       additionalProperties: false
+
+    ScreenDoActionRequest:
+      description: Запрос на выполнение действий
+      type: object
+      required: [ actions ]
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionRequest'
+
+    ActionRequest:
+      required: [ type ]
+      description: "Запрос на выполнения действия"
+      oneOf:
+        - $ref: '#/components/schemas/CommandActionRequest'
+        - $ref: '#/components/schemas/UpdateScreenActionRequest'
+      discriminator:
+        propertyName: type
+        mapping:
+          command: '#/components/schemas/CommandActionRequest'
+          updateScreen: '#/components/schemas/UpdateScreenActionRequest'
+      properties:
+        type:
+          type: string
+      unevaluatedProperties: false
+
+    UpdateScreenActionRequest:
+      allOf:
+        - type: object
+          required: [ type, hashes, screenName ]
+          properties:
+            type:
+              const: updateScreen
+            screenName:
+              type: string
+              description: "Название экрана"
+            hashes:
+              type: array
+              items:
+                $ref: '#/components/schemas/HashNode'
+            screenNavigationParams:
+              description: "Передаваемые параметры для обновления экрана"
+              additionalProperties: true
+
+    CommandActionRequest:
+      allOf:
+        - type: object
+          required: [ type, name ]
+          properties:
+            type:
+              const: command
+            name:
+              type: string
+              description: "Название команды"
+            params:
+              description: "Передаваемые параметры для исполнения команды"
+              additionalProperties: true
+
+    HashNode:
+      type: object
+      required: [ id, hash ]
+      properties:
+        id:
+          type: string
+          description: "Идентификатор компонента"
+        hash:
+          type: string
+          description: "Хэш значение компонента"
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/HashNode'
+
+    DoActionResponseSuccess:
+      type: object
+      required: [ responses ]
+      properties:
+        responses:
+          $ref: '#/components/schemas/ActionResponse'
+      additionalProperties: false
+
+    DoActionResponseError:
+      type: object
+      required: [ errors ]
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: './admin.yaml#/components/schemas/ErrorContent'
+      additionalProperties: false
+
+    ActionResponse:
+      required: [ type ]
+      description: "Ответ на выполнения действия"
+      oneOf:
+        - $ref: '#/components/schemas/CommandActionResponse'
+        - $ref: '#/components/schemas/UpdateScreenActionResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          command: '#/components/schemas/CommandActionResponse'
+          updateScreen: '#/components/schemas/UpdateScreenActionResponse'
+      properties:
+        type:
+          type: string
+      unevaluatedProperties: false
+
+    UpdateScreenActionResponse:
+      allOf:
+        - type: object
+          required: [ type, response ]
+          properties:
+            type:
+              const: updateScreen
+            response:
+              type: object
+              description: "Ответ на обновление экрана"
+              required: [ data ]
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    required: [ target, method ]
+                    properties:
+                      target:
+                        type: string
+                      method:
+                        type: string
+                        enum: [ update, insert, delete ]
+                      content:
+                        $ref: '#/components/schemas/RenderedComponent'
+
+    CommandActionResponse:
+      allOf:
+        - type: object
+          required: [ type, name, response ]
+          properties:
+            type:
+              const: command
+            name:
+              type: string
+              description: "Название команды"
+            response:
+              type: object
+              description: "Ответ на выполнение команды"
+              required: [ data ]
+              properties:
+                data:
+                  type: object
+                  properties:
+                    component:
+                      $ref: '#/components/schemas/RenderedComponent'
+                    fallbackMessage:
+                      type: string
+                      description: "Сообщение об ошибке, в случае неудачного исполнения команды"
+
     RenderedScreen:
       type: object
       required: [ screenName, version, components ]
