@@ -26,7 +26,7 @@ sealed interface SizeRaw {
      * @property fraction значение в диапазоне от 0 до 1 (включительно)
      */
     data class WeightedRaw(
-        val fraction: Int
+        val fraction: Double
     ) : SizeRaw {
         override val type: String = "weighted"
     }
