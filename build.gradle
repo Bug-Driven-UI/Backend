@@ -26,7 +26,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.projectreactor.kotlin:reactor-kotlin-extensions'
     implementation "io.projectreactor:reactor-core:${reactorVersion}"
-    implementation "io.projectreactor:reactor-tools:${reactorVersion}"
     implementation "io.hypersistence:hypersistence-utils-hibernate-63:${hibernateTypesVersion}"
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
