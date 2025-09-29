@@ -138,63 +138,45 @@ components:
       oneOf:
         - $ref: '#/components/schemas/CommandActionRequest'
         - $ref: '#/components/schemas/UpdateScreenActionRequest'
-        - $ref: '#/components/schemas/NavigateToActionRequest'
       discriminator:
         propertyName: type
         mapping:
           command: '#/components/schemas/CommandActionRequest'
           updateScreen: '#/components/schemas/UpdateScreenActionRequest'
-          navigateTo: '#/components/schemas/NavigateToActionRequest'
       properties:
         type:
           type: string
       unevaluatedProperties: false
 
     UpdateScreenActionRequest:
-      allOf:
-        - type: object
-          required: [ type, hashes, screenName ]
-          properties:
-            type:
-              const: updateScreen
-            screenName:
-              type: string
-              description: "Название экрана"
-            hashes:
-              type: array
-              items:
-                $ref: '#/components/schemas/HashNode'
-            screenNavigationParams:
-              description: "Передаваемые параметры для обновления экрана"
-              additionalProperties: true
+      type: object
+      required: [ type, hashes, screenName ]
+      properties:
+        type:
+          const: updateScreen
+        screenName:
+          type: string
+          description: "Название экрана"
+        hashes:
+          type: array
+          items:
+            $ref: '#/components/schemas/HashNode'
+        screenNavigationParams:
+          description: "Передаваемые параметры для обновления экрана"
+          additionalProperties: true
 
     CommandActionRequest:
-      allOf:
-        - type: object
-          required: [ type, name ]
-          properties:
-            type:
-              const: command
-            name:
-              type: string
-              description: "Название команды"
-            params:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
-
-    NavigateToActionRequest:
-      allOf:
-        - type: object
-          required: [ type, screenName ]
-          properties:
-            type:
-              const: navigateTo
-            screenName:
-              type: string
-              description: "Название экрана"
-            screenNavigationParams:
-              description: "Передаваемые параметры для получения экрана"
-              additionalProperties: true
+      type: object
+      required: [ type, name ]
+      properties:
+        type:
+          const: command
+        name:
+          type: string
+          description: "Название команды"
+        params:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     HashNode:
       type: object
@@ -237,13 +219,11 @@ components:
       oneOf:
         - $ref: '#/components/schemas/CommandActionResponse'
         - $ref: '#/components/schemas/UpdateScreenActionResponse'
-        - $ref: '#/components/schemas/NavigateToActionResponse'
       discriminator:
         propertyName: type
         mapping:
           command: '#/components/schemas/CommandActionResponse'
           updateScreen: '#/components/schemas/UpdateScreenActionResponse'
-          navigateTo: '#/components/schemas/NavigateToActionResponse'
       properties:
         type:
           type: string
@@ -273,24 +253,6 @@ components:
                     enum: [ update, insert, delete ]
                   content:
                     $ref: '#/components/schemas/RenderedComponent'
-
-    NavigateToActionResponse:
-      type: object
-      required: [type]
-      properties:
-        type:
-          const: navigateTo
-        response:
-          type: object
-          description: "Ответ на действие навигации"
-          required: [data]
-          properties:
-            data:
-              type: object
-              required: [screen]
-              properties:
-                screen:
-                  $ref: '#/components/schemas/RenderedScreen'
 
     CommandActionResponse:
       type: object
@@ -405,54 +367,50 @@ components:
       unevaluatedProperties: false
 
     RenderedCommandAction:
-      allOf:
-        - type: object
-          required: [ type, name ]
-          properties:
-            type:
-              const: command
-            name:
-              type: string
-              description: "Название команды, которую нужно исполнить"
-            params:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, name ]
+      properties:
+        type:
+          const: command
+        name:
+          type: string
+          description: "Название команды, которую нужно исполнить"
+        params:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     RenderedUpdateScreenAction:
-      allOf:
-        - type: object
-          required: [ type, screenName ]
-          properties:
-            type:
-              const: updateScreen
-            screenName:
-              type: string
-              description: "Название экрана"
-            screenNavigationParams:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: updateScreen
+        screenName:
+          type: string
+          description: "Название экрана"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     RenderedNavigateToAction:
-      allOf:
-        - type: object
-          required: [ type, screenName ]
-          properties:
-            type:
-              const: navigateTo
-            screenName:
-              type: string
-              description: "Название экрана"
-            screenNavigationParams:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: navigateTo
+        screenName:
+          type: string
+          description: "Название экрана"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     RenderedNavigateBackAction:
-      allOf:
-        - type: object
-          required: [ type ]
-          properties:
-            type:
-              const: navigateBack
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          const: navigateBack
 
     RenderedInteraction:
       type: object

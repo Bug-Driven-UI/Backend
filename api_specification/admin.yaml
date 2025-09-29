@@ -2585,54 +2585,50 @@ components:
       unevaluatedProperties: false
 
     CommandAction:
-      allOf:
-        - type: object
-          required: [ type, name ]
-          properties:
-            type:
-              const: command
-            name:
-              type: string
-              description: "Название команды, которую нужно исполнить"
-            params:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, name ]
+      properties:
+        type:
+          const: command
+        name:
+          type: string
+          description: "Название команды, которую нужно исполнить"
+        params:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     UpdateScreenAction:
-      allOf:
-        - type: object
-          required: [ type, screenName ]
-          properties:
-            type:
-              const: updateScreen
-            screenName:
-              type: string
-              description: "Название экрана"
-            screenNavigationParams:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: updateScreen
+        screenName:
+          type: string
+          description: "Название экрана"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     NavigateToAction:
-      allOf:
-        - type: object
-          required: [ type, screenName ]
-          properties:
-            type:
-              const: navigateTo
-            screenName:
-              type: string
-              description: "Название экрана"
-            screenNavigationParams:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: navigateTo
+        screenName:
+          type: string
+          description: "Название экрана"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     NavigateBackAction:
-      allOf:
-        - type: object
-          required: [ type ]
-          properties:
-            type:
-              const: navigateBack
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          const: navigateBack
 
     Interaction:
       type: object
