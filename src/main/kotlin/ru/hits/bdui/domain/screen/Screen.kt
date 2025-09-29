@@ -1,7 +1,7 @@
 package ru.hits.bdui.domain.screen
 
 import ru.hits.bdui.domain.ScreenName
-import ru.hits.bdui.domain.api.ShortApiRepresentation
+import ru.hits.bdui.domain.api.ApiCallRepresentation
 import ru.hits.bdui.domain.screen.components.Component
 
 /**
@@ -18,7 +18,7 @@ data class Screen(
     val screenName: ScreenName,
     val description: String,
     val screenNavigationParams: Set<String>,
-    val apis: Map<String, ShortApiRepresentation>,
+    val apis: Map<String, ApiCallRepresentation>,
     val components: List<Component>,
     val scaffold: Scaffold?,
 )

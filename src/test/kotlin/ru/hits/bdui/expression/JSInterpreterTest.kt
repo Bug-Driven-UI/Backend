@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import ru.hits.bdui.core.expression.JSInterpreter
 
 class JSInterpreterTest {
     private val objectMapper: ObjectMapper = jacksonObjectMapper()
@@ -17,8 +18,7 @@ class JSInterpreterTest {
 
     @Test
     fun `GIVEN complex script and JSON variables WHEN evaluate THEN return evaluated result`() {
-        jsInterpreter.setVariable(
-            "data", """
+        jsInterpreter.setVariable("data", """
             {
               "items": [
                 {
@@ -39,8 +39,7 @@ class JSInterpreterTest {
                 }
               ]
             }
-        """
-        )
+        """)
         val expected = """
             {
               "cartItems": [
@@ -106,7 +105,7 @@ class JSInterpreterTest {
             JSON.stringify(transformCartData(data));
         """
 
-        val result = jsInterpreter.evaluate(mappingScript)
+        val result = jsInterpreter.execute(mappingScript)
 
         assertEquals(result, objectMapper.writeValueAsString(objectMapper.readTree(expected)))
     }

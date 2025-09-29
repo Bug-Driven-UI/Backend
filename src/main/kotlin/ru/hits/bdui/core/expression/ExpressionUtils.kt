@@ -1,4 +1,4 @@
-package ru.hits.bdui.expression
+package ru.hits.bdui.core.expression
 
 import ru.hits.bdui.common.exceptions.BadRequestException
 import ru.hits.bdui.domain.Expression

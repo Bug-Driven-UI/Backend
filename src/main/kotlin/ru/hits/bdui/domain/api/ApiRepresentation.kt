@@ -19,5 +19,5 @@ data class ApiRepresentation(
     val params: Set<String>,
     val endpoints: List<Endpoint>,
     val schema: Schema?,
-    val mappingScript: String?
+    val mappingScript: String?,
 )

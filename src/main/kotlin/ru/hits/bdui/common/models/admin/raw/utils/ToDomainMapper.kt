@@ -67,7 +67,7 @@ import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
-import ru.hits.bdui.expression.ExpressionUtils
+import ru.hits.bdui.core.expression.ExpressionUtils
 
 fun ComponentRaw.toDomain(ctx: MappingContext): Component =
     when (this) {

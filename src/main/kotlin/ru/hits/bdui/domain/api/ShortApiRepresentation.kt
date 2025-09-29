@@ -1,16 +1,12 @@
 package ru.hits.bdui.domain.api
 
-import ru.hits.bdui.domain.ApiName
+import java.util.*
 
 /**
- * Краткая информация об API
- *
- * @property apiAlias алиас для использования результатов вызова API
- * @property apiName название API из реестра внешних API
- * @property apiParams требуемые параметры для выполнения запроса
+ * Короткое представление внешнего API
  */
 data class ShortApiRepresentation(
-    val apiAlias: String,
-    val apiName: ApiName,
-    val apiParams: List<String>
+    val id: UUID,
+    val name: String,
+    val description: String,
 )
