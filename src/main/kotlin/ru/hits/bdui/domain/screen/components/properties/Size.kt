@@ -16,7 +16,7 @@ sealed interface Size {
      * @property fraction значение в диапазоне от 0 до 1 (включительно)
      */
     data class Weighted(
-        val fraction: Int
+        val fraction: Double
     ) : Size {
         override val type: String = "weighted"
     }

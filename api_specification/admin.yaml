@@ -560,7 +560,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ColorStyleForSave"
+              $ref: "#/components/schemas/ColorStyleSaveRequest"
       responses:
         '200':
           description: Успешный ответ
@@ -715,7 +715,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CommandForSave"
+              $ref: "#/components/schemas/CommandSaveRequest"
 
       responses:
         '200':
@@ -871,7 +871,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ComponentTemplateForSave"
+              $ref: "#/components/schemas/TemplateSaveRequest"
 
       responses:
         '200':
@@ -2020,10 +2020,11 @@ components:
 
     TemplateResponseSuccess:
       type: object
+      required: [ type, template ]
       properties:
         type:
           const: success
-        command:
+        template:
           $ref: '#/components/schemas/ComponentTemplate'
       additionalProperties: false
 
@@ -2064,14 +2065,7 @@ components:
             templates:
               type: array
               items:
-                type: object
-                required: [ id, name ]
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  name:
-                    type: string
+                $ref: '#/components/schemas/ComponentTemplate'
       additionalProperties: false
 
     TemplatesByNameResponseError:
@@ -2576,43 +2570,65 @@ components:
       oneOf:
         - $ref: '#/components/schemas/CommandAction'
         - $ref: '#/components/schemas/UpdateScreenAction'
+        - $ref: '#/components/schemas/NavigateToAction'
+        - $ref: '#/components/schemas/NavigateBackAction'
       discriminator:
         propertyName: type
         mapping:
           command: '#/components/schemas/CommandAction'
           updateScreen: '#/components/schemas/UpdateScreenAction'
+          navigateTo: '#/components/schemas/NavigateToAction'
+          navigateBack: '#/components/schemas/NavigateBackAction'
       properties:
         type:
           type: string
       unevaluatedProperties: false
 
     CommandAction:
-      allOf:
-        - type: object
-          required: [ type, name ]
-          properties:
-            type:
-              const: command
-            name:
-              type: string
-              description: "Название команды, которую нужно исполнить"
-            params:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, name ]
+      properties:
+        type:
+          const: command
+        name:
+          type: string
+          description: "Название команды, которую нужно исполнить"
+        params:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     UpdateScreenAction:
-      allOf:
-        - type: object
-          required: [ type, screenName ]
-          properties:
-            type:
-              const: updateScreen
-            screenName:
-              type: string
-              description: "Название экрана"
-            screenNavigationParams:
-              description: "Передаваемые параметры для исполнения команды"
-              additionalProperties: true
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: updateScreen
+        screenName:
+          type: string
+          description: "Название экрана"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
+
+    NavigateToAction:
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: navigateTo
+        screenName:
+          type: string
+          description: "Название экрана"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
+
+    NavigateBackAction:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          const: navigateBack
 
     Interaction:
       type: object
@@ -2671,7 +2687,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/SizeBase'
         - type: object
-          required: [ type, value ]
+          required: [ type, fraction ]
           properties:
             type:
               const: weighted
@@ -2774,7 +2790,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/ComponentBase'
         - type: object
-          required: [ itemsData, itemAlias, itemTemplateId ]
+          required: [ itemsData, itemAlias, itemTemplateName ]
           properties:
             itemsData:
               type: string
@@ -2782,10 +2798,9 @@ components:
             itemAlias:
               type: string
               description: "Алиас, для ссылки на данные"
-            itemTemplateId:
+            itemTemplateName:
               type: string
-              format: uuid
-              description: "Идентификатор шаблона для заполнения ответа от команды (если указан)"
+              description: "Название шаблона для заполнения ответа от команды (если указан)"
           additionalProperties: false
 
     ComponentTemplate:

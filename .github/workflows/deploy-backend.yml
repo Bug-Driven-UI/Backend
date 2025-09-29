@@ -6,6 +6,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: Action
+
+    env:
+      POSTGRES_URL: ${{ secrets.POSTGRES_URL || vars.POSTGRES_URL }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER || vars.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -40,11 +46,24 @@ jobs:
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          POSTGRES_URL: ${{ env.POSTGRES_URL }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: deploy
           key: ${{ secrets.SSH_KEY }}
           script: |
+            export POSTGRES_URL="$POSTGRES_URL"
+            export POSTGRES_USER="$POSTGRES_USER"
+            export POSTGRES_PASSWORD="$POSTGRES_PASSWORD"
             cd /home/deploy/app
+            # опция: создать .env перед запуском
+            cat > .env <<EOF
+            POSTGRES_URL=${POSTGRES_URL}
+            POSTGRES_USER=${POSTGRES_USER}
+            POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            EOF
             docker compose pull backend
             docker compose up -d backend
