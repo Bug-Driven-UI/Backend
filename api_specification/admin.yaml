@@ -560,7 +560,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ColorStyleForSave"
+              $ref: "#/components/schemas/ColorStyleSaveRequest"
       responses:
         '200':
           description: Успешный ответ
@@ -715,7 +715,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CommandForSave"
+              $ref: "#/components/schemas/CommandSaveRequest"
 
       responses:
         '200':
@@ -871,7 +871,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ComponentTemplateForSave"
+              $ref: "#/components/schemas/TemplateSaveRequest"
 
       responses:
         '200':
@@ -2020,10 +2020,11 @@ components:
 
     TemplateResponseSuccess:
       type: object
+      required: [ type, template ]
       properties:
         type:
           const: success
-        command:
+        template:
           $ref: '#/components/schemas/ComponentTemplate'
       additionalProperties: false
 
@@ -2064,14 +2065,7 @@ components:
             templates:
               type: array
               items:
-                type: object
-                required: [ id, name ]
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  name:
-                    type: string
+                $ref: '#/components/schemas/ComponentTemplate'
       additionalProperties: false
 
     TemplatesByNameResponseError:
