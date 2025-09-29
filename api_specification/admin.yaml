@@ -2768,7 +2768,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/ComponentBase'
         - type: object
-          required: [ itemsData, itemAlias, itemTemplateId ]
+          required: [ itemsData, itemAlias, itemTemplateName ]
           properties:
             itemsData:
               type: string
@@ -2776,10 +2776,9 @@ components:
             itemAlias:
               type: string
               description: "Алиас, для ссылки на данные"
-            itemTemplateId:
+            itemTemplateName:
               type: string
-              format: uuid
-              description: "Идентификатор шаблона для заполнения ответа от команды (если указан)"
+              description: "Название шаблона для заполнения ответа от команды (если указан)"
           additionalProperties: false
 
     ComponentTemplate:

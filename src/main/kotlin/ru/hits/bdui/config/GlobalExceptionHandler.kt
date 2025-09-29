@@ -19,8 +19,10 @@ class GlobalExceptionHandler {
     private val log = LoggerFactory.getLogger(this::class.java)
 
     @ExceptionHandler(ServerWebInputException::class)
-    fun handle(ex: ServerWebInputException): Mono<ResponseEntity<ApiResponse.Error>> =
-        ResponseEntity.status(HttpStatus.BAD_REQUEST)
+    fun handle(ex: ServerWebInputException): Mono<ResponseEntity<ApiResponse.Error>> {
+        log.error("Ошибка инпута", ex)
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(
                 ApiResponse.error(
                     listOfNotNull(
@@ -29,6 +31,7 @@ class GlobalExceptionHandler {
                 )
             )
             .toMono()
+    }
 
     @ExceptionHandler(AlreadyExistsException::class)
     fun handle(ex: AlreadyExistsException): Mono<ResponseEntity<ApiResponse.Error>> =

@@ -1,12 +1,12 @@
 package ru.hits.bdui.admin.templates.controller.raw
 
-import ru.hits.bdui.domain.screen.components.Component
+import ru.hits.bdui.common.models.admin.raw.components.ComponentRaw
 import java.util.UUID
 
 data class ComponentTemplateRaw(
     val id: UUID,
     val name: String,
-    val component: Component, //TODO(Воссоздать структуру компонентов для сырого представления)
+    val component: ComponentRaw,
     val createdAtTimestampMs: Long,
     val lastModifiedAtTimestampMs: Long?
 ) {
@@ -15,5 +15,5 @@ data class ComponentTemplateRaw(
 
 data class ComponentTemplateForSaveRaw(
     val name: String,
-    val component: Component
+    val component: ComponentRaw
 )

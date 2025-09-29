@@ -1,11 +1,10 @@
 package ru.hits.bdui.expression
 
-private const val INTERPOLATION_REGEXP = """(?<!\\)\$\{(.*?)}"""
+import ru.hits.bdui.expression.ExpressionUtils.INTERPOLATION_REGEXP
 
 class ExpressionEvaluator(
     private val interpreter: JSInterpreter,
 ) {
-
     private val interpolationRegex = INTERPOLATION_REGEXP.toRegex()
 
     fun setVariable(name: String, value: String) {

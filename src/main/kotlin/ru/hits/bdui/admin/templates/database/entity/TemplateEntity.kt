@@ -1,12 +1,12 @@
 package ru.hits.bdui.admin.templates.database.entity
 
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
 import jakarta.persistence.Column
-import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import ru.hits.bdui.admin.templates.database.entity.serialization.ComponentAttributeConverter
-import ru.hits.bdui.domain.screen.components.Component
+import org.hibernate.annotations.Type
+import ru.hits.bdui.common.models.admin.entity.components.ComponentEntity
 import java.util.UUID
 
 @Entity
@@ -16,9 +16,9 @@ data class TemplateEntity(
     val id: UUID,
     @Column(nullable = false, unique = true)
     val name: String,
-    @Convert(converter = ComponentAttributeConverter::class)
+    @Type(JsonBinaryType::class)
     @Column(name = "component_json", nullable = false, columnDefinition = "jsonb")
-    val component: Component,
+    val component: ComponentEntity,
     @Column(name = "created_at_timestamp_ms", nullable = false)
     val createdAtTimestampMs: Long,
     @Column(name = "last_modified_at_timestamp_ms")

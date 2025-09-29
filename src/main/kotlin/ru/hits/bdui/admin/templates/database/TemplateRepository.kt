@@ -16,6 +16,7 @@ import ru.hits.bdui.admin.templates.models.ComponentTemplateUpdateCommand
 import ru.hits.bdui.domain.TemplateName
 import ru.hits.bdui.domain.template.ComponentTemplate
 import ru.hits.bdui.domain.template.ComponentTemplateFromDatabase
+import java.time.Instant
 import java.util.UUID
 
 interface TemplateRepository {
@@ -43,6 +44,8 @@ interface TemplateRepository {
     fun delete(id: UUID): Mono<Unit>
 
     fun findAllLikeName(name: String): Mono<FindAllResponse>
+
+    fun findAllByNameIn(names: Set<String>): Mono<FindAllResponse>
 
     sealed interface FindAllResponse {
         data class Success(val templates: List<ComponentTemplateFromDatabase>) : FindAllResponse
@@ -93,7 +96,7 @@ class TemplateRepositoryImpl(
         return save(entity)
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     override fun update(
         template: ComponentTemplateFromDatabase,
         updateCommand: ComponentTemplateUpdateCommand
@@ -102,7 +105,8 @@ class TemplateRepositoryImpl(
             template = ComponentTemplate(
                 name = TemplateName(updateCommand.name),
                 component = updateCommand.component
-            )
+            ),
+            lastModifiedTimestampMs = Instant.now().toEpochMilli()
         )
         val entity = TemplateEntity.emerge(updatedTemplate)
 
@@ -127,6 +131,15 @@ class TemplateRepositoryImpl(
             .map { list -> list.map(ComponentTemplateFromDatabase::emerge) }
             .map<FindAllResponse>(FindAllResponse::Success)
             .doOnError { error -> log.error("При получении шаблонов по имени произошла ошибка", error) }
+            .onErrorResume { FindAllResponse.Error(it).toMono() }
+            .subscribeOn(Schedulers.boundedElastic())
+
+    @Transactional(readOnly = true)
+    override fun findAllByNameIn(names: Set<String>): Mono<FindAllResponse> =
+        Mono.fromCallable { repository.findAllByNameIn(names) }
+            .map { list -> list.map(ComponentTemplateFromDatabase::emerge) }
+            .map<FindAllResponse>(FindAllResponse::Success)
+            .doOnError { error -> log.error("При получении шаблонов по идентификаторам произошла ошибка", error) }
             .onErrorResume { FindAllResponse.Error(it).toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 

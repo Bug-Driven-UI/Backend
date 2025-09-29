@@ -17,4 +17,6 @@ interface ColorStyleJpaRepository : JpaRepository<ColorStyleEntity, UUID> {
         nativeQuery = true
     )
     fun findAllLikeTokens(token: String): List<ColorStyleEntity>
+
+    fun findAllByTokenIn(tokens: Set<String>): List<ColorStyleEntity>
 }

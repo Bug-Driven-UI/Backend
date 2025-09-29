@@ -9,9 +9,10 @@ import reactor.kotlin.core.publisher.toMono
 import ru.hits.bdui.admin.colorStyles.database.ColorStyleRepository.FindAllResponse
 import ru.hits.bdui.admin.colorStyles.database.ColorStyleRepository.FindResponse
 import ru.hits.bdui.admin.colorStyles.database.ColorStyleRepository.SaveResponse
-import ru.hits.bdui.admin.templates.database.emerge.emerge
+import ru.hits.bdui.admin.colorStyles.database.emerge.emerge
 import ru.hits.bdui.admin.colorStyles.database.entity.ColorStyleEntity
 import ru.hits.bdui.admin.colorStyles.database.repository.ColorStyleJpaRepository
+import ru.hits.bdui.admin.templates.database.emerge.emerge
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.color.ColorStyleFromDatabase
 import java.util.UUID
@@ -44,6 +45,8 @@ interface ColorStyleRepository {
         data class Error(val error: Throwable) : FindAllResponse
     }
 
+    fun findAllByTokens(tokens: Set<String>): Mono<FindAllResponse>
+
     fun existsById(id: UUID): Mono<Boolean>
 }
 
@@ -58,7 +61,7 @@ class ColorStyleRepositoryImpl(
         Mono.fromCallable { repository.findById(id) }
             .map { result ->
                 if (result.isPresent) {
-                    val colorStyle = ru.hits.bdui.admin.templates.database.emerge.emerge(result.get())
+                    val colorStyle = ColorStyleFromDatabase.emerge(result.get())
                     FindResponse.Found(colorStyle)
                 } else {
                     FindResponse.NotFound
@@ -72,7 +75,7 @@ class ColorStyleRepositoryImpl(
         Mono.fromCallable { repository.findByToken(token) }
             .map { result ->
                 if (result.isPresent) {
-                    val colorStyle = ru.hits.bdui.admin.templates.database.emerge.emerge(result.get())
+                    val colorStyle = ColorStyleFromDatabase.emerge(result.get())
                     FindResponse.Found(colorStyle)
                 } else {
                     FindResponse.NotFound
@@ -83,21 +86,21 @@ class ColorStyleRepositoryImpl(
 
     @Transactional
     override fun save(colorStyle: ColorStyle): Mono<SaveResponse> {
-        val entity = ru.hits.bdui.admin.templates.database.emerge.emerge(colorStyle)
+        val entity = ColorStyleEntity.emerge(colorStyle)
 
         return save(entity)
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     override fun update(colorStyle: ColorStyleFromDatabase): Mono<SaveResponse> {
-        val entity = ru.hits.bdui.admin.templates.database.emerge.emerge(colorStyle)
+        val entity = ColorStyleEntity.emerge(colorStyle)
 
         return save(entity)
     }
 
     private fun save(entity: ColorStyleEntity): Mono<SaveResponse> =
         Mono.fromCallable { repository.save(entity) }
-            .map(::emerge)
+            .map(ColorStyleFromDatabase::emerge)
             .map<SaveResponse>(SaveResponse::Success)
             .doOnError { error -> log.error("При сохранении стиля текста произошла ошибка", error) }
             .onErrorResume { SaveResponse.Error(it).toMono() }
@@ -110,7 +113,16 @@ class ColorStyleRepositoryImpl(
     @Transactional(readOnly = true)
     override fun findAllLikeToken(token: String): Mono<FindAllResponse> =
         Mono.fromCallable { repository.findAllLikeTokens(token) }
-            .map { list -> list.map(::emerge) }
+            .map { list -> list.map(ColorStyleFromDatabase::emerge) }
+            .map<FindAllResponse>(FindAllResponse::Success)
+            .doOnError { error -> log.error("При получении стилей текста по токену произошла ошибка", error) }
+            .onErrorResume { FindAllResponse.Error(it).toMono() }
+            .subscribeOn(Schedulers.boundedElastic())
+
+    @Transactional(readOnly = true)
+    override fun findAllByTokens(tokens: Set<String>): Mono<FindAllResponse> =
+        Mono.fromCallable { repository.findAllByTokenIn(tokens) }
+            .map { list -> list.map(ColorStyleFromDatabase::emerge) }
             .map<FindAllResponse>(FindAllResponse::Success)
             .doOnError { error -> log.error("При получении стилей текста по токену произошла ошибка", error) }
             .onErrorResume { FindAllResponse.Error(it).toMono() }

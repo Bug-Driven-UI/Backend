@@ -17,4 +17,6 @@ interface TextStyleJpaRepository : JpaRepository<TextStyleEntity, UUID> {
         nativeQuery = true
     )
     fun findAllLikeTokens(token: String): List<TextStyleEntity>
+
+    fun findAllByTokenIn(tokens: Set<String>): List<TextStyleEntity>
 }
