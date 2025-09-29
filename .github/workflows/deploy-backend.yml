@@ -6,6 +6,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: Action
+
+    env:
+      POSTGRES_URL: ${{ vars.POSTGRES_URL }}
+      POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
     steps:
       - name: Checkout code
