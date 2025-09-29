@@ -2665,7 +2665,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/SizeBase'
         - type: object
-          required: [ type, value ]
+          required: [ type, fraction ]
           properties:
             type:
               const: weighted

@@ -56,7 +56,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ActionRequest"
+              $ref: "#/components/schemas/ScreenDoActionRequest"
 
       responses:
         '200':
@@ -200,7 +200,9 @@ components:
       required: [ responses ]
       properties:
         responses:
-          $ref: '#/components/schemas/ActionResponse'
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionResponse'
       additionalProperties: false
 
     DoActionResponseError:
@@ -450,7 +452,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/RenderedSizeBase'
         - type: object
-          required: [ type, value ]
+          required: [ type, fraction ]
           properties:
             type:
               const: weighted
