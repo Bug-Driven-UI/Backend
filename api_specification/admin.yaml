@@ -2570,11 +2570,15 @@ components:
       oneOf:
         - $ref: '#/components/schemas/CommandAction'
         - $ref: '#/components/schemas/UpdateScreenAction'
+        - $ref: '#/components/schemas/NavigateToAction'
+        - $ref: '#/components/schemas/NavigateBackAction'
       discriminator:
         propertyName: type
         mapping:
           command: '#/components/schemas/CommandAction'
           updateScreen: '#/components/schemas/UpdateScreenAction'
+          navigateTo: '#/components/schemas/NavigateToAction'
+          navigateBack: '#/components/schemas/NavigateBackAction'
       properties:
         type:
           type: string
@@ -2607,6 +2611,28 @@ components:
             screenNavigationParams:
               description: "Передаваемые параметры для исполнения команды"
               additionalProperties: true
+
+    NavigateToAction:
+      allOf:
+        - type: object
+          required: [ type, screenName ]
+          properties:
+            type:
+              const: navigateTo
+            screenName:
+              type: string
+              description: "Название экрана"
+            screenNavigationParams:
+              description: "Передаваемые параметры для исполнения команды"
+              additionalProperties: true
+
+    NavigateBackAction:
+      allOf:
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: navigateBack
 
     Interaction:
       type: object

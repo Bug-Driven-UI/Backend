@@ -25,6 +25,8 @@ import ru.hits.bdui.common.models.admin.raw.interactions.InteractionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.InteractionTypeRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.ActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.CommandActionRaw
+import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateBackActionRaw
+import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateToActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.UpdateScreenActionRaw
 import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
 import ru.hits.bdui.common.models.admin.raw.styles.text.TextStyleRaw
@@ -59,6 +61,8 @@ import ru.hits.bdui.domain.screen.interactions.Interaction
 import ru.hits.bdui.domain.screen.interactions.InteractionType
 import ru.hits.bdui.domain.screen.interactions.actions.Action
 import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
@@ -293,6 +297,13 @@ private fun ActionRaw.toDomain(): Action =
             name = CommandName(this.name),
             params = this.params.mapValues { ExpressionUtils.getValueOrExpression(it.value) }
         )
+
+        is NavigateToActionRaw -> NavigateToAction(
+            screenName = ScreenName(this.screenName),
+            screenNavigationParams = this.screenNavigationParams.mapValues { ExpressionUtils.getValueOrExpression(it.value) }
+        )
+
+        is NavigateBackActionRaw -> NavigateBackAction()
     }
 
 private fun Any.toDomainValueOrExpression(): ValueOrExpression =
