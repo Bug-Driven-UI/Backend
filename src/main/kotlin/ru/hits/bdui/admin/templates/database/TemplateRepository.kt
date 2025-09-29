@@ -96,6 +96,8 @@ class TemplateRepositoryImpl(
         return save(entity)
     }
 
+
+    //TODO(Подумать, как контроллировать обновление названий шаблонов, возможно запретить)
     @Transactional
     override fun update(
         template: ComponentTemplateFromDatabase,
