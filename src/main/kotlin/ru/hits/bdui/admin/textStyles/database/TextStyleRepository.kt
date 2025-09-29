@@ -39,6 +39,8 @@ interface TextStyleRepository {
 
     fun findAllLikeToken(token: String): Mono<FindAllResponse>
 
+    fun findAllByTokens(tokens: Set<String>): Mono<FindAllResponse>
+
     sealed interface FindAllResponse {
         data class Success(val textStyles: List<TextStyleFromDatabase>) : FindAllResponse
         data class Error(val error: Throwable) : FindAllResponse
@@ -88,7 +90,7 @@ class TextStyleRepositoryImpl(
         return save(entity)
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     override fun update(textStyle: TextStyleFromDatabase): Mono<SaveResponse> {
         val entity = TextStyleEntity.emerge(textStyle)
 
@@ -113,6 +115,15 @@ class TextStyleRepositoryImpl(
             .map { list -> list.map(TextStyleFromDatabase::emerge) }
             .map<FindAllResponse>(FindAllResponse::Success)
             .doOnError { error -> log.error("При получении стилей текста по токену произошла ошибка", error) }
+            .onErrorResume { FindAllResponse.Error(it).toMono() }
+            .subscribeOn(Schedulers.boundedElastic())
+
+    @Transactional(readOnly = true)
+    override fun findAllByTokens(tokens: Set<String>): Mono<FindAllResponse> =
+        Mono.fromCallable { repository.findAllByTokenIn(tokens) }
+            .map { list -> list.map(TextStyleFromDatabase::emerge) }
+            .map<FindAllResponse>(FindAllResponse::Success)
+            .doOnError { error -> log.error("При получении стилей текста по токенам произошла ошибка", error) }
             .onErrorResume { FindAllResponse.Error(it).toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 

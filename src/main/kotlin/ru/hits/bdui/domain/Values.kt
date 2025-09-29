@@ -23,11 +23,11 @@ value class TemplateName(val value: String)
  * Интерфейс для обозначения полей, которые могут быть заданы и как выражение и как конкретное значение
  */
 sealed interface ValueOrExpression {
-    val value: String
+    val value: Any
 }
 
 @JvmInline
 value class Expression(override val value: String) : ValueOrExpression
 
 @JvmInline
-value class Value(override val value: String) : ValueOrExpression
+value class Value(override val value: Any) : ValueOrExpression

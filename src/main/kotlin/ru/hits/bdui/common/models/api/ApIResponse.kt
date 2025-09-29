@@ -1,6 +1,6 @@
 package ru.hits.bdui.common.models.api
 
-sealed interface ApiResponse<T> {
+sealed interface ApiResponse<out T> {
     companion object {
         fun <T> success(data: T): Success<T> =
             Success(data)

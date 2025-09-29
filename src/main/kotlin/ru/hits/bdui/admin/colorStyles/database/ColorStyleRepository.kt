@@ -12,6 +12,7 @@ import ru.hits.bdui.admin.colorStyles.database.ColorStyleRepository.SaveResponse
 import ru.hits.bdui.admin.colorStyles.database.emerge.emerge
 import ru.hits.bdui.admin.colorStyles.database.entity.ColorStyleEntity
 import ru.hits.bdui.admin.colorStyles.database.repository.ColorStyleJpaRepository
+import ru.hits.bdui.admin.templates.database.emerge.emerge
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.color.ColorStyleFromDatabase
 import java.util.UUID
@@ -44,6 +45,8 @@ interface ColorStyleRepository {
         data class Error(val error: Throwable) : FindAllResponse
     }
 
+    fun findAllByTokens(tokens: Set<String>): Mono<FindAllResponse>
+
     fun existsById(id: UUID): Mono<Boolean>
 }
 
@@ -64,7 +67,7 @@ class ColorStyleRepositoryImpl(
                     FindResponse.NotFound
                 }
             }
-            .doOnError { error -> log.error("При получении стиля текста произошла ошибка", error) }
+            .doOnError { error -> log.error("При получении стиля цвета произошла ошибка", error) }
             .subscribeOn(Schedulers.boundedElastic())
 
     @Transactional(readOnly = true)
@@ -78,7 +81,7 @@ class ColorStyleRepositoryImpl(
                     FindResponse.NotFound
                 }
             }
-            .doOnError { error -> log.error("При получении стиля текста по токену произошла ошибка", error) }
+            .doOnError { error -> log.error("При получении стиля цвета по токену произошла ошибка", error) }
             .subscribeOn(Schedulers.boundedElastic())
 
     @Transactional
@@ -88,7 +91,7 @@ class ColorStyleRepositoryImpl(
         return save(entity)
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     override fun update(colorStyle: ColorStyleFromDatabase): Mono<SaveResponse> {
         val entity = ColorStyleEntity.emerge(colorStyle)
 
@@ -99,7 +102,7 @@ class ColorStyleRepositoryImpl(
         Mono.fromCallable { repository.save(entity) }
             .map(ColorStyleFromDatabase::emerge)
             .map<SaveResponse>(SaveResponse::Success)
-            .doOnError { error -> log.error("При сохранении стиля текста произошла ошибка", error) }
+            .doOnError { error -> log.error("При сохранении стиля цвета произошла ошибка", error) }
             .onErrorResume { SaveResponse.Error(it).toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 
@@ -112,13 +115,22 @@ class ColorStyleRepositoryImpl(
         Mono.fromCallable { repository.findAllLikeTokens(token) }
             .map { list -> list.map(ColorStyleFromDatabase::emerge) }
             .map<FindAllResponse>(FindAllResponse::Success)
-            .doOnError { error -> log.error("При получении стилей текста по токену произошла ошибка", error) }
+            .doOnError { error -> log.error("При получении стилей цвета по токену произошла ошибка", error) }
+            .onErrorResume { FindAllResponse.Error(it).toMono() }
+            .subscribeOn(Schedulers.boundedElastic())
+
+    @Transactional(readOnly = true)
+    override fun findAllByTokens(tokens: Set<String>): Mono<FindAllResponse> =
+        Mono.fromCallable { repository.findAllByTokenIn(tokens) }
+            .map { list -> list.map(ColorStyleFromDatabase::emerge) }
+            .map<FindAllResponse>(FindAllResponse::Success)
+            .doOnError { error -> log.error("При получении стилей цвета по токену произошла ошибка", error) }
             .onErrorResume { FindAllResponse.Error(it).toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 
     @Transactional(readOnly = true)
     override fun existsById(id: UUID): Mono<Boolean> =
         Mono.fromCallable { repository.existsById(id) }
-            .doOnError { error -> log.error("При проверке наличия текстового стиля произошла ошибка", error) }
+            .doOnError { error -> log.error("При проверке наличия стиля цвета произошла ошибка", error) }
             .subscribeOn(Schedulers.boundedElastic())
 }

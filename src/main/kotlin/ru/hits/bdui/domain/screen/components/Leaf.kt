@@ -3,6 +3,7 @@ package ru.hits.bdui.domain.screen.components
 import ru.hits.bdui.domain.ComponentId
 import ru.hits.bdui.domain.ValueOrExpression
 import ru.hits.bdui.domain.screen.components.additional.Border
+import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
@@ -31,7 +32,7 @@ data class Input(
     val textWithStyle: TextWithStyle,
     val mask: Mask?,
     val regex: Regex?,
-    val rightIcon: Image,
+    val rightIcon: Image?,
     val hint: Hint?,
     val placeholder: Placeholder?,
     override val id: ComponentId,
