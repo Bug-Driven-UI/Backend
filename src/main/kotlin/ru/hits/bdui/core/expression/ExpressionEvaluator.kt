@@ -1,8 +1,6 @@
 package ru.hits.bdui.core.expression
 
-private const val INTERPOLATION_REGEXP = """(?<!\\)\$\{(.*?)}"""
-
-private val interpolationRegex = INTERPOLATION_REGEXP.toRegex()
+private val interpolationRegex = ExpressionUtils.INTERPOLATION_REGEXP.toRegex()
 
 fun Interpreter.evaluateExpression(expression: String): String {
     var result = expression
