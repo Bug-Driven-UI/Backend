@@ -1,0 +1,44 @@
+{
+  "screenName": "ExampleScreen",
+  "description": "Экран с одним текстовым компонентом",
+  "screenNavigationParams": [],
+  "apis": [],
+  "components": [
+    {
+      "type": "text",
+      "id": "text-1",
+      "interactions": [],
+      "margins": {
+        "start": 16,
+        "end": 16,
+        "top": 8,
+        "bottom": 8
+      },
+      "paddings": {
+        "start": 8,
+        "end": 8,
+        "top": 4,
+        "bottom": 4
+      },
+      "width": {
+        "type": "matchParent"
+      },
+      "height": {
+        "type": "wrapContent"
+      },
+      "backgroundColor": null,
+      "border": null,
+      "shape": null,
+      "textWithStyle": {
+        "text": "Привет, мир!",
+        "textStyle": {
+          "token": "regularBig"
+        },
+        "colorStyle": {
+          "token": "regularBig"
+        }
+      }
+    }
+  ],
+  "scaffold": null
+}

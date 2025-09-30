@@ -20,59 +20,81 @@ import ru.hits.bdui.common.models.admin.raw.styles.text.TextWithStyleRaw
 data class NeededRefs(
     val colorTokens: Set<String>,
     val textTokens: Set<String>,
-    val templateNames: Set<String>
+    val templateNames: Set<String>,
+    val duplicatedIds: Set<String> = emptySet()
 )
 
 @Component
 class NeededRefsCollector {
-    fun collect(root: ComponentRaw): NeededRefs {
+    fun collect(component: ComponentRaw): NeededRefs =
+        collect(listOf(component))
+
+    fun collect(components: List<ComponentRaw>): NeededRefs {
+        if (components.isEmpty()) {
+            return NeededRefs(emptySet(), emptySet(), emptySet(), emptySet())
+        }
+
         val colors = mutableSetOf<String>()
         val texts = mutableSetOf<String>()
         val templates = mutableSetOf<String>()
+        val seenIds = mutableSetOf<String>()
+        val duplicatedIds = mutableSetOf<String>()
 
         fun extractTokensFromTextWithStyle(textWithStyle: TextWithStyleRaw) {
             texts += textWithStyle.textStyle.token
             colors += textWithStyle.colorStyle.token
         }
 
-        fun walk(component: ComponentRaw) {
+        val stack = ArrayDeque<ComponentRaw>()
+        for (c in components) stack.addLast(c)
+
+        while (stack.isNotEmpty()) {
+            val component = stack.removeLast()
+
+            val id = component.base.id
+            if (!seenIds.add(id)) duplicatedIds += id
+
+            component.base.backgroundColor?.let { colors += it.token }
+            component.base.border?.color?.let { colors += it.token }
+
             when (component) {
                 is TextRaw -> extractTokensFromTextWithStyle(component.textWithStyle)
                 is ButtonRaw -> extractTokensFromTextWithStyle(component.textWithStyle)
+
                 is InputRaw -> {
                     extractTokensFromTextWithStyle(component.textWithStyle)
                     component.hint?.let { extractTokensFromTextWithStyle(it.textWithStyle) }
                     component.placeholder?.let { extractTokensFromTextWithStyle(it.textWithStyle) }
-                    component.rightIcon?.badge?.let {
-                        when (it) {
-                            is ImageRaw.BadgeRaw.BadgeWithTextRaw -> extractTokensFromTextWithStyle(it.textWithStyle)
-                            is ImageRaw.BadgeRaw.BadgeWithImageRaw -> {}
-                        }
+                    val badge = component.rightIcon?.badge
+                    if (badge is ImageRaw.BadgeRaw.BadgeWithTextRaw) {
+                        extractTokensFromTextWithStyle(badge.textWithStyle)
                     }
                 }
 
                 is ImageRaw -> {
-                    component.badge?.let {
-                        when (it) {
-                            is ImageRaw.BadgeRaw.BadgeWithTextRaw -> extractTokensFromTextWithStyle(it.textWithStyle)
-                            is ImageRaw.BadgeRaw.BadgeWithImageRaw -> {}
-                        }
+                    val badge = component.badge
+                    if (badge is ImageRaw.BadgeRaw.BadgeWithTextRaw) {
+                        extractTokensFromTextWithStyle(badge.textWithStyle)
                     }
                 }
 
-                is ColumnRaw -> component.children.forEach(::walk)
-                is RowRaw -> component.children.forEach(::walk)
-                is BoxRaw -> component.children.forEach(::walk)
-                is StatefulComponentRaw -> component.states.forEach { walk(it.component) }
+                is ColumnRaw -> for (child in component.children) stack.addLast(child)
+                is RowRaw -> for (child in component.children) stack.addLast(child)
+                is BoxRaw -> for (child in component.children) stack.addLast(child)
+                is StatefulComponentRaw -> for (st in component.states) stack.addLast(st.component)
+
                 is DynamicColumnRaw -> templates += component.itemTemplateName
                 is DynamicRowRaw -> templates += component.itemTemplateName
+
                 is SpacerRaw, is ProgressBarRaw, is SwitchRaw -> {}
             }
-            component.base.backgroundColor?.let { colors += it.token }
-            component.base.border?.color?.let { colors += it.token }
         }
 
-        walk(root)
-        return NeededRefs(colors, texts, templates)
+        return NeededRefs(
+            colorTokens = colors,
+            textTokens = texts,
+            templateNames = templates,
+            duplicatedIds = duplicatedIds
+        )
     }
 }

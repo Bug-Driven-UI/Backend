@@ -1,8 +1,6 @@
-package ru.hits.bdui.domain.screen
+package ru.hits.bdui.admin.screen.controller.raw
 
-import ru.hits.bdui.domain.ScreenName
-import ru.hits.bdui.domain.api.ApiCallRepresentation
-import ru.hits.bdui.domain.screen.components.Component
+import ru.hits.bdui.common.models.admin.raw.components.ComponentRaw
 
 /**
  * Представление экрана
@@ -14,13 +12,13 @@ import ru.hits.bdui.domain.screen.components.Component
  * @property components список компонентов экрана
  * @property scaffold скаффолд экрана
  */
-data class Screen(
-    val screenName: ScreenName,
+data class ScreenRaw(
+    val screenName: String,
     val description: String,
     val screenNavigationParams: Set<String>,
-    val apis: List<ApiCallRepresentation>,
-    val components: List<Component>,
-    val scaffold: Scaffold?,
+    val apis: List<ApiCallRepresentationRaw>,
+    val components: List<ComponentRaw>,
+    val scaffold: ScaffoldRaw?,
 ) {
     companion object
 }
