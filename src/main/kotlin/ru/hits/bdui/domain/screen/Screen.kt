@@ -21,4 +21,6 @@ data class Screen(
     val apis: List<ApiCallRepresentation>,
     val components: List<Component>,
     val scaffold: Scaffold?,
-)
+) {
+    companion object
+}

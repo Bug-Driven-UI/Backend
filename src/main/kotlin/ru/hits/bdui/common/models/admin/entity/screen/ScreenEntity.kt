@@ -21,7 +21,9 @@ data class ScreenEntity(
     val apis: List<ApiCallRepresentationEntity>,
     val components: List<ComponentEntity>,
     val scaffold: ScaffoldEntity?,
-)
+) {
+    companion object
+}
 
 /**
  * Информация о вызове внешнего API
