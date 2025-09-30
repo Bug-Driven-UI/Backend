@@ -96,6 +96,8 @@ class ScreenValidationService(
         ApiCallRepresentation(
             apiResultAlias = raw.alias,
             apiId = raw.id,
-            apiParams = raw.params.mapValues { entry -> objectMapper.valueToTree(entry.value) }
+            apiParams = raw.params.associate { param ->
+                param.name to objectMapper.valueToTree(param.value)
+            }
         )
 }

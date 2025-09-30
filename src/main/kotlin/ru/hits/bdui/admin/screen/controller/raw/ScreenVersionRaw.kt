@@ -8,4 +8,6 @@ data class ScreenVersionRaw(
     val isProduction: Boolean,
     val createdAtTimestampMs: Long,
     val lastModifiedTimestampMs: Long?
-)
+) {
+    companion object
+}

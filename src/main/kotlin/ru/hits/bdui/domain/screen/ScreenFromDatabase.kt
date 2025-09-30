@@ -21,6 +21,7 @@ data class ScreenFromDatabase(
     val screen: Screen,
     val createdAtTimestampMs: Long,
     val lastModifiedAtTimestampMs: Long?,
+    val rowVersion: Long?
 ) {
     companion object
 }

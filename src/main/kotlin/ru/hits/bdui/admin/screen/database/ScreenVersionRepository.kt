@@ -1,5 +1,6 @@
 package ru.hits.bdui.admin.screen.database
 
+import jakarta.persistence.EntityManager
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -10,6 +11,7 @@ import ru.hits.bdui.admin.screen.database.ScreenVersionRepository.FindAllRespons
 import ru.hits.bdui.admin.screen.database.ScreenVersionRepository.FindResponse
 import ru.hits.bdui.admin.screen.database.ScreenVersionRepository.SaveResponse
 import ru.hits.bdui.admin.screen.database.emerge.emerge
+import ru.hits.bdui.admin.screen.database.entity.ScreenMetaEntity
 import ru.hits.bdui.admin.screen.database.entity.ScreenVersionEntity
 import ru.hits.bdui.admin.screen.database.repository.ScreenVersionJpaRepository
 import ru.hits.bdui.domain.ScreenId
@@ -18,6 +20,7 @@ import java.util.UUID
 
 interface ScreenVersionRepository {
     fun findById(screenId: ScreenId, versionId: UUID): Mono<FindResponse>
+    fun findLatest(screenId: ScreenId): Mono<FindResponse>
 
     sealed interface FindResponse {
         data class Found(val screen: ScreenFromDatabase) : FindResponse
@@ -45,7 +48,8 @@ interface ScreenVersionRepository {
 
 @Repository
 class ScreenVersionRepositoryImpl(
-    private val repository: ScreenVersionJpaRepository
+    private val repository: ScreenVersionJpaRepository,
+    private val entityManager: EntityManager
 ) : ScreenVersionRepository {
     private val log = LoggerFactory.getLogger(this::class.java)
 
@@ -64,16 +68,28 @@ class ScreenVersionRepositoryImpl(
             .doOnError { e -> log.error("Ошибка при получении экрана по id", e) }
             .subscribeOn(Schedulers.boundedElastic())
 
+    @Transactional(readOnly = true)
+    override fun findLatest(screenId: ScreenId): Mono<FindResponse> =
+        Mono.fromCallable { repository.findLatestScreenVersion(screenId.value) }
+            .map { opt ->
+                if (opt.isPresent) FindResponse.Found(ScreenFromDatabase.emerge(opt.get()))
+                else FindResponse.NotFound
+            }
+            .doOnError { e -> log.error("Ошибка при получении последней версии экрана", e) }
+            .subscribeOn(Schedulers.boundedElastic())
+
     @Transactional
     override fun save(screen: ScreenFromDatabase): Mono<SaveResponse> {
-        val versionEntity = ScreenVersionEntity.emerge(screen)
+        val managedMetaRef = entityManager.getReference(ScreenMetaEntity::class.java, screen.meta.id.value)
+        val versionEntity = ScreenVersionEntity.emerge(screen, managedMetaRef)
 
         return save(versionEntity)
     }
 
     @Transactional
     override fun update(screen: ScreenFromDatabase): Mono<SaveResponse> {
-        val entity = ScreenVersionEntity.emerge(screen)
+        val managedMetaRef = entityManager.getReference(ScreenMetaEntity::class.java, screen.meta.id.value)
+        val entity = ScreenVersionEntity.emerge(screen, managedMetaRef)
 
         return save(entity)
     }

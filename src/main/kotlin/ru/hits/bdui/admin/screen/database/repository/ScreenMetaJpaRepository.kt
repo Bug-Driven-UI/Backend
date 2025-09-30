@@ -25,13 +25,14 @@ interface ScreenMetaJpaRepository : JpaRepository<ScreenMetaEntity, UUID> {
     @Modifying
     @Query(
         """
-        update ScreenMetaEntity s
-           set s.currentPublishedVersionId = :version
-         where s.id = :screenId
-    """
+        UPDATE screens
+        SET current_published_version_id = :versionId
+        WHERE id = :screenId
+    """,
+        nativeQuery = true
     )
     fun setPublishedVersion(
         @Param("screenId") screenId: UUID,
-        @Param("version") version: UUID
+        @Param("versionId") versionId: UUID
     ): Int
 }

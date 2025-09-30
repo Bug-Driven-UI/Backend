@@ -1,6 +1,7 @@
 package ru.hits.bdui.admin.screen.database.entity
 
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -17,7 +18,7 @@ import java.util.UUID
 data class ScreenVersionEntity(
     @Id
     val id: UUID,
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = [CascadeType.MERGE])
     @JoinColumn(name = "screen_id", nullable = false)
     val meta: ScreenMetaEntity,
     @Column(nullable = false)

@@ -41,10 +41,10 @@ fun ScreenMetaFromDatabase.Companion.emerge(entity: ScreenMetaEntity): ScreenMet
         versionId = entity.currentPublishedVersionId
     )
 
-fun ScreenVersionEntity.Companion.emerge(data: ScreenFromDatabase): ScreenVersionEntity =
+fun ScreenVersionEntity.Companion.emerge(data: ScreenFromDatabase, metaEntity: ScreenMetaEntity): ScreenVersionEntity =
     ScreenVersionEntity(
         id = data.versionId,
-        meta = ScreenMetaEntity.emerge(data.meta),
+        meta = metaEntity,
         version = data.version,
         screen = ScreenEntity.emerge(data.screen),
         createdAtTimestampMs = data.createdAtTimestampMs,
@@ -59,6 +59,7 @@ fun ScreenFromDatabase.Companion.emerge(entity: ScreenVersionEntity): ScreenFrom
         screen = Screen.emerge(entity.screen),
         createdAtTimestampMs = entity.createdAtTimestampMs,
         lastModifiedAtTimestampMs = entity.lastModifiedAtTimestampMs,
+        rowVersion = entity.rowVersion
     )
 
 private fun ScreenEntity.Companion.emerge(screen: Screen): ScreenEntity =

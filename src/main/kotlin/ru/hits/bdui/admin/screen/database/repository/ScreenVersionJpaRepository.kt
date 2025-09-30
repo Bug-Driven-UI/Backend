@@ -29,4 +29,16 @@ interface ScreenVersionJpaRepository : JpaRepository<ScreenVersionEntity, UUID> 
         nativeQuery = true,
     )
     fun findAllVersionsByScreenId(screenId: UUID): List<ScreenVersionEntity>
+
+    @Query(
+        value = """
+            SELECT sv.*
+            FROM screen_versions sv
+            WHERE sv.screen_id = :screenId
+            ORDER BY sv.version DESC
+            LIMIT 1
+        """,
+        nativeQuery = true,
+    )
+    fun findLatestScreenVersion(screenId: UUID): Optional<ScreenVersionEntity>
 }

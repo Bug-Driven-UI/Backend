@@ -2556,7 +2556,7 @@ components:
                 type: string
                 description: "Название параметра для запроса"
               value:
-                type: string
+                type: [ string, number, integer, boolean, array, object, 'null' ]
                 description: "Значение или выражение для параметра запроса"
       additionalProperties: false
 
