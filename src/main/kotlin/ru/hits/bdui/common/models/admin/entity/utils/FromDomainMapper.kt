@@ -3,6 +3,7 @@ package ru.hits.bdui.common.models.admin.entity.utils
 import ru.hits.bdui.common.models.admin.entity.components.BoxEntity
 import ru.hits.bdui.common.models.admin.entity.components.ButtonEntity
 import ru.hits.bdui.common.models.admin.entity.components.ColumnEntity
+import ru.hits.bdui.common.models.admin.entity.components.ComponentBaseEntityProperties
 import ru.hits.bdui.common.models.admin.entity.components.ComponentEntity
 import ru.hits.bdui.common.models.admin.entity.components.ComponentTemplateEntity
 import ru.hits.bdui.common.models.admin.entity.components.DynamicColumnEntity
@@ -38,6 +39,7 @@ import ru.hits.bdui.domain.screen.components.Box
 import ru.hits.bdui.domain.screen.components.Button
 import ru.hits.bdui.domain.screen.components.Column
 import ru.hits.bdui.domain.screen.components.Component
+import ru.hits.bdui.domain.screen.components.ComponentBaseProperties
 import ru.hits.bdui.domain.screen.components.DynamicColumn
 import ru.hits.bdui.domain.screen.components.DynamicRow
 import ru.hits.bdui.domain.screen.components.Image
@@ -73,15 +75,7 @@ fun Component.toEntity(): ComponentEntity =
     when (this) {
         is Text -> TextEntity(
             textWithStyle = this.textWithStyle.toEntity(),
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is Input -> InputEntity(
@@ -107,158 +101,62 @@ fun Component.toEntity(): ComponentEntity =
                     it.textWithStyle.toEntity()
                 )
             },
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is Image -> ImageEntity(
             imageUrl = this.imageUrl.value as String,
             badge = this.badge?.toEntity(),
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is Spacer -> SpacerEntity(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is ProgressBar -> ProgressBarEntity(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is Switch -> SwitchEntity(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is Button -> ButtonEntity(
             textWithStyle = this.textWithStyle.toEntity(),
             enabled = this.enabled,
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is Column -> ColumnEntity(
             children = this.children.map { it.toEntity() },
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is Row -> RowEntity(
             children = this.children.map { it.toEntity() },
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is Box -> BoxEntity(
             children = this.children.map { it.toEntity() },
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity()
+            base = this.base.toEntity(),
         )
 
         is StatefulComponent -> StatefulComponentEntity(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity(),
+            base = this.base.toEntity(),
             states = this.states.map { it.toEntity() },
         )
 
         is DynamicColumn -> DynamicColumnEntity(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity(),
+            base = this.base.toEntity(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplate = this.itemTemplate.toEntity()
         )
 
         is DynamicRow -> DynamicRowEntity(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toEntity),
-            margins = this.margins?.toEntity(),
-            paddings = this.paddings?.toEntity(),
-            width = this.width.toEntity(),
-            height = this.height.toEntity(),
-            backgroundColor = this.backgroundColor?.toEntity(),
-            border = this.border?.toEntity(),
-            shape = this.shape?.toEntity(),
+            base = this.base.toEntity(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplate = this.itemTemplate.toEntity()
@@ -269,6 +167,19 @@ private fun ComponentTemplate.toEntity(): ComponentTemplateEntity =
     ComponentTemplateEntity(
         name = this.name.value,
         component = this.component.toEntity()
+    )
+
+private fun ComponentBaseProperties.toEntity(): ComponentBaseEntityProperties =
+    ComponentBaseEntityProperties(
+        id = this.id.value.value as String,
+        interactions = this.interactions.map(Interaction::toEntity),
+        margins = this.margins?.toEntity(),
+        paddings = this.paddings?.toEntity(),
+        width = this.width.toEntity(),
+        height = this.height.toEntity(),
+        backgroundColor = this.backgroundColor?.toEntity(),
+        border = this.border?.toEntity(),
+        shape = this.shape?.toEntity(),
     )
 
 private fun Insets.toEntity(): InsetsEntity =

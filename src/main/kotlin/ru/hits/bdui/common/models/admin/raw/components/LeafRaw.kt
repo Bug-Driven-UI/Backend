@@ -3,28 +3,14 @@ package ru.hits.bdui.common.models.admin.raw.components
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import ru.hits.bdui.common.models.admin.raw.components.additional.BorderRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.RegexRaw
-import ru.hits.bdui.common.models.admin.raw.components.additional.ShapeRaw
-import ru.hits.bdui.common.models.admin.raw.components.properties.InsetsRaw
-import ru.hits.bdui.common.models.admin.raw.components.properties.SizeRaw
-import ru.hits.bdui.common.models.admin.raw.interactions.InteractionRaw
-import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
 import ru.hits.bdui.common.models.admin.raw.styles.text.TextWithStyleRaw
 
 sealed interface LeafRaw : ComponentRaw
 
 data class TextRaw(
     val textWithStyle: TextWithStyleRaw,
-    override val id: String,
-    override val interactions: List<InteractionRaw>,
-    override val margins: InsetsRaw?,
-    override val paddings: InsetsRaw?,
-    override val width: SizeRaw,
-    override val height: SizeRaw,
-    override val backgroundColor: ColorStyleRaw?,
-    override val border: BorderRaw?,
-    override val shape: ShapeRaw?,
+    override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
     override val type: String = "text"
 }
@@ -36,15 +22,7 @@ data class InputRaw(
     val rightIcon: ImageRaw?,
     val hint: HintRaw?,
     val placeholder: PlaceholderRaw?,
-    override val id: String,
-    override val interactions: List<InteractionRaw>,
-    override val margins: InsetsRaw?,
-    override val paddings: InsetsRaw?,
-    override val width: SizeRaw,
-    override val height: SizeRaw,
-    override val backgroundColor: ColorStyleRaw?,
-    override val border: BorderRaw?,
-    override val shape: ShapeRaw?,
+    override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
     override val type: String = "textField"
 
@@ -65,15 +43,7 @@ enum class MaskRaw {
 data class ImageRaw(
     val imageUrl: String,
     val badge: BadgeRaw?,
-    override val id: String,
-    override val interactions: List<InteractionRaw>,
-    override val margins: InsetsRaw?,
-    override val paddings: InsetsRaw?,
-    override val width: SizeRaw,
-    override val height: SizeRaw,
-    override val backgroundColor: ColorStyleRaw?,
-    override val border: BorderRaw?,
-    override val shape: ShapeRaw?,
+    override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
     override val type: String = "image"
 
@@ -103,43 +73,19 @@ data class ImageRaw(
 }
 
 data class SpacerRaw(
-    override val id: String,
-    override val interactions: List<InteractionRaw>,
-    override val margins: InsetsRaw?,
-    override val paddings: InsetsRaw?,
-    override val width: SizeRaw,
-    override val height: SizeRaw,
-    override val backgroundColor: ColorStyleRaw?,
-    override val border: BorderRaw?,
-    override val shape: ShapeRaw?,
+    override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
     override val type: String = "spacer"
 }
 
 data class ProgressBarRaw(
-    override val id: String,
-    override val interactions: List<InteractionRaw>,
-    override val margins: InsetsRaw?,
-    override val paddings: InsetsRaw?,
-    override val width: SizeRaw,
-    override val height: SizeRaw,
-    override val backgroundColor: ColorStyleRaw?,
-    override val border: BorderRaw?,
-    override val shape: ShapeRaw?,
+    override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
     override val type: String = "progressBar"
 }
 
 data class SwitchRaw(
-    override val id: String,
-    override val interactions: List<InteractionRaw>,
-    override val margins: InsetsRaw?,
-    override val paddings: InsetsRaw?,
-    override val width: SizeRaw,
-    override val height: SizeRaw,
-    override val backgroundColor: ColorStyleRaw?,
-    override val border: BorderRaw?,
-    override val shape: ShapeRaw?,
+    override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
     override val type: String = "switch"
 }
@@ -147,15 +93,7 @@ data class SwitchRaw(
 data class ButtonRaw(
     val textWithStyle: TextWithStyleRaw,
     val enabled: Boolean,
-    override val id: String,
-    override val interactions: List<InteractionRaw>,
-    override val margins: InsetsRaw?,
-    override val paddings: InsetsRaw?,
-    override val width: SizeRaw,
-    override val height: SizeRaw,
-    override val backgroundColor: ColorStyleRaw?,
-    override val border: BorderRaw?,
-    override val shape: ShapeRaw?,
+    override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
     override val type: String = "button"
 }

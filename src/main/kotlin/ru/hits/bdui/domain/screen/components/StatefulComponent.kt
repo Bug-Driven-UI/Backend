@@ -1,8 +1,6 @@
 package ru.hits.bdui.domain.screen.components
 
 import ru.hits.bdui.domain.Expression
-import ru.hits.bdui.domain.engine.ComponentEvaluator
-import ru.hits.bdui.engine.screen.component.StatefulComponentEvaluator
 
 /**
  * Обертка для компонентов, которые зависят от конкретных условий
@@ -11,14 +9,9 @@ import ru.hits.bdui.engine.screen.component.StatefulComponentEvaluator
  */
 data class StatefulComponent(
     val states: List<StateDefinition>,
-    private val basePropertiesSet: ComponentPropertiesSet,
-) : Component, BaseComponentProperties by basePropertiesSet {
+    override val base: ComponentBaseProperties,
+) : Component {
     override val type: String = "stateful"
-    override val evaluator: ComponentEvaluator = StatefulComponentEvaluator()
-
-    override fun copyWithNewBaseProperties(newProperties: ComponentPropertiesSet) = copy(
-        basePropertiesSet = newProperties,
-    )
 }
 
 /**

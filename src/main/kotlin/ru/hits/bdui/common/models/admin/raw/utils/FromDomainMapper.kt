@@ -3,6 +3,7 @@ package ru.hits.bdui.common.models.admin.raw.utils
 import ru.hits.bdui.common.models.admin.raw.components.BoxRaw
 import ru.hits.bdui.common.models.admin.raw.components.ButtonRaw
 import ru.hits.bdui.common.models.admin.raw.components.ColumnRaw
+import ru.hits.bdui.common.models.admin.raw.components.ComponentBaseRawProperties
 import ru.hits.bdui.common.models.admin.raw.components.ComponentRaw
 import ru.hits.bdui.common.models.admin.raw.components.DynamicColumnRaw
 import ru.hits.bdui.common.models.admin.raw.components.DynamicRowRaw
@@ -36,6 +37,7 @@ import ru.hits.bdui.domain.screen.components.Box
 import ru.hits.bdui.domain.screen.components.Button
 import ru.hits.bdui.domain.screen.components.Column
 import ru.hits.bdui.domain.screen.components.Component
+import ru.hits.bdui.domain.screen.components.ComponentBaseProperties
 import ru.hits.bdui.domain.screen.components.DynamicColumn
 import ru.hits.bdui.domain.screen.components.DynamicRow
 import ru.hits.bdui.domain.screen.components.Image
@@ -69,15 +71,7 @@ fun Component.toRaw(): ComponentRaw =
     when (this) {
         is Text -> TextRaw(
             textWithStyle = this.textWithStyle.toRaw(),
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is Input -> InputRaw(
@@ -103,163 +97,80 @@ fun Component.toRaw(): ComponentRaw =
                     it.textWithStyle.toRaw()
                 )
             },
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is Image -> ImageRaw(
             imageUrl = this.imageUrl.value as String,
             badge = this.badge?.toRaw(),
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is Spacer -> SpacerRaw(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is ProgressBar -> ProgressBarRaw(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is Switch -> SwitchRaw(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is Button -> ButtonRaw(
             textWithStyle = this.textWithStyle.toRaw(),
             enabled = this.enabled,
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is Column -> ColumnRaw(
             children = this.children.map { it.toRaw() },
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is Row -> RowRaw(
             children = this.children.map { it.toRaw() },
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is Box -> BoxRaw(
             children = this.children.map { it.toRaw() },
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw()
+            base = this.base.toRaw(),
         )
 
         is StatefulComponent -> StatefulComponentRaw(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw(),
+            base = this.base.toRaw(),
             states = this.states.map { it.toRaw() },
         )
 
         is DynamicColumn -> DynamicColumnRaw(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw(),
+            base = this.base.toRaw(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplateName = this.itemTemplate.name.value
         )
 
         is DynamicRow -> DynamicRowRaw(
-            id = this.id.value.value as String,
-            interactions = this.interactions.map(Interaction::toRaw),
-            margins = this.margins?.toRaw(),
-            paddings = this.paddings?.toRaw(),
-            width = this.width.toRaw(),
-            height = this.height.toRaw(),
-            backgroundColor = this.backgroundColor?.toRaw(),
-            border = this.border?.toRaw(),
-            shape = this.shape?.toRaw(),
+            base = this.base.toRaw(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplateName = this.itemTemplate.name.value
         )
     }
+
+private fun ComponentBaseProperties.toRaw(): ComponentBaseRawProperties =
+    ComponentBaseRawProperties(
+        id = this.id.value.value as String,
+        interactions = this.interactions.map(Interaction::toRaw),
+        margins = this.margins?.toRaw(),
+        paddings = this.paddings?.toRaw(),
+        width = this.width.toRaw(),
+        height = this.height.toRaw(),
+        backgroundColor = this.backgroundColor?.toRaw(),
+        border = this.border?.toRaw(),
+        shape = this.shape?.toRaw(),
+    )
 
 private fun Insets.toRaw(): InsetsRaw =
     InsetsRaw(top = this.top, start = this.start, bottom = this.bottom, end = this.end)

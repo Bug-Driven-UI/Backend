@@ -26,16 +26,23 @@ import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
     JsonSubTypes.Type(value = BoxEntity::class, name = "box"),
 )
 sealed interface ComponentEntity {
-    val id: String
     val type: String
-    val interactions: List<InteractionEntity>
-    val margins: InsetsEntity?
-    val paddings: InsetsEntity?
-    val width: SizeEntity
-    val height: SizeEntity
-    val backgroundColor: ColorStyleEntity?
-    val border: BorderEntity?
-    val shape: ShapeEntity?
+    val base: ComponentBaseEntityProperties
 
     companion object
 }
+
+/**
+ * Базовый набор свойств для каждого компонента
+ */
+data class ComponentBaseEntityProperties(
+    val id: String,
+    val interactions: List<InteractionEntity>,
+    val margins: InsetsEntity?,
+    val paddings: InsetsEntity?,
+    val width: SizeEntity,
+    val height: SizeEntity,
+    val backgroundColor: ColorStyleEntity?,
+    val border: BorderEntity?,
+    val shape: ShapeEntity?
+)

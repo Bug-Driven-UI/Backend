@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import ru.hits.bdui.admin.externalapi.ApiRepresentationStorageService
-import ru.hits.bdui.engine.api.caller.ExternalApiCaller
-import ru.hits.bdui.domain.engine.Interpreter
-import ru.hits.bdui.domain.engine.setVariables
 import ru.hits.bdui.domain.api.ApiCallRepresentation
 import ru.hits.bdui.domain.api.ApiRepresentationFromDatabase
+import ru.hits.bdui.engine.Interpreter
+import ru.hits.bdui.engine.api.caller.ExternalApiCaller
+import ru.hits.bdui.engine.setVariables
 
 data class ApiCallWithRepresentation(
     val apiCall: ApiCallRepresentation,

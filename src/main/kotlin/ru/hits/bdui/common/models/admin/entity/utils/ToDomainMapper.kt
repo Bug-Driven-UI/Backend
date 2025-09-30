@@ -1,6 +1,22 @@
 package ru.hits.bdui.common.models.admin.entity.utils
 
-import ru.hits.bdui.common.models.admin.entity.components.*
+import ru.hits.bdui.common.models.admin.entity.components.BoxEntity
+import ru.hits.bdui.common.models.admin.entity.components.ButtonEntity
+import ru.hits.bdui.common.models.admin.entity.components.ColumnEntity
+import ru.hits.bdui.common.models.admin.entity.components.ComponentBaseEntityProperties
+import ru.hits.bdui.common.models.admin.entity.components.ComponentEntity
+import ru.hits.bdui.common.models.admin.entity.components.ComponentTemplateEntity
+import ru.hits.bdui.common.models.admin.entity.components.DynamicColumnEntity
+import ru.hits.bdui.common.models.admin.entity.components.DynamicRowEntity
+import ru.hits.bdui.common.models.admin.entity.components.ImageEntity
+import ru.hits.bdui.common.models.admin.entity.components.InputEntity
+import ru.hits.bdui.common.models.admin.entity.components.ProgressBarEntity
+import ru.hits.bdui.common.models.admin.entity.components.RowEntity
+import ru.hits.bdui.common.models.admin.entity.components.SpacerEntity
+import ru.hits.bdui.common.models.admin.entity.components.StateDefinitionEntity
+import ru.hits.bdui.common.models.admin.entity.components.StatefulComponentEntity
+import ru.hits.bdui.common.models.admin.entity.components.SwitchEntity
+import ru.hits.bdui.common.models.admin.entity.components.TextEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.BorderEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.ShapeEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.ShapeTypeEntity
@@ -8,13 +24,37 @@ import ru.hits.bdui.common.models.admin.entity.components.properties.InsetsEntit
 import ru.hits.bdui.common.models.admin.entity.components.properties.SizeEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.InteractionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.InteractionTypeEntity
-import ru.hits.bdui.common.models.admin.entity.interactions.actions.*
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.ActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.CommandActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateBackActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.UpdateScreenActionEntity
 import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextDecorationEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextStyleEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextWithStyleEntity
-import ru.hits.bdui.domain.*
-import ru.hits.bdui.domain.screen.components.*
+import ru.hits.bdui.domain.CommandName
+import ru.hits.bdui.domain.ComponentId
+import ru.hits.bdui.domain.ScreenName
+import ru.hits.bdui.domain.TemplateName
+import ru.hits.bdui.domain.ValueOrExpression
+import ru.hits.bdui.domain.screen.components.Box
+import ru.hits.bdui.domain.screen.components.Button
+import ru.hits.bdui.domain.screen.components.Column
+import ru.hits.bdui.domain.screen.components.Component
+import ru.hits.bdui.domain.screen.components.ComponentBaseProperties
+import ru.hits.bdui.domain.screen.components.DynamicColumn
+import ru.hits.bdui.domain.screen.components.DynamicRow
+import ru.hits.bdui.domain.screen.components.Image
+import ru.hits.bdui.domain.screen.components.Input
+import ru.hits.bdui.domain.screen.components.Mask
+import ru.hits.bdui.domain.screen.components.ProgressBar
+import ru.hits.bdui.domain.screen.components.Row
+import ru.hits.bdui.domain.screen.components.Spacer
+import ru.hits.bdui.domain.screen.components.StateDefinition
+import ru.hits.bdui.domain.screen.components.StatefulComponent
+import ru.hits.bdui.domain.screen.components.Switch
+import ru.hits.bdui.domain.screen.components.Text
 import ru.hits.bdui.domain.screen.components.additional.Border
 import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
@@ -23,7 +63,11 @@ import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
 import ru.hits.bdui.domain.screen.interactions.InteractionType
-import ru.hits.bdui.domain.screen.interactions.actions.*
+import ru.hits.bdui.domain.screen.interactions.actions.Action
+import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
+import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
@@ -36,17 +80,7 @@ fun ComponentEntity.toDomain(): Component =
     when (this) {
         is TextEntity -> Text(
             textWithStyle = this.textWithStyle.toDomain(),
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain()
-            ),
+            base = this.base.toDomain(),
         )
 
         is InputEntity -> Input(
@@ -56,187 +90,80 @@ fun ComponentEntity.toDomain(): Component =
             rightIcon = this.rightIcon?.toDomain() as Image?,
             hint = this.hint?.let { Input.Hint(it.textWithStyle.toDomain()) },
             placeholder = this.placeholder?.let { Input.Placeholder(it.textWithStyle.toDomain()) },
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is ImageEntity -> Image(
             imageUrl = this.imageUrl.toDomainValueOrExpression(),
             badge = this.badge?.toDomain(),
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is SpacerEntity -> Spacer(
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is ProgressBarEntity -> ProgressBar(
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is SwitchEntity -> Switch(
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is ButtonEntity -> Button(
             textWithStyle = this.textWithStyle.toDomain(),
             enabled = this.enabled,
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is ColumnEntity -> Column(
             children = this.children.map { it.toDomain() },
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is RowEntity -> Row(
             children = this.children.map { it.toDomain() },
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is BoxEntity -> Box(
             children = this.children.map { it.toDomain() },
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            )
+            base = this.base.toDomain(),
         )
 
         is StatefulComponentEntity -> StatefulComponent(
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            ),
+            base = this.base.toDomain(),
             states = this.states.map { it.toDomain() },
         )
 
         is DynamicColumnEntity -> DynamicColumn(
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            ),
+            base = this.base.toDomain(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplate = this.itemTemplate.toDomain()
         )
 
         is DynamicRowEntity -> DynamicRow(
-            basePropertiesSet = ComponentPropertiesSet(
-                id = ComponentId(getValueOrExpression(this.id)),
-                interactions = this.interactions.map(InteractionEntity::toDomain),
-                margins = this.margins?.toDomain(),
-                paddings = this.paddings?.toDomain(),
-                width = this.width.toDomain(),
-                height = this.height.toDomain(),
-                backgroundColor = this.backgroundColor?.toDomain(),
-                border = this.border?.toDomain(),
-                shape = this.shape?.toDomain(),
-            ),
+            base = this.base.toDomain(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplate = this.itemTemplate.toDomain(),
         )
     }
+
+private fun ComponentBaseEntityProperties.toDomain(): ComponentBaseProperties =
+    ComponentBaseProperties(
+        id = ComponentId(getValueOrExpression(this.id)),
+        interactions = this.interactions.map(InteractionEntity::toDomain),
+        margins = this.margins?.toDomain(),
+        paddings = this.paddings?.toDomain(),
+        width = this.width.toDomain(),
+        height = this.height.toDomain(),
+        backgroundColor = this.backgroundColor?.toDomain(),
+        border = this.border?.toDomain(),
+        shape = this.shape?.toDomain(),
+    )
 
 private fun ComponentTemplateEntity.toDomain(): ComponentTemplate =
     ComponentTemplate(

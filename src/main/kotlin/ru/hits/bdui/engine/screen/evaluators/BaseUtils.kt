@@ -1,20 +1,36 @@
-package ru.hits.bdui.engine.screen.component
+package ru.hits.bdui.engine.screen.evaluators
 
-import ru.hits.bdui.engine.expression.ExpressionUtils.evaluateExpressionIfNeeded
-import ru.hits.bdui.domain.engine.Interpreter
 import ru.hits.bdui.domain.ComponentId
-import ru.hits.bdui.domain.screen.components.BaseComponentProperties
+import ru.hits.bdui.domain.screen.components.Box
+import ru.hits.bdui.domain.screen.components.Button
+import ru.hits.bdui.domain.screen.components.Column
 import ru.hits.bdui.domain.screen.components.Component
-import ru.hits.bdui.domain.screen.components.ComponentPropertiesSet
+import ru.hits.bdui.domain.screen.components.ComponentBaseProperties
+import ru.hits.bdui.domain.screen.components.DynamicColumn
+import ru.hits.bdui.domain.screen.components.DynamicRow
+import ru.hits.bdui.domain.screen.components.Image
+import ru.hits.bdui.domain.screen.components.Input
+import ru.hits.bdui.domain.screen.components.ProgressBar
+import ru.hits.bdui.domain.screen.components.Row
+import ru.hits.bdui.domain.screen.components.Spacer
+import ru.hits.bdui.domain.screen.components.StatefulComponent
+import ru.hits.bdui.domain.screen.components.Switch
+import ru.hits.bdui.domain.screen.components.Text
 import ru.hits.bdui.domain.screen.components.additional.Border
-import ru.hits.bdui.domain.screen.interactions.actions.*
+import ru.hits.bdui.domain.screen.interactions.actions.Action
+import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
+import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
+import ru.hits.bdui.engine.Interpreter
+import ru.hits.bdui.engine.expression.ExpressionUtils.evaluateExpressionIfNeeded
 
-fun BaseComponentProperties.createNewBaseProperties(
+fun ComponentBaseProperties.copyWithEvaluatedProperties(
     interpreter: Interpreter
-): ComponentPropertiesSet {
-    return ComponentPropertiesSet(
+): ComponentBaseProperties =
+    ComponentBaseProperties(
         id = ComponentId(interpreter.evaluateExpressionIfNeeded(id.value)),
         interactions = interactions.map { interaction ->
             interaction.copy(
@@ -31,14 +47,30 @@ fun BaseComponentProperties.createNewBaseProperties(
         border = border?.evaluate(interpreter),
         shape = shape,
     )
-}
 
 @Suppress("UNCHECKED_CAST")
-fun <T: Component> T.evaluateBaseProperties(
+fun <T : Component> T.evaluateBaseProperties(
     interpreter: Interpreter,
-) : T {
-    return copyWithNewBaseProperties(newProperties = createNewBaseProperties(interpreter)) as T
+): T {
+    return this.withBase(this.base.copyWithEvaluatedProperties(interpreter)) as T
 }
+
+private fun Component.withBase(base: ComponentBaseProperties): Component =
+    when (this) {
+        is Row -> this.copy(base = base)
+        is Box -> this.copy(base = base)
+        is Column -> this.copy(base = base)
+        is DynamicColumn -> this.copy(base = base)
+        is DynamicRow -> this.copy(base = base)
+        is Button -> this.copy(base = base)
+        is Image -> this.copy(base = base)
+        is Input -> this.copy(base = base)
+        is ProgressBar -> this.copy(base = base)
+        is Spacer -> this.copy(base = base)
+        is Switch -> this.copy(base = base)
+        is Text -> this.copy(base = base)
+        is StatefulComponent -> this.copy(base = base)
+    }
 
 fun Action.evaluate(
     interpreter: Interpreter,
@@ -49,12 +81,14 @@ fun Action.evaluate(
                 interpreter.evaluateExpressionIfNeeded(it.value)
             }
         )
+
         is NavigateBackAction -> this
         is NavigateToAction -> copy(
             screenNavigationParams = screenNavigationParams.mapValues {
                 interpreter.evaluateExpressionIfNeeded(it.value)
             }
         )
+
         is UpdateScreenAction -> copy(
             screenNavigationParams = screenNavigationParams.mapValues {
                 interpreter.evaluateExpressionIfNeeded(it.value)

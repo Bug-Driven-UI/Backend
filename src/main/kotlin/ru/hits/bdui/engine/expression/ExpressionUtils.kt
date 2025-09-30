@@ -4,7 +4,7 @@ import ru.hits.bdui.common.exceptions.BadRequestException
 import ru.hits.bdui.domain.Expression
 import ru.hits.bdui.domain.Value
 import ru.hits.bdui.domain.ValueOrExpression
-import ru.hits.bdui.domain.engine.Interpreter
+import ru.hits.bdui.engine.Interpreter
 
 object ExpressionUtils {
     const val INTERPOLATION_REGEXP = """(?<!\\)\$\{(.*?)}"""
