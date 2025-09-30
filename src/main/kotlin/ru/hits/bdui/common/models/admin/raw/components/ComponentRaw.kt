@@ -2,6 +2,7 @@ package ru.hits.bdui.common.models.admin.raw.components
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.fasterxml.jackson.annotation.JsonUnwrapped
 import ru.hits.bdui.common.models.admin.raw.components.additional.BorderRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.ShapeRaw
 import ru.hits.bdui.common.models.admin.raw.components.properties.InsetsRaw
@@ -27,6 +28,8 @@ import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
 )
 sealed interface ComponentRaw {
     val type: String
+
+    @get:JsonUnwrapped
     val base: ComponentBaseRawProperties
 
     companion object

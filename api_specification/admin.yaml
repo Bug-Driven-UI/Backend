@@ -1010,12 +1010,16 @@ components:
 
     ScreenResponseSuccess:
       type: object
-      required: [ screen ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        screen:
-          $ref: '#/components/schemas/Screen'
+        data:
+          type: object
+          required: [ screen ]
+          properties:
+            screen:
+              $ref: '#/components/schemas/Screen'
       additionalProperties: false
 
     ScreenResponseError:
@@ -1050,12 +1054,16 @@ components:
 
     SetProductionVersionResponseSuccess:
       type: object
-      required: [ screen ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        version:
-          $ref: '#/components/schemas/ScreenVersion'
+        data:
+          type: object
+          required: [ version ]
+          properties:
+            version:
+              $ref: '#/components/schemas/ScreenVersion'
       additionalProperties: false
 
     SetProductionVersionResponseError:
@@ -1156,12 +1164,16 @@ components:
 
     ScreenUpdateResponseSuccess:
       type: object
-      required: [ type, version ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        version:
-          $ref: '#/components/schemas/ScreenVersion'
+        data:
+          type: object
+          required: [ version ]
+          properties:
+            version:
+              $ref: '#/components/schemas/ScreenVersion'
       additionalProperties: false
 
     ScreenUpdateResponseError:
@@ -1281,12 +1293,16 @@ components:
 
     TextStyleUpdateResponseSuccess:
       type: object
-      required: [ type, textStyle ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        textStyle:
-          $ref: '#/components/schemas/TextStyleWithId'
+        data:
+          type: object
+          required: [ textStyle ]
+          properties:
+            textStyle:
+              $ref: '#/components/schemas/TextStyleWithId'
       additionalProperties: false
 
     TextStyleUpdateResponseError:
@@ -1351,12 +1367,16 @@ components:
 
     TextStyleResponseSuccess:
       type: object
-      required: [ type, textStyle ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        textStyle:
-          $ref: '#/components/schemas/TextStyleWithId'
+        data:
+          type: object
+          required: [ textStyle ]
+          properties:
+            textStyle:
+              $ref: '#/components/schemas/TextStyleWithId'
       additionalProperties: false
 
     TextStyleResponseError:
@@ -1410,6 +1430,8 @@ components:
                     type: integer
                   decoration:
                     $ref: '#/components/schemas/TextDecorationType'
+                  lineHeight:
+                    type: integer
       additionalProperties: false
 
     TextStylesByTokenResponseError:
@@ -1496,12 +1518,16 @@ components:
 
     ColorStyleUpdateResponseSuccess:
       type: object
-      required: [ type, colorStyle ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        colorStyle:
-          $ref: '#/components/schemas/ColorStyleWithId'
+        data:
+          type: object
+          required: [ colorStyle ]
+          properties:
+            colorStyle:
+              $ref: '#/components/schemas/ColorStyleWithId'
       additionalProperties: false
 
     ColorStyleUpdateResponseError:
@@ -1566,12 +1592,16 @@ components:
 
     ColorStyleResponseSuccess:
       type: object
-      required: [ type, colorStyle ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        colorStyle:
-          $ref: '#/components/schemas/ColorStyleWithId'
+        data:
+          type: object
+          required: [ colorStyle ]
+          properties:
+            colorStyle:
+              $ref: '#/components/schemas/ColorStyleWithId'
       additionalProperties: false
 
     ColorStyleResponseError:
@@ -1612,14 +1642,14 @@ components:
               type: array
               items:
                 type: object
-                required: [ id, token, hex ]
+                required: [ id, token, color ]
                 properties:
                   id:
                     type: string
                     format: uuid
                   token:
                     type: string
-                  hex:
+                  color:
                     type: string
       additionalProperties: false
 
@@ -1693,12 +1723,16 @@ components:
 
     CommandUpdateResponseSuccess:
       type: object
-      required: [ type, command ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        command:
-          $ref: '#/components/schemas/Command'
+        data:
+          type: object
+          required: [ command ]
+          properties:
+            command:
+              $ref: '#/components/schemas/Command'
       additionalProperties: false
 
     CommandUpdateResponseError:
@@ -1763,12 +1797,16 @@ components:
 
     CommandResponseSuccess:
       type: object
-      required: [ command ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        command:
-          $ref: '#/components/schemas/Command'
+        data:
+          type: object
+          required: [ command ]
+          properties:
+            command:
+              $ref: '#/components/schemas/Command'
       additionalProperties: false
 
     CommandResponseError:
@@ -1888,12 +1926,16 @@ components:
 
     TemplateUpdateResponseSuccess:
       type: object
-      required: [ type, template ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        template:
-          $ref: '#/components/schemas/ComponentTemplate'
+        data:
+          type: object
+          required: [ template ]
+          properties:
+            template:
+              $ref: '#/components/schemas/ComponentTemplate'
       additionalProperties: false
 
     TemplateUpdateResponseError:
@@ -1958,12 +2000,16 @@ components:
 
     TemplateResponseSuccess:
       type: object
-      required: [ type, template ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        template:
-          $ref: '#/components/schemas/ComponentTemplate'
+        data:
+          type: object
+          required: [ template ]
+          properties:
+            template:
+              $ref: '#/components/schemas/ComponentTemplate'
       additionalProperties: false
 
     TemplateResponseError:
@@ -2022,12 +2068,16 @@ components:
 
     APISaveResponseSuccess:
       type: object
-      required: [ type, api ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        api:
-          $ref: '#/components/schemas/ApiRepresentation'
+        data:
+          type: object
+          required: [ api ]
+          properties:
+            api:
+              $ref: '#/components/schemas/ApiRepresentation'
       additionalProperties: false
 
     APISaveResponseError:
@@ -2060,12 +2110,16 @@ components:
 
     APIUpdateResponseSuccess:
       type: object
-      required: [ type, api ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        api:
-          $ref: '#/components/schemas/ApiRepresentation'
+        data:
+          type: object
+          required: [ api ]
+          properties:
+            api:
+              $ref: '#/components/schemas/ApiRepresentation'
       additionalProperties: false
 
     APIUpdateResponseError:
@@ -2130,12 +2184,16 @@ components:
 
     APIResponseSuccess:
       type: object
-      required: [ api ]
+      required: [ type, data ]
       properties:
         type:
           const: success
-        api:
-          $ref: '#/components/schemas/ApiRepresentation'
+        data:
+          type: object
+          required: [ api ]
+          properties:
+            api:
+              $ref: '#/components/schemas/ApiRepresentation'
       additionalProperties: false
 
     APIResponseError:
@@ -2812,7 +2870,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, textStyle, colorStyle ]
+          required: [ type, text, textWithStyle, colorStyle ]
           properties:
             type: { const: text }
             textWithStyle:
@@ -2822,7 +2880,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, textStyle, colorStyle, rightIcon ]
+          required: [ type, text, textWithStyle, colorStyle, rightIcon ]
           properties:
             type:
               const: input
@@ -2843,7 +2901,7 @@ components:
 
     Placeholder:
       type: object
-      required: [ text, textStyle, colorStyle ]
+      required: [ text, textWithStyle, colorStyle ]
       properties:
         textWithStyle:
           $ref: '#/components/schemas/StyledTextRepresentation'
@@ -2851,7 +2909,7 @@ components:
 
     Hint:
       type: object
-      required: [ text, textStyle, colorStyle ]
+      required: [ text, textWithStyle, colorStyle ]
       properties:
         textWithStyle:
           $ref: '#/components/schemas/StyledTextRepresentation'
@@ -2901,7 +2959,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, enabled, textStyle, textColorStyle ]
+          required: [ type, text, enabled, textWithStyle ]
           properties:
             type: { const: button }
             textWithStyle:
@@ -2994,17 +3052,6 @@ components:
           type: integer
         size:
           type: integer
-      additionalProperties: false
-
-    ColorStyleTemplate: # Нейминг неокончательный - это то, что будет возвращаться из реестра
-      type: object
-      required: [ token, hex ]
-      properties:
-        token:
-          type: string
-        hex:
-          type: string
-          description: "Цвет в HEX формате (#RRGGBB)"
       additionalProperties: false
 
     # Реестр внешних API
