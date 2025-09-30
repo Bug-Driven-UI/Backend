@@ -41,7 +41,7 @@ class ComponentValidationService(
                     .map { response ->
                         when (response) {
                             is ColorStyleRepository.FindAllResponse.Success ->
-                                response.colorStyles.associateBy({ it.colorStyle.token }) {
+                                response.colorStyles.associateBy({ it.colorStyle.token.value as String }) {
                                     ColorStyle(
                                         token = it.colorStyle.token,
                                         color = it.colorStyle.color

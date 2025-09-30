@@ -68,8 +68,8 @@ class NeededRefsCollector {
                 is DynamicRowRaw -> templates += component.itemTemplateName
                 is SpacerRaw, is ProgressBarRaw, is SwitchRaw -> {}
             }
-            component.backgroundColor?.let { colors += it.token }
-            component.border?.color?.let { colors += it.token }
+            component.base.backgroundColor?.let { colors += it.token }
+            component.base.border?.color?.let { colors += it.token }
         }
 
         walk(root)

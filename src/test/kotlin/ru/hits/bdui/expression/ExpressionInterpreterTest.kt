@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.hits.bdui.core.expression.JSInterpreter
-import ru.hits.bdui.core.expression.evaluateExpression
+import ru.hits.bdui.engine.expression.JSInterpreter
+import ru.hits.bdui.engine.expression.evaluateExpression
 import kotlin.test.assertEquals
 
 class ExpressionEvaluatorTest {

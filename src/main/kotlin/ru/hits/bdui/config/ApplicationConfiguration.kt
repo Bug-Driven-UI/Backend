@@ -6,8 +6,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
-import ru.hits.bdui.core.expression.Interpreter
-import ru.hits.bdui.core.expression.JSInterpreter
+import ru.hits.bdui.engine.Interpreter
+import ru.hits.bdui.engine.expression.JSInterpreter
 
 @Configuration
 class ApplicationConfiguration {

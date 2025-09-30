@@ -26,16 +26,23 @@ import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
     JsonSubTypes.Type(value = BoxRaw::class, name = "box"),
 )
 sealed interface ComponentRaw {
-    val id: String
     val type: String
-    val interactions: List<InteractionRaw>
-    val margins: InsetsRaw?
-    val paddings: InsetsRaw?
-    val width: SizeRaw
-    val height: SizeRaw
-    val backgroundColor: ColorStyleRaw?
-    val border: BorderRaw?
-    val shape: ShapeRaw?
+    val base: ComponentBaseRawProperties
 
     companion object
 }
+
+/**
+ * Базовый набор свойств для каждого компонента
+ */
+data class ComponentBaseRawProperties(
+    val id: String,
+    val interactions: List<InteractionRaw>,
+    val margins: InsetsRaw?,
+    val paddings: InsetsRaw?,
+    val width: SizeRaw,
+    val height: SizeRaw,
+    val backgroundColor: ColorStyleRaw?,
+    val border: BorderRaw?,
+    val shape: ShapeRaw?,
+)

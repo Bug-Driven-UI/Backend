@@ -1,12 +1,5 @@
 package ru.hits.bdui.domain.screen.components
 
-import ru.hits.bdui.domain.ComponentId
-import ru.hits.bdui.domain.screen.components.additional.Border
-import ru.hits.bdui.domain.screen.components.additional.Shape
-import ru.hits.bdui.domain.screen.components.properties.Insets
-import ru.hits.bdui.domain.screen.components.properties.Size
-import ru.hits.bdui.domain.screen.interactions.Interaction
-import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.template.ComponentTemplate
 
 sealed interface DynamicComposite : Component {
@@ -24,15 +17,7 @@ data class DynamicColumn(
     override val itemsData: String,
     override val itemAlias: String,
     override val itemTemplate: ComponentTemplate,
-    override val id: ComponentId,
-    override val interactions: List<Interaction>,
-    override val margins: Insets?,
-    override val paddings: Insets?,
-    override val width: Size,
-    override val height: Size,
-    override val backgroundColor: ColorStyle?,
-    override val border: Border?,
-    override val shape: Shape?,
+    override val base: ComponentBaseProperties,
 ) : DynamicComposite {
     override val type: String = "dynamicColumn"
 }
@@ -46,15 +31,7 @@ data class DynamicRow(
     override val itemsData: String,
     override val itemAlias: String,
     override val itemTemplate: ComponentTemplate,
-    override val id: ComponentId,
-    override val interactions: List<Interaction>,
-    override val margins: Insets?,
-    override val paddings: Insets?,
-    override val width: Size,
-    override val height: Size,
-    override val backgroundColor: ColorStyle?,
-    override val border: Border?,
-    override val shape: Shape?,
+    override val base: ComponentBaseProperties,
 ) : DynamicComposite {
     override val type: String = "dynamicRow"
 }

@@ -36,40 +36,40 @@ class RepeatedIdChecker {
         fun walk(component: ComponentRaw) {
             when (component) {
                 is BoxRaw -> {
-                    register(component.id)
+                    register(component.base.id)
                     component.children.forEach(::walk)
                 }
 
                 is ColumnRaw -> {
-                    register(component.id)
+                    register(component.base.id)
                     component.children.forEach(::walk)
                 }
 
                 is RowRaw -> {
-                    register(component.id)
+                    register(component.base.id)
                     component.children.forEach(::walk)
                 }
 
                 //TODO(Необходимо добавить проверку на наличие повторяющегося id в шаблоне)
                 is DynamicColumnRaw -> {
-                    register(component.id)
+                    register(component.base.id)
                 }
 
                 //TODO(Необходимо добавить проверку на наличие повторяющегося id в шаблоне)
                 is DynamicRowRaw -> {
-                    register(component.id)
+                    register(component.base.id)
                 }
 
-                is ButtonRaw -> register(component.id)
-                is ImageRaw -> register(component.id)
-                is InputRaw -> register(component.id)
-                is ProgressBarRaw -> register(component.id)
-                is SpacerRaw -> register(component.id)
-                is SwitchRaw -> register(component.id)
-                is TextRaw -> register(component.id)
+                is ButtonRaw -> register(component.base.id)
+                is ImageRaw -> register(component.base.id)
+                is InputRaw -> register(component.base.id)
+                is ProgressBarRaw -> register(component.base.id)
+                is SpacerRaw -> register(component.base.id)
+                is SwitchRaw -> register(component.base.id)
+                is TextRaw -> register(component.base.id)
 
                 is StatefulComponentRaw -> {
-                    register(component.id)
+                    register(component.base.id)
                     component.states.forEach { state ->
                         walk(state.component)
                     }
