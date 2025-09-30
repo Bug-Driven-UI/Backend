@@ -94,8 +94,7 @@ components:
             variables:
               type: object
               description: "Дополнительные переменные и их значения"
-              additionalProperties:
-                type: string
+              additionalProperties: true
 
     RenderedScreenResponse:
       description: "Ответ на рендеринг экрана: успех или список ошибок."
