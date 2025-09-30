@@ -1,6 +1,6 @@
 package ru.hits.bdui.engine.screen
 
-import ru.hits.bdui.domain.screen.Screen
+import ru.hits.bdui.domain.screen.ScreenFromDatabase
 import ru.hits.bdui.engine.Interpreter
 
 @org.springframework.stereotype.Component
@@ -13,22 +13,24 @@ class ScreenRenderer(
      * (вызовы внешних API, параметры навигации)
      */
     fun renderScreen(
-        screen: Screen,
+        screen: ScreenFromDatabase,
         interpreter: Interpreter,
-    ): Screen =
+    ): ScreenFromDatabase =
         screen.copy(
-            components = screen.components.map { component ->
-                gateway.evaluate(component, interpreter)
-            },
-            scaffold = screen.scaffold?.let { scaffold ->
-                scaffold.copy(
-                    topBar = scaffold.topBar?.let { topBar ->
-                        gateway.evaluate(topBar, interpreter)
-                    },
-                    bottomBar = scaffold.bottomBar?.let { bottomBar ->
-                        gateway.evaluate(bottomBar, interpreter)
-                    },
-                )
-            }
+            screen = screen.screen.copy(
+                components = screen.screen.components.map { component ->
+                    gateway.evaluate(component, interpreter)
+                },
+                scaffold = screen.screen.scaffold?.let { scaffold ->
+                    scaffold.copy(
+                        topBar = scaffold.topBar?.let { topBar ->
+                            gateway.evaluate(topBar, interpreter)
+                        },
+                        bottomBar = scaffold.bottomBar?.let { bottomBar ->
+                            gateway.evaluate(bottomBar, interpreter)
+                        },
+                    )
+                },
+            ),
         )
 }

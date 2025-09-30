@@ -13,7 +13,7 @@ import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
     JsonSubTypes.Type(value = TextRaw::class, name = "text"),
-    JsonSubTypes.Type(value = InputRaw::class, name = "textField"),
+    JsonSubTypes.Type(value = InputRaw::class, name = "input"),
     JsonSubTypes.Type(value = ImageRaw::class, name = "image"),
     JsonSubTypes.Type(value = SpacerRaw::class, name = "spacer"),
     JsonSubTypes.Type(value = ProgressBarRaw::class, name = "progressBar"),
