@@ -28,7 +28,8 @@ sealed interface ExternalApisCallResult {
     data class Error(val error: Throwable) : ExternalApisCallResult
 }
 
-//TODO(Провести рефакторинг реактивных цепочек, возможно компонента в целом)
+//TODO(Провести рефакторинг реактивных цепочек, возможно компонента в целом
+// )
 @Component
 class ExternalApiManager(
     private val apiCaller: ExternalApiCaller,

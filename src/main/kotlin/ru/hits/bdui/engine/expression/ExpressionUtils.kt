@@ -17,8 +17,14 @@ object ExpressionUtils {
         obj is String && regex.containsMatchIn(obj)
 
     fun getValueOrExpression(value: Any): ValueOrExpression =
-        if (isExpression(value)) Expression(value as String)
-        else Value(value)
+        when (value) {
+            is String -> {
+                if (containsExpression(value)) Expression(value)
+                else Value(value)
+            }
+
+            else -> Value(value)
+        }
 
     fun getExpressionOrThrow(value: String): Expression =
         if (isExpression(value)) Expression(value)
