@@ -1,4 +1,4 @@
-package ru.hits.bdui.admin.externalapi.database.entity
+package ru.hits.bdui.admin.externalApi.database.entity
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo

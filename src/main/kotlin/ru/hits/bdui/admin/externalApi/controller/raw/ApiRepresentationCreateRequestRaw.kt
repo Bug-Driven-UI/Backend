@@ -1,4 +1,4 @@
-package ru.hits.bdui.admin.externalapi.controller.raw
+package ru.hits.bdui.admin.externalApi.controller.raw
 
 import ru.hits.bdui.domain.api.Endpoint
 import ru.hits.bdui.domain.api.schema.Schema

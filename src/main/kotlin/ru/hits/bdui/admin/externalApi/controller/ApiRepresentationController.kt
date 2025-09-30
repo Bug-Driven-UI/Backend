@@ -1,4 +1,4 @@
-package ru.hits.bdui.admin.externalapi.controller
+package ru.hits.bdui.admin.externalApi.controller
 
 import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
-import ru.hits.bdui.admin.externalapi.ApiRepresentationStorageService
-import ru.hits.bdui.admin.externalapi.controller.raw.ApiRepresentationCreateRequestRaw
-import ru.hits.bdui.admin.externalapi.controller.raw.ApiRepresentationDeleteRequestRaw
-import ru.hits.bdui.admin.externalapi.controller.raw.ApiRepresentationGetRequestRaw
-import ru.hits.bdui.admin.externalapi.controller.raw.ApiRepresentationQueryRequestRaw
-import ru.hits.bdui.admin.externalapi.controller.raw.ApiRepresentationRawMapper
-import ru.hits.bdui.admin.externalapi.controller.raw.ApiRepresentationResponseRaw
-import ru.hits.bdui.admin.externalapi.controller.raw.ApiRepresentationShortListResponseRaw
-import ru.hits.bdui.admin.externalapi.controller.raw.ApiRepresentationUpdateRequestRaw
+import ru.hits.bdui.admin.externalApi.ApiRepresentationStorageService
+import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationCreateRequestRaw
+import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationDeleteRequestRaw
+import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationGetRequestRaw
+import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationQueryRequestRaw
+import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationRawMapper
+import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationResponseRaw
+import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationShortListResponseRaw
+import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationUpdateRequestRaw
 import ru.hits.bdui.common.models.api.ApiResponse
 import ru.hits.bdui.common.models.api.DataModel
 import ru.hits.bdui.common.models.api.DeleteResponseRaw

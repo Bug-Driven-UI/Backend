@@ -1,11 +1,11 @@
-package ru.hits.bdui.admin.externalapi.database.emerge
+package ru.hits.bdui.admin.externalApi.database.emerge
 
-import ru.hits.bdui.admin.externalapi.database.entity.ApiRepresentationEntity
-import ru.hits.bdui.admin.externalapi.database.entity.ApiSchema
+import ru.hits.bdui.admin.externalApi.database.entity.ApiRepresentationEntity
+import ru.hits.bdui.admin.externalApi.database.entity.ApiSchema
 import ru.hits.bdui.domain.api.ApiRepresentation
 import ru.hits.bdui.domain.api.ApiRepresentationFromDatabase
 import ru.hits.bdui.domain.api.schema.Schema
-import java.util.*
+import java.util.UUID
 
 fun ApiSchema.toDomainSchema(): Schema = when (this) {
     is ApiSchema.Object -> Schema.Object(

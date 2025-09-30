@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import ru.hits.bdui.admin.externalapi.ApiRepresentationStorageService
+import ru.hits.bdui.admin.externalApi.ApiRepresentationStorageService
 import ru.hits.bdui.domain.api.ApiCallRepresentation
 import ru.hits.bdui.domain.api.ApiRepresentationFromDatabase
 import ru.hits.bdui.engine.Interpreter
@@ -28,6 +28,7 @@ sealed interface ExternalApisCallResult {
     data class Error(val error: Throwable) : ExternalApisCallResult
 }
 
+//TODO(Провести рефакторинг реактивных цепочек, возможно компонента в целом)
 @Component
 class ExternalApiManager(
     private val apiCaller: ExternalApiCaller,

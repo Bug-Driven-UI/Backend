@@ -1,16 +1,16 @@
-package ru.hits.bdui.admin.externalapi
+package ru.hits.bdui.admin.externalApi
 
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
-import ru.hits.bdui.admin.externalapi.database.emerge.emerge
-import ru.hits.bdui.admin.externalapi.database.entity.ApiRepresentationEntity
-import ru.hits.bdui.admin.externalapi.database.repository.ApiRepresentationRepository
+import ru.hits.bdui.admin.externalApi.database.emerge.emerge
+import ru.hits.bdui.admin.externalApi.database.entity.ApiRepresentationEntity
+import ru.hits.bdui.admin.externalApi.database.repository.ApiRepresentationRepository
 import ru.hits.bdui.common.exceptions.notFound
 import ru.hits.bdui.domain.api.ApiRepresentation
 import ru.hits.bdui.domain.api.ApiRepresentationFromDatabase
 import ru.hits.bdui.domain.api.ShortApiRepresentation
-import java.util.*
+import java.util.UUID
 
 interface ApiRepresentationStorageService {
 
@@ -27,6 +27,7 @@ interface ApiRepresentationStorageService {
     fun queryApiNames(query: String): Mono<List<ShortApiRepresentation>>
 }
 
+//TODO(Привести к общему виду)
 @Service
 class ApiRepresentationStorageServiceImpl(
     private val repository: ApiRepresentationRepository

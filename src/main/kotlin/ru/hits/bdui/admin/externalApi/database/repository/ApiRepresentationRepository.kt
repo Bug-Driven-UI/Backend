@@ -1,10 +1,10 @@
-package ru.hits.bdui.admin.externalapi.database.repository
+package ru.hits.bdui.admin.externalApi.database.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
-import ru.hits.bdui.admin.externalapi.database.entity.ApiRepresentationEntity
+import ru.hits.bdui.admin.externalApi.database.entity.ApiRepresentationEntity
 import java.util.UUID
 
 @Repository

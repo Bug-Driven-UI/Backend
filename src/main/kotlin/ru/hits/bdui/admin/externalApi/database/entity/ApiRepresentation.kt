@@ -1,14 +1,19 @@
-package ru.hits.bdui.admin.externalapi.database.entity
+package ru.hits.bdui.admin.externalApi.database.entity
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Convert
+import jakarta.persistence.Converter
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import org.springframework.stereotype.Component
-import ru.hits.bdui.domain.api.Endpoint
 import ru.hits.bdui.common.dbconverters.JsonConverter
 import ru.hits.bdui.common.dbconverters.StringSetConverter
 import ru.hits.bdui.common.dbconverters.createJsonConverter
 import ru.hits.bdui.common.dbconverters.createJsonListConverter
-import java.util.*
+import ru.hits.bdui.domain.api.Endpoint
+import java.util.UUID
 
 @Entity
 @Table(name = "external_apis")

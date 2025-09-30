@@ -1,4 +1,4 @@
-package ru.hits.bdui.admin.externalapi.controller.raw
+package ru.hits.bdui.admin.externalApi.controller.raw
 
 data class ApiRepresentationShortListResponseRaw(
     val apiNames: List<ApiRepresentationShortRaw>
