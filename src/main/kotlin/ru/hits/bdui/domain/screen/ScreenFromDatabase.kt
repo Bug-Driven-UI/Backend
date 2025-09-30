@@ -12,5 +12,7 @@ import ru.hits.bdui.domain.ScreenId
 data class ScreenFromDatabase(
     val id: ScreenId,
     val screen: Screen,
-    val version: ScreenVersion,
-)
+    val version: ScreenVersion?,
+) {
+    companion object
+}

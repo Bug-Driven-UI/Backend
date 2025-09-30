@@ -1,7 +1,9 @@
 package ru.hits.bdui.domain
 
+import java.util.UUID
+
 @JvmInline
-value class ScreenId(val value: String)
+value class ScreenId(val value: UUID)
 
 @JvmInline
 value class ScreenName(val value: String)

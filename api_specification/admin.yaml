@@ -207,35 +207,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScreenResponseError'
-  /v1/screen/delete:
-    delete:
-      summary: Удаление экрана (целиком, вместе со всеми версиями)
-      tags: [ AdminScreen ]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ScreenDeleteRequest"
-      responses:
-        '200':
-          description: Успешный ответ
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ScreenDeleteResponseSuccess'
-        '400':
-          description: Некорректный запрос
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ScreenDeleteResponseError'
-        '500':
-          description: Внутренняя ошибка
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ScreenDeleteResponseError'
 
   # AdminAPI
 
@@ -1152,39 +1123,6 @@ components:
       additionalProperties: false
 
     ScreenSaveResponseError:
-      type: object
-      required: [ errors ]
-      properties:
-        type:
-          const: error
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorContent'
-      additionalProperties: false
-
-    ScreenDeleteRequest:
-      description: Запрос на удаление экрана
-      type: object
-      required: [ data ]
-      properties:
-        data:
-          required: [ screenId ]
-          properties:
-            screenId:
-              type: string
-              description: "Идентификатор экрана"
-
-    ScreenDeleteResponseSuccess:
-      type: object
-      properties:
-        type:
-          const: success
-        message:
-          type: string
-      additionalProperties: false
-
-    ScreenDeleteResponseError:
       type: object
       required: [ errors ]
       properties:
@@ -2270,6 +2208,9 @@ components:
           format: uuid
         screenName:
           type: string
+        description:
+          type: string
+          description: "Описание экрана"
         version:
           $ref: '#/components/schemas/ScreenVersion'
         screenNavigationParams:
@@ -2298,6 +2239,9 @@ components:
           type: array
           items:
             type: string
+        description:
+          type: string
+          description: "Описание экрана"
         apis:
           type: array
           items:
@@ -2318,15 +2262,17 @@ components:
           type: string
           format: uuid
         version:
-          type: string
+          type: integer
         isProduction:
           type: boolean
           description: "Используется ли эта версия прямо сейчас на продакшене"
         createdAtTimestampMs:
-          type: int64
+          type: integer
+          format: int64
           description: "Время создания версии в мс"
         lastModifiedTimestampMs:
-          type: int64
+          type: integer
+          format: int64
           description: "Время изменения версии в мс"
 
     Scaffold:
@@ -2368,9 +2314,11 @@ components:
           type: string
           description: "Сообщение об ошибке, в случае неудачного исполнения команды"
         createdAtTimestampMs:
-          type: int64
+          type: integer
+          format: int64
         lastModifiedAtTimestampMs:
-          type: int64
+          type: integer
+          format: int64
 
     CommandForSave:
       type: object
@@ -2815,9 +2763,11 @@ components:
         component:
           $ref: '#/components/schemas/Component'
         createdAtTimestampMs:
-          type: int64
+          type: integer
+          format: int64
         lastModifiedAtTimestampMs:
-          type: int64
+          type: integer
+          format: int64
 
     ComponentTemplateForSave:
       type: object
@@ -3087,10 +3037,12 @@ components:
           type: string
           description: "JS скрипт для превращения данных ответа API в данные соответствующие схеме"
         createdAtTimestampMs:
-          type: int64
+          type: integer
+          format: int64
           description: "Время создания версии в мс"
         lastModifiedTimestampMs:
-          type: int64
+          type: integer
+          format: int64
           description: "Время изменения версии в мс"
 
     ApiRepresentationForSave:
