@@ -5,6 +5,6 @@ import ru.hits.bdui.domain.screen.styles.color.ColorStyleFromDatabase
 fun ColorStyleRaw.Companion.of(data: ColorStyleFromDatabase): ColorStyleRaw =
     ColorStyleRaw(
         id = data.id,
-        token = data.colorStyle.token,
-        color = data.colorStyle.color
+        token = data.colorStyle.token.value as String,
+        color = data.colorStyle.color.value as String,
     )

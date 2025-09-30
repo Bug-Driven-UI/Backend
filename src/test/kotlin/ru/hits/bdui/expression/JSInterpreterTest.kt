@@ -5,7 +5,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.hits.bdui.core.expression.JSInterpreter
+import ru.hits.bdui.engine.expression.JSInterpreter
 
 class JSInterpreterTest {
     private val objectMapper: ObjectMapper = jacksonObjectMapper()

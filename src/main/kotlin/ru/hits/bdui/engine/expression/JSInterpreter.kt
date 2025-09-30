@@ -1,4 +1,4 @@
-package ru.hits.bdui.core.expression
+package ru.hits.bdui.engine.expression
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -6,6 +6,8 @@ import com.fasterxml.jackson.module.kotlin.convertValue
 import javax.script.ScriptContext.ENGINE_SCOPE
 import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory
 import org.slf4j.LoggerFactory
+import ru.hits.bdui.domain.engine.Interpreter
+import ru.hits.bdui.domain.engine.ScopedInterpreter
 import javax.script.ScriptEngine
 
 class JSInterpreter(

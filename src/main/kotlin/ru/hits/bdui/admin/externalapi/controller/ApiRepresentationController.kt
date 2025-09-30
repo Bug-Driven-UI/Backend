@@ -9,9 +9,9 @@ import ru.hits.bdui.common.models.api.ApiResponse
 import ru.hits.bdui.common.models.api.DataModel
 import ru.hits.bdui.common.models.api.DeleteResponseRaw
 import ru.hits.bdui.common.models.api.ErrorContentRaw
-import ru.hits.bdui.core.api.ExternalApiManager
-import ru.hits.bdui.core.api.ExternalApisCallResult
-import ru.hits.bdui.core.expression.Interpreter
+import ru.hits.bdui.engine.api.ExternalApiManager
+import ru.hits.bdui.engine.api.ExternalApisCallResult
+import ru.hits.bdui.domain.engine.Interpreter
 import ru.hits.bdui.domain.api.ApiCallRepresentation
 
 @RestController

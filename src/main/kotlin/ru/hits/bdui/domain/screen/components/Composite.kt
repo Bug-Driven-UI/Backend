@@ -1,58 +1,43 @@
 package ru.hits.bdui.domain.screen.components
 
-import ru.hits.bdui.domain.ComponentId
-import ru.hits.bdui.domain.screen.components.additional.Border
-import ru.hits.bdui.domain.screen.components.additional.Shape
-import ru.hits.bdui.domain.screen.components.properties.Insets
-import ru.hits.bdui.domain.screen.components.properties.Size
-import ru.hits.bdui.domain.screen.interactions.Interaction
-import ru.hits.bdui.domain.screen.styles.color.ColorStyle
+import ru.hits.bdui.domain.engine.ComponentEvaluator
+import ru.hits.bdui.engine.screen.component.CompositeEvaluator
 
 sealed interface Composite : Component {
     val children: List<Component>
+    override val evaluator: ComponentEvaluator
+        get() = CompositeEvaluator()
 }
 
 data class Row(
-    override val id: ComponentId,
     override val children: List<Component>,
-    override val interactions: List<Interaction>,
-    override val margins: Insets?,
-    override val paddings: Insets?,
-    override val width: Size,
-    override val height: Size,
-    override val backgroundColor: ColorStyle?,
-    override val border: Border?,
-    override val shape: Shape?,
-) : Composite {
+    private val basePropertiesSet: ComponentPropertiesSet,
+) : Composite, BaseComponentProperties by basePropertiesSet {
     override val type: String = "row"
+
+    override fun copyWithNewBaseProperties(newProperties: ComponentPropertiesSet) = copy(
+        basePropertiesSet = newProperties,
+    )
 }
 
 data class Box(
-    override val id: ComponentId,
     override val children: List<Component>,
-    override val interactions: List<Interaction>,
-    override val margins: Insets?,
-    override val paddings: Insets?,
-    override val width: Size,
-    override val height: Size,
-    override val backgroundColor: ColorStyle?,
-    override val border: Border?,
-    override val shape: Shape?,
-) : Composite {
+    private val basePropertiesSet: ComponentPropertiesSet,
+) : Composite, BaseComponentProperties by basePropertiesSet {
     override val type: String = "box"
+
+    override fun copyWithNewBaseProperties(newProperties: ComponentPropertiesSet) = copy(
+        basePropertiesSet = newProperties,
+    )
 }
 
 data class Column(
-    override val id: ComponentId,
     override val children: List<Component>,
-    override val interactions: List<Interaction>,
-    override val margins: Insets?,
-    override val paddings: Insets?,
-    override val width: Size,
-    override val height: Size,
-    override val backgroundColor: ColorStyle?,
-    override val border: Border?,
-    override val shape: Shape?,
-) : Composite {
+    private val basePropertiesSet: ComponentPropertiesSet,
+) : Composite, BaseComponentProperties by basePropertiesSet {
     override val type: String = "column"
+
+    override fun copyWithNewBaseProperties(newProperties: ComponentPropertiesSet) = copy(
+        basePropertiesSet = newProperties,
+    )
 }

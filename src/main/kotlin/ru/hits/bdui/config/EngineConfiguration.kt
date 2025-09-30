@@ -4,5 +4,5 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ComponentScan(basePackages = ["ru.hits.bdui.core"])
-class CoreConfiguration
+@ComponentScan(basePackages = ["ru.hits.bdui.engine"])
+class EngineConfiguration

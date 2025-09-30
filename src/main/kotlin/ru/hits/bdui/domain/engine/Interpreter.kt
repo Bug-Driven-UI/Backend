@@ -1,4 +1,4 @@
-package ru.hits.bdui.core.expression
+package ru.hits.bdui.domain.engine
 
 import com.fasterxml.jackson.databind.JsonNode
 

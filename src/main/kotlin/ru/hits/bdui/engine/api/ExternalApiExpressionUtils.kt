@@ -1,4 +1,4 @@
-package ru.hits.bdui.core.api
+package ru.hits.bdui.engine.api
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
 import org.springframework.stereotype.Component
-import ru.hits.bdui.core.expression.Interpreter
-import ru.hits.bdui.core.expression.evaluateExpression
+import ru.hits.bdui.domain.engine.Interpreter
+import ru.hits.bdui.engine.expression.evaluateExpression
 import ru.hits.bdui.domain.api.Endpoint
 
 @Component

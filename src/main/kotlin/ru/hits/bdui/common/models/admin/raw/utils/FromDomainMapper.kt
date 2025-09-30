@@ -69,7 +69,7 @@ fun Component.toRaw(): ComponentRaw =
     when (this) {
         is Text -> TextRaw(
             textWithStyle = this.textWithStyle.toRaw(),
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -103,7 +103,7 @@ fun Component.toRaw(): ComponentRaw =
                     it.textWithStyle.toRaw()
                 )
             },
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -117,7 +117,7 @@ fun Component.toRaw(): ComponentRaw =
         is Image -> ImageRaw(
             imageUrl = this.imageUrl.value as String,
             badge = this.badge?.toRaw(),
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -129,7 +129,7 @@ fun Component.toRaw(): ComponentRaw =
         )
 
         is Spacer -> SpacerRaw(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -141,7 +141,7 @@ fun Component.toRaw(): ComponentRaw =
         )
 
         is ProgressBar -> ProgressBarRaw(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -153,7 +153,7 @@ fun Component.toRaw(): ComponentRaw =
         )
 
         is Switch -> SwitchRaw(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -167,7 +167,7 @@ fun Component.toRaw(): ComponentRaw =
         is Button -> ButtonRaw(
             textWithStyle = this.textWithStyle.toRaw(),
             enabled = this.enabled,
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -180,7 +180,7 @@ fun Component.toRaw(): ComponentRaw =
 
         is Column -> ColumnRaw(
             children = this.children.map { it.toRaw() },
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -193,7 +193,7 @@ fun Component.toRaw(): ComponentRaw =
 
         is Row -> RowRaw(
             children = this.children.map { it.toRaw() },
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -206,7 +206,7 @@ fun Component.toRaw(): ComponentRaw =
 
         is Box -> BoxRaw(
             children = this.children.map { it.toRaw() },
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -218,7 +218,7 @@ fun Component.toRaw(): ComponentRaw =
         )
 
         is StatefulComponent -> StatefulComponentRaw(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -231,7 +231,7 @@ fun Component.toRaw(): ComponentRaw =
         )
 
         is DynamicColumn -> DynamicColumnRaw(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -246,7 +246,7 @@ fun Component.toRaw(): ComponentRaw =
         )
 
         is DynamicRow -> DynamicRowRaw(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toRaw),
             margins = this.margins?.toRaw(),
             paddings = this.paddings?.toRaw(),
@@ -321,7 +321,7 @@ private fun Action.toRaw(): ActionRaw =
 private fun Image.Badge.toRaw(): ImageRaw.BadgeRaw =
     when (this) {
         is Image.Badge.BadgeWithImage -> ImageRaw.BadgeRaw.BadgeWithImageRaw(
-            imageUrl = this.imageUrl
+            imageUrl = this.imageUrl.value as String
         )
 
         is Image.Badge.BadgeWithText -> ImageRaw.BadgeRaw.BadgeWithTextRaw(
@@ -350,5 +350,5 @@ private fun TextStyle.toRaw(): TextStyleRaw =
 
 private fun ColorStyle.toRaw(): ColorStyleRaw =
     ColorStyleRaw(
-        token = this.token,
+        token = this.token.value as String,
     )

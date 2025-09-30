@@ -1,5 +1,7 @@
 package ru.hits.bdui.domain.screen.styles.color
 
+import ru.hits.bdui.domain.ValueOrExpression
+
 /**
  * Стиль цвета
  *
@@ -7,6 +9,6 @@ package ru.hits.bdui.domain.screen.styles.color
  * @property color - hex значение цвета
  */
 data class ColorStyle(
-    val token: String,
-    val color: String
+    val token: ValueOrExpression,
+    val color: ValueOrExpression,
 )

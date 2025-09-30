@@ -1,4 +1,4 @@
-package ru.hits.bdui.core.api.caller
+package ru.hits.bdui.engine.api.caller
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
-import ru.hits.bdui.core.api.caller.ExternalApiCaller.Response
+import ru.hits.bdui.engine.api.caller.ExternalApiCaller.Response
 import ru.hits.bdui.domain.api.Endpoint
 import ru.hits.bdui.domain.api.HttpMethod
 import java.time.Duration

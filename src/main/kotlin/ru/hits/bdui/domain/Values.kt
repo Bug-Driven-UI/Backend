@@ -7,7 +7,7 @@ value class ScreenId(val value: String)
 value class ScreenName(val value: String)
 
 @JvmInline
-value class ComponentId(val value: String)
+value class ComponentId(val value: ValueOrExpression)
 
 @JvmInline
 value class CommandName(val value: String)

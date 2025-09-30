@@ -1,4 +1,4 @@
-package ru.hits.bdui.core.api
+package ru.hits.bdui.engine.api
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import ru.hits.bdui.admin.externalapi.ApiRepresentationStorageService
-import ru.hits.bdui.core.api.caller.ExternalApiCaller
-import ru.hits.bdui.core.expression.Interpreter
-import ru.hits.bdui.core.expression.setVariables
+import ru.hits.bdui.engine.api.caller.ExternalApiCaller
+import ru.hits.bdui.domain.engine.Interpreter
+import ru.hits.bdui.domain.engine.setVariables
 import ru.hits.bdui.domain.api.ApiCallRepresentation
 import ru.hits.bdui.domain.api.ApiRepresentationFromDatabase
 
@@ -36,6 +36,10 @@ class ExternalApiManager(
     private val apiRepresentationStorageService: ApiRepresentationStorageService,
 ) {
 
+    /**
+     * @param interpreter интерпретатор для вычисления выражений, у которого !ВАЖНО! заданы все значения переменных, пришедших из навигации на экран
+     * @param apiCalls список вызовов внешних API, которые необходимо выполнить
+     */
     fun getData(
         interpreter: Interpreter,
         apiCalls: List<ApiCallRepresentation>

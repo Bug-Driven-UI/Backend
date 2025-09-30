@@ -35,22 +35,7 @@ import ru.hits.bdui.domain.CommandName
 import ru.hits.bdui.domain.ComponentId
 import ru.hits.bdui.domain.ScreenName
 import ru.hits.bdui.domain.ValueOrExpression
-import ru.hits.bdui.domain.screen.components.Box
-import ru.hits.bdui.domain.screen.components.Button
-import ru.hits.bdui.domain.screen.components.Column
-import ru.hits.bdui.domain.screen.components.Component
-import ru.hits.bdui.domain.screen.components.DynamicColumn
-import ru.hits.bdui.domain.screen.components.DynamicRow
-import ru.hits.bdui.domain.screen.components.Image
-import ru.hits.bdui.domain.screen.components.Input
-import ru.hits.bdui.domain.screen.components.Mask
-import ru.hits.bdui.domain.screen.components.ProgressBar
-import ru.hits.bdui.domain.screen.components.Row
-import ru.hits.bdui.domain.screen.components.Spacer
-import ru.hits.bdui.domain.screen.components.StateDefinition
-import ru.hits.bdui.domain.screen.components.StatefulComponent
-import ru.hits.bdui.domain.screen.components.Switch
-import ru.hits.bdui.domain.screen.components.Text
+import ru.hits.bdui.domain.screen.components.*
 import ru.hits.bdui.domain.screen.components.additional.Border
 import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
@@ -67,21 +52,24 @@ import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
-import ru.hits.bdui.core.expression.ExpressionUtils
+import ru.hits.bdui.engine.expression.ExpressionUtils
+import ru.hits.bdui.engine.expression.ExpressionUtils.getValueOrExpression
 
 fun ComponentRaw.toDomain(ctx: MappingContext): Component =
     when (this) {
         is TextRaw -> Text(
             textWithStyle = this.textWithStyle.toDomain(ctx),
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is InputRaw -> Input(
@@ -91,158 +79,182 @@ fun ComponentRaw.toDomain(ctx: MappingContext): Component =
             rightIcon = this.rightIcon?.let { it.toDomain(ctx) as Image? },
             hint = this.hint?.let { Input.Hint(it.textWithStyle.toDomain(ctx)) },
             placeholder = this.placeholder?.let { Input.Placeholder(it.textWithStyle.toDomain(ctx)) },
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is ImageRaw -> Image(
             imageUrl = this.imageUrl.toDomainValueOrExpression(),
             badge = this.badge?.toDomain(ctx),
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is SpacerRaw -> Spacer(
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is ProgressBarRaw -> ProgressBar(
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is SwitchRaw -> Switch(
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is ButtonRaw -> Button(
             textWithStyle = this.textWithStyle.toDomain(ctx),
             enabled = this.enabled,
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is ColumnRaw -> Column(
             children = this.children.map { it.toDomain(ctx) },
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is RowRaw -> Row(
             children = this.children.map { it.toDomain(ctx) },
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is BoxRaw -> Box(
             children = this.children.map { it.toDomain(ctx) },
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain()
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
         )
 
         is StatefulComponentRaw -> StatefulComponent(
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain(),
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
             states = this.states.map { it.toDomain(ctx) },
         )
 
         is DynamicColumnRaw -> DynamicColumn(
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain(),
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplate = ctx.template(this.itemTemplateName),
         )
 
         is DynamicRowRaw -> DynamicRow(
-            id = ComponentId(this.id),
-            interactions = this.interactions.map(InteractionRaw::toDomain),
-            margins = this.margins?.toDomain(),
-            paddings = this.paddings?.toDomain(),
-            width = this.width.toDomain(),
-            height = this.height.toDomain(),
-            backgroundColor = this.backgroundColor?.toDomain(ctx),
-            border = this.border?.toDomain(ctx),
-            shape = this.shape?.toDomain(),
+            basePropertiesSet = ComponentPropertiesSet(
+                id = ComponentId(getValueOrExpression(this.id)),
+                interactions = this.interactions.map(InteractionRaw::toDomain),
+                margins = this.margins?.toDomain(),
+                paddings = this.paddings?.toDomain(),
+                width = this.width.toDomain(),
+                height = this.height.toDomain(),
+                backgroundColor = this.backgroundColor?.toDomain(ctx),
+                border = this.border?.toDomain(ctx),
+                shape = this.shape?.toDomain(),
+            ),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplate = ctx.template(this.itemTemplateName),
@@ -290,29 +302,29 @@ private fun ActionRaw.toDomain(): Action =
     when (this) {
         is UpdateScreenActionRaw -> UpdateScreenAction(
             screenName = ScreenName(this.screenName),
-            screenNavigationParams = this.screenNavigationParams.mapValues { ExpressionUtils.getValueOrExpression(it.value) }
+            screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
         )
 
         is CommandActionRaw -> CommandAction(
             name = CommandName(this.name),
-            params = this.params.mapValues { ExpressionUtils.getValueOrExpression(it.value) }
+            params = this.params.mapValues { getValueOrExpression(it.value) }
         )
 
         is NavigateToActionRaw -> NavigateToAction(
             screenName = ScreenName(this.screenName),
-            screenNavigationParams = this.screenNavigationParams.mapValues { ExpressionUtils.getValueOrExpression(it.value) }
+            screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
         )
 
         is NavigateBackActionRaw -> NavigateBackAction()
     }
 
 private fun Any.toDomainValueOrExpression(): ValueOrExpression =
-    ExpressionUtils.getValueOrExpression(this)
+    getValueOrExpression(this)
 
 private fun ImageRaw.BadgeRaw.toDomain(ctx: MappingContext): Image.Badge =
     when (this) {
         is ImageRaw.BadgeRaw.BadgeWithImageRaw -> Image.Badge.BadgeWithImage(
-            imageUrl = this.imageUrl
+            imageUrl = getValueOrExpression(this.imageUrl)
         )
 
         is ImageRaw.BadgeRaw.BadgeWithTextRaw -> Image.Badge.BadgeWithText(
@@ -328,7 +340,7 @@ private fun StateDefinitionRaw.toDomain(ctx: MappingContext): StateDefinition =
 
 private fun TextWithStyleRaw.toDomain(ctx: MappingContext): TextWithStyle =
     TextWithStyle(
-        text = ExpressionUtils.getValueOrExpression(this.text),
+        text = getValueOrExpression(this.text),
         textStyle = this.textStyle.toDomain(ctx),
         color = this.color.toDomain(ctx)
     )

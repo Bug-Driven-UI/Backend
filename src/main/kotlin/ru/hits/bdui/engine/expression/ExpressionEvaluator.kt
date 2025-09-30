@@ -1,4 +1,6 @@
-package ru.hits.bdui.core.expression
+package ru.hits.bdui.engine.expression
+
+import ru.hits.bdui.domain.engine.Interpreter
 
 private val interpolationRegex = ExpressionUtils.INTERPOLATION_REGEXP.toRegex()
 

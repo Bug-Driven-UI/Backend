@@ -73,7 +73,7 @@ fun Component.toEntity(): ComponentEntity =
     when (this) {
         is Text -> TextEntity(
             textWithStyle = this.textWithStyle.toEntity(),
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -107,7 +107,7 @@ fun Component.toEntity(): ComponentEntity =
                     it.textWithStyle.toEntity()
                 )
             },
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -121,7 +121,7 @@ fun Component.toEntity(): ComponentEntity =
         is Image -> ImageEntity(
             imageUrl = this.imageUrl.value as String,
             badge = this.badge?.toEntity(),
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -133,7 +133,7 @@ fun Component.toEntity(): ComponentEntity =
         )
 
         is Spacer -> SpacerEntity(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -145,7 +145,7 @@ fun Component.toEntity(): ComponentEntity =
         )
 
         is ProgressBar -> ProgressBarEntity(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -157,7 +157,7 @@ fun Component.toEntity(): ComponentEntity =
         )
 
         is Switch -> SwitchEntity(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -171,7 +171,7 @@ fun Component.toEntity(): ComponentEntity =
         is Button -> ButtonEntity(
             textWithStyle = this.textWithStyle.toEntity(),
             enabled = this.enabled,
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -184,7 +184,7 @@ fun Component.toEntity(): ComponentEntity =
 
         is Column -> ColumnEntity(
             children = this.children.map { it.toEntity() },
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -197,7 +197,7 @@ fun Component.toEntity(): ComponentEntity =
 
         is Row -> RowEntity(
             children = this.children.map { it.toEntity() },
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -210,7 +210,7 @@ fun Component.toEntity(): ComponentEntity =
 
         is Box -> BoxEntity(
             children = this.children.map { it.toEntity() },
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -222,7 +222,7 @@ fun Component.toEntity(): ComponentEntity =
         )
 
         is StatefulComponent -> StatefulComponentEntity(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -235,7 +235,7 @@ fun Component.toEntity(): ComponentEntity =
         )
 
         is DynamicColumn -> DynamicColumnEntity(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -250,7 +250,7 @@ fun Component.toEntity(): ComponentEntity =
         )
 
         is DynamicRow -> DynamicRowEntity(
-            id = this.id.value,
+            id = this.id.value.value as String,
             interactions = this.interactions.map(Interaction::toEntity),
             margins = this.margins?.toEntity(),
             paddings = this.paddings?.toEntity(),
@@ -331,7 +331,7 @@ private fun Action.toEntity(): ActionEntity =
 private fun Image.Badge.toEntity(): ImageEntity.BadgeEntity =
     when (this) {
         is Image.Badge.BadgeWithImage -> ImageEntity.BadgeEntity.BadgeWithImageEntity(
-            imageUrl = this.imageUrl
+            imageUrl = this.imageUrl.value as String
         )
 
         is Image.Badge.BadgeWithText -> ImageEntity.BadgeEntity.BadgeWithTextEntity(
@@ -374,6 +374,6 @@ private fun TextStyle.toEntity(): TextStyleEntity =
 
 private fun ColorStyle.toEntity(): ColorStyleEntity =
     ColorStyleEntity(
-        token = this.token,
-        color = this.color
+        token = this.token.value as String,
+        color = this.color.value as String,
     )
