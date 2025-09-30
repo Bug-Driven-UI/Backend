@@ -32,7 +32,7 @@ class NeededRefsCollector {
 
         fun extractTokensFromTextWithStyle(textWithStyle: TextWithStyleRaw) {
             texts += textWithStyle.textStyle.token
-            colors += textWithStyle.color.token
+            colors += textWithStyle.colorStyle.token
         }
 
         fun walk(component: ComponentRaw) {

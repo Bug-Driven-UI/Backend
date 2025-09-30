@@ -242,7 +242,7 @@ private fun TextWithStyleRaw.toDomain(ctx: MappingContext): TextWithStyle =
     TextWithStyle(
         text = getValueOrExpression(this.text),
         textStyle = this.textStyle.toDomain(ctx),
-        color = this.color.toDomain(ctx)
+        color = this.colorStyle.toDomain(ctx)
     )
 
 private fun TextStyleRaw.toDomain(ctx: MappingContext): TextStyle {

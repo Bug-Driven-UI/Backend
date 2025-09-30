@@ -2920,7 +2920,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, textStyle, colorStyle ]
+          required: [ type, text, textWithStyle, colorStyle ]
           properties:
             type: { const: text }
             textWithStyle:
@@ -2930,7 +2930,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, textStyle, colorStyle, rightIcon ]
+          required: [ type, text, textWithStyle, colorStyle, rightIcon ]
           properties:
             type:
               const: input
@@ -2951,7 +2951,7 @@ components:
 
     Placeholder:
       type: object
-      required: [ text, textStyle, colorStyle ]
+      required: [ text, textWithStyle, colorStyle ]
       properties:
         textWithStyle:
           $ref: '#/components/schemas/StyledTextRepresentation'
@@ -2959,7 +2959,7 @@ components:
 
     Hint:
       type: object
-      required: [ text, textStyle, colorStyle ]
+      required: [ text, textWithStyle, colorStyle ]
       properties:
         textWithStyle:
           $ref: '#/components/schemas/StyledTextRepresentation'
@@ -3009,7 +3009,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, enabled, textStyle, textColorStyle ]
+          required: [ type, text, enabled, textWithStyle ]
           properties:
             type: { const: button }
             textWithStyle:

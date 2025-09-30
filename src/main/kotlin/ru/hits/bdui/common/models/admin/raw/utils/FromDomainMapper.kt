@@ -250,7 +250,7 @@ private fun TextWithStyle.toRaw(): TextWithStyleRaw =
     TextWithStyleRaw(
         text = this.text.value as String,
         textStyle = this.textStyle.toRaw(),
-        color = this.color.toRaw()
+        colorStyle = this.color.toRaw()
     )
 
 private fun TextStyle.toRaw(): TextStyleRaw =
