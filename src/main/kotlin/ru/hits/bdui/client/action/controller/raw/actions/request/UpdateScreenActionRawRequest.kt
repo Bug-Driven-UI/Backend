@@ -1,5 +1,7 @@
 package ru.hits.bdui.client.action.controller.raw.actions.request
 
+import com.fasterxml.jackson.databind.JsonNode
+
 /**
  * Действие, отвечающее за обновление экрана
  *
@@ -8,7 +10,7 @@ package ru.hits.bdui.client.action.controller.raw.actions.request
  */
 data class UpdateScreenActionRawRequest(
     val screenName: String,
-    val screenNavigationParams: Map<String, String>,
+    val screenNavigationParams: Map<String, JsonNode>,
     val hashes: List<HashNode>
 ) : ActionRawRequest {
     override val type: String = "updateScreen"

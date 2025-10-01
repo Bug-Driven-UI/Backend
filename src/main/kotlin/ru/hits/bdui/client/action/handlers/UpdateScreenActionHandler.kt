@@ -1,6 +1,5 @@
 package ru.hits.bdui.client.action.handlers
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
@@ -22,8 +21,7 @@ import ru.hits.bdui.common.models.client.raw.components.RenderedComponentRaw
 
 @Component
 class UpdateScreenActionHandler(
-    private val screenRenderService: ScreenRenderService,
-    private val objectMapper: ObjectMapper
+    private val screenRenderService: ScreenRenderService
 ) : ActionHandler {
     override val type: String = "updateScreen"
 
@@ -35,7 +33,7 @@ class UpdateScreenActionHandler(
 
         val request = RenderScreenRequestModel(
             screenName = action.screenName,
-            variables = action.screenNavigationParams.mapValues { entry -> objectMapper.valueToTree(entry.value) }
+            variables = action.screenNavigationParams
         )
 
         return screenRenderService.renderScreen(request)
@@ -154,17 +152,6 @@ class UpdateScreenActionHandler(
 
     private fun equalOrDescendant(oldPath: String, cover: String): Boolean =
         oldPath == cover || oldPath.startsWith("$cover/")
-
-    private data class NewNode(
-        val id: String,
-        val hash: String,
-        val path: String,
-    )
-
-    private class NewIndex {
-        val pathToNode = linkedMapOf<String, NewNode>()
-        val components = linkedMapOf<String, RenderedComponentRaw>()
-    }
 
     private fun getPath(parentPath: String, additionalPath: String): String =
         if (parentPath != rootPath) "$parentPath/$additionalPath"

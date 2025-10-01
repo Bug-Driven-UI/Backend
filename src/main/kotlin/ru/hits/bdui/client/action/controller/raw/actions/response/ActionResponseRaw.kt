@@ -12,8 +12,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     visible = true
 )
 @JsonSubTypes(
-    JsonSubTypes.Type(CommandActionResponseRaw::class, name = "command"),
-    JsonSubTypes.Type(UpdateScreenActionResponseRaw::class, name = "updateScreen")
+    value = [
+        JsonSubTypes.Type(CommandActionResponseRaw::class, name = "command"),
+        JsonSubTypes.Type(UpdateScreenActionResponseRaw::class, name = "updateScreen")
+    ]
 )
 sealed interface ActionResponseRaw {
     @get:JsonProperty("type")

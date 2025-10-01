@@ -191,7 +191,7 @@ components:
           type: string
           description: "Название экрана"
         screenNavigationParams:
-          description: "Передаваемые параметры для исполнения команды"
+          description: "Параметры, используемые при навигации/получении экрана"
           additionalProperties: true
 
     NavigateBackActionRequest:
