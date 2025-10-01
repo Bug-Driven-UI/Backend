@@ -50,6 +50,9 @@ class ScreenAdminController(
                     }
                 )
             }
+            .doOnNextWithMeasure { duration, _ ->
+                log.info("Экраны по имени получены за {} мс", duration.toMillis())
+            }
             .map { ApiResponse.success(it) }
 
     @PostMapping("/v1/screen/getVersions")
@@ -73,6 +76,13 @@ class ScreenAdminController(
             screenId = ScreenId(request.data.screenId),
             versionId = request.data.versionId
         )
+            .doOnSubscribe {
+                log.info(
+                    "Получен запрос на установление production версии для экрана с id {}, версию {}",
+                    request.data.screenId,
+                    request.data.versionId
+                )
+            }
             .map { ScreenVersionRaw.emerge(it) }
             .doOnNextWithMeasure { duration, _ ->
                 log.info("Версия прода установлена за {} мс", duration.toMillis())
@@ -85,6 +95,13 @@ class ScreenAdminController(
             screenId = ScreenId(request.data.screenId),
             versionId = request.data.versionId
         )
+            .doOnSubscribe {
+                log.info(
+                    "Получен запрос на получение экрана с id {} и версией {}",
+                    request.data.screenId,
+                    request.data.versionId
+                )
+            }
             .doOnNextWithMeasure { duration, _ ->
                 log.info("Экран получен за {} мс", duration.toMillis())
             }
@@ -94,6 +111,7 @@ class ScreenAdminController(
     @PostMapping("/v1/screen/save")
     fun save(@RequestBody screenForSaveRaw: ScreenRaw): Mono<ApiResponse<ScreenSaveResponseRaw>> =
         validationService.validateAndMap(screenForSaveRaw)
+            .doOnSubscribe { log.info("Получен запрос на сохранение экрана {}", screenForSaveRaw.screenName) }
             .flatMap { outcome ->
                 when (outcome) {
                     is ScreenValidationOutcome.Success ->
@@ -118,6 +136,13 @@ class ScreenAdminController(
     @PutMapping("/v1/screen/update")
     fun update(@RequestBody request: ScreenUpdateRequestRaw): Mono<ApiResponse<ScreenUpdateResponseRaw>> =
         validationService.validateAndMap(request.data.screen)
+            .doOnSubscribe {
+                log.info(
+                    "Получен запрос на обновление экрана {}, версии {}",
+                    request.data.screen.screenName,
+                    request.data.versionId
+                )
+            }
             .flatMap { outcome ->
                 when (outcome) {
                     is ScreenValidationOutcome.Success ->
