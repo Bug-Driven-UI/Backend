@@ -25,6 +25,7 @@ class ScreenValidationService(
     private val componentValidationService: ComponentValidationService,
 ) {
     //TODO(Подумать как оптимизировать валидацию экрана, чтоб не собирать отдельно компоненты скаффолда и экрана)
+    //TODO(Прикрутить валидацию существующих API)
     fun validateAndMap(screenRaw: ScreenRaw): Mono<ScreenValidationOutcome> {
         val allRaws = buildList {
             addAll(screenRaw.components)

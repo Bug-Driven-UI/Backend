@@ -17,7 +17,9 @@ import ru.hits.bdui.admin.screen.controller.raw.get.GetByNameResponseRaw
 import ru.hits.bdui.admin.screen.controller.raw.get.GetScreenRequestRaw
 import ru.hits.bdui.admin.screen.controller.raw.get.GetVersionsRequestRaw
 import ru.hits.bdui.admin.screen.controller.raw.get.GetVersionsResponseRaw
+import ru.hits.bdui.admin.screen.controller.raw.save.ScreenSaveResponseRaw
 import ru.hits.bdui.admin.screen.controller.raw.update.ScreenUpdateRequestRaw
+import ru.hits.bdui.admin.screen.controller.raw.update.ScreenUpdateResponseRaw
 import ru.hits.bdui.admin.screen.controller.raw.update.SetProductionVersionRequestRaw
 import ru.hits.bdui.admin.screen.controller.raw.utils.emerge
 import ru.hits.bdui.admin.screen.models.ScreenUpdateCommand
@@ -89,17 +91,17 @@ class ScreenAdminController(
             .map { ApiResponse.success(it) }
 
     @PostMapping("/v1/screen/save")
-    fun save(@RequestBody screenForSaveRaw: ScreenRaw): Mono<ApiResponse<ScreenFromDatabaseRaw>> =
+    fun save(@RequestBody screenForSaveRaw: ScreenRaw): Mono<ApiResponse<ScreenSaveResponseRaw>> =
         validationService.validateAndMap(screenForSaveRaw)
             .flatMap { outcome ->
                 when (outcome) {
                     is ScreenValidationOutcome.Success ->
                         screenService.save(outcome.screen)
                             .map { ScreenFromDatabaseRaw.emerge(it) }
-                            .map { ApiResponse.success(it) }
+                            .map { ApiResponse.success(ScreenSaveResponseRaw(it)) }
 
                     is ScreenValidationOutcome.Error ->
-                        Mono.just<ApiResponse<ScreenFromDatabaseRaw>>(ApiResponse.error(outcome.errors))
+                        Mono.just<ApiResponse<ScreenSaveResponseRaw>>(ApiResponse.error(outcome.errors))
                 }
             }
             .doOnNextWithMeasure { duration, result ->
@@ -112,25 +114,24 @@ class ScreenAdminController(
                 }
             }
 
-    //TODO(НЕ РАБОТАЕТ)
     @PutMapping("/v1/screen/update")
-    fun update(@RequestBody request: ScreenUpdateRequestRaw): Mono<ApiResponse<ScreenFromDatabaseRaw>> =
-        validationService.validateAndMap(request.screen)
+    fun update(@RequestBody request: ScreenUpdateRequestRaw): Mono<ApiResponse<ScreenUpdateResponseRaw>> =
+        validationService.validateAndMap(request.data.screen)
             .flatMap { outcome ->
                 when (outcome) {
                     is ScreenValidationOutcome.Success ->
                         screenService.update(
                             ScreenUpdateCommand(
-                                screenId = ScreenId(request.screenId),
-                                versionId = request.versionId,
+                                screenId = ScreenId(request.data.screenId),
+                                versionId = request.data.versionId,
                                 screen = outcome.screen
                             )
                         )
                             .map { ScreenFromDatabaseRaw.emerge(it) }
-                            .map { ApiResponse.success(it) }
+                            .map { ApiResponse.success(ScreenUpdateResponseRaw(it)) }
 
                     is ScreenValidationOutcome.Error ->
-                        Mono.just<ApiResponse<ScreenFromDatabaseRaw>>(ApiResponse.error(outcome.errors))
+                        Mono.just<ApiResponse<ScreenUpdateResponseRaw>>(ApiResponse.error(outcome.errors))
                 }
             }
             .doOnNextWithMeasure { duration, result ->
