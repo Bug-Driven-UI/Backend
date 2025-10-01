@@ -361,7 +361,7 @@ components:
 
     RenderedInsets:
       type: object
-      required: [ left, right, bottom, top ]
+      required: [ start, end, bottom, top ]
       properties:
         start: { type: integer, default: 0 }
         end: { type: integer, default: 0 }

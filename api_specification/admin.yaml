@@ -2579,10 +2579,10 @@ components:
 
     Insets:
       type: object
-      required: [ left, right, bottom, top ]
+      required: [ start, end, bottom, top ]
       properties:
-        left: { type: integer, default: 0 }
-        right: { type: integer, default: 0 }
+        start: { type: integer, default: 0 }
+        end: { type: integer, default: 0 }
         bottom: { type: integer, default: 0 }
         top: { type: integer, default: 0 }
       additionalProperties: false
