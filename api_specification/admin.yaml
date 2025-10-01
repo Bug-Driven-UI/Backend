@@ -2870,7 +2870,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, textWithStyle, colorStyle ]
+          required: [ type, textWithStyle ]
           properties:
             type: { const: text }
             textWithStyle:
@@ -2880,7 +2880,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, textWithStyle, colorStyle, rightIcon ]
+          required: [ type, textWithStyle ]
           properties:
             type:
               const: input
