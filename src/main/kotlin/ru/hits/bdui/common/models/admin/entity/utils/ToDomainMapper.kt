@@ -1,11 +1,13 @@
 package ru.hits.bdui.common.models.admin.entity.utils
 
+import ru.hits.bdui.common.models.admin.entity.command.CommandEntityJson
 import ru.hits.bdui.common.models.admin.entity.components.BoxEntity
 import ru.hits.bdui.common.models.admin.entity.components.ButtonEntity
 import ru.hits.bdui.common.models.admin.entity.components.ColumnEntity
 import ru.hits.bdui.common.models.admin.entity.components.ComponentBaseEntityProperties
 import ru.hits.bdui.common.models.admin.entity.components.ComponentEntity
 import ru.hits.bdui.common.models.admin.entity.components.ComponentTemplateEntity
+import ru.hits.bdui.common.models.admin.entity.components.ComponentTemplateFromDatabaseEntity
 import ru.hits.bdui.common.models.admin.entity.components.DynamicColumnEntity
 import ru.hits.bdui.common.models.admin.entity.components.DynamicRowEntity
 import ru.hits.bdui.common.models.admin.entity.components.ImageEntity
@@ -38,6 +40,8 @@ import ru.hits.bdui.domain.ComponentId
 import ru.hits.bdui.domain.ScreenName
 import ru.hits.bdui.domain.TemplateName
 import ru.hits.bdui.domain.ValueOrExpression
+import ru.hits.bdui.domain.api.ApiCallRepresentation
+import ru.hits.bdui.domain.command.Command
 import ru.hits.bdui.domain.screen.components.Box
 import ru.hits.bdui.domain.screen.components.Button
 import ru.hits.bdui.domain.screen.components.Column
@@ -73,6 +77,7 @@ import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
 import ru.hits.bdui.domain.template.ComponentTemplate
+import ru.hits.bdui.domain.template.ComponentTemplateFromDatabase
 import ru.hits.bdui.engine.expression.ExpressionUtils
 import ru.hits.bdui.engine.expression.ExpressionUtils.getValueOrExpression
 
@@ -152,6 +157,21 @@ fun ComponentEntity.toDomain(): Component =
         )
     }
 
+fun CommandEntityJson.toDomain(): Command =
+    Command(
+        name = CommandName(this.name),
+        commandParams = this.commandParams,
+        apis = this.apis.mapValues { entry ->
+            ApiCallRepresentation(
+                apiResultAlias = entry.value.apiResultAlias,
+                apiId = entry.value.apiId,
+                apiParams = entry.value.apiParams,
+            )
+        },
+        itemTemplate = this.itemTemplate?.toDomain(),
+        fallbackMessage = this.fallbackMessage
+    )
+
 private fun ComponentBaseEntityProperties.toDomain(): ComponentBaseProperties =
     ComponentBaseProperties(
         id = ComponentId(getValueOrExpression(this.id)),
@@ -164,6 +184,15 @@ private fun ComponentBaseEntityProperties.toDomain(): ComponentBaseProperties =
         border = this.border?.toDomain(),
         shape = this.shape?.toDomain(),
     )
+
+private fun ComponentTemplateFromDatabaseEntity.toDomain(): ComponentTemplateFromDatabase =
+    ComponentTemplateFromDatabase(
+        id = this.id,
+        createdAtTimestampMs = this.createdAtTimestampMs,
+        lastModifiedTimestampMs = this.lastModifiedTimestampMs,
+        template = this.template.toDomain()
+    )
+
 
 private fun ComponentTemplateEntity.toDomain(): ComponentTemplate =
     ComponentTemplate(

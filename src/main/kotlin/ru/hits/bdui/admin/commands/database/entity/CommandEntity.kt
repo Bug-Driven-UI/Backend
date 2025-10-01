@@ -6,7 +6,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import org.hibernate.annotations.Type
-import ru.hits.bdui.domain.command.Command
+import ru.hits.bdui.common.models.admin.entity.command.CommandEntityJson
 import java.util.UUID
 
 @Entity
@@ -18,7 +18,7 @@ data class CommandEntity(
     val name: String,
     @Type(JsonBinaryType::class)
     @Column(name = "command_json", nullable = false, columnDefinition = "jsonb")
-    val command: Command,
+    val command: CommandEntityJson,
     @Column(name = "created_at_timestamp_ms", nullable = false)
     val createdAtTimestampMs: Long,
     @Column(name = "last_modified_at_timestamp_ms")

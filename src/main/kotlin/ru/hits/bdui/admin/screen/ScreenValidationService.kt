@@ -33,7 +33,6 @@ class ScreenValidationService(
             screenRaw.scaffold?.bottomBar?.let { add(it) }
         }
 
-
         if (allRaws.isEmpty()) {
             return runCatching {
                 val screen = Screen(screenRaw, emptyList(), null, null)

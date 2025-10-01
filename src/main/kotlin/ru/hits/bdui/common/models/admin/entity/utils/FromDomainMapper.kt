@@ -1,11 +1,13 @@
 package ru.hits.bdui.common.models.admin.entity.utils
 
+import ru.hits.bdui.common.models.admin.entity.command.CommandEntityJson
 import ru.hits.bdui.common.models.admin.entity.components.BoxEntity
 import ru.hits.bdui.common.models.admin.entity.components.ButtonEntity
 import ru.hits.bdui.common.models.admin.entity.components.ColumnEntity
 import ru.hits.bdui.common.models.admin.entity.components.ComponentBaseEntityProperties
 import ru.hits.bdui.common.models.admin.entity.components.ComponentEntity
 import ru.hits.bdui.common.models.admin.entity.components.ComponentTemplateEntity
+import ru.hits.bdui.common.models.admin.entity.components.ComponentTemplateFromDatabaseEntity
 import ru.hits.bdui.common.models.admin.entity.components.DynamicColumnEntity
 import ru.hits.bdui.common.models.admin.entity.components.DynamicRowEntity
 import ru.hits.bdui.common.models.admin.entity.components.ImageEntity
@@ -31,10 +33,12 @@ import ru.hits.bdui.common.models.admin.entity.interactions.actions.CommandActio
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateBackActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.UpdateScreenActionEntity
+import ru.hits.bdui.common.models.admin.entity.screen.ApiCallRepresentationEntity
 import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextDecorationEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextStyleEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextWithStyleEntity
+import ru.hits.bdui.domain.command.Command
 import ru.hits.bdui.domain.screen.components.Box
 import ru.hits.bdui.domain.screen.components.Button
 import ru.hits.bdui.domain.screen.components.Column
@@ -70,6 +74,7 @@ import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
 import ru.hits.bdui.domain.template.ComponentTemplate
+import ru.hits.bdui.domain.template.ComponentTemplateFromDatabase
 
 fun Component.toEntity(): ComponentEntity =
     when (this) {
@@ -162,6 +167,29 @@ fun Component.toEntity(): ComponentEntity =
             itemTemplate = this.itemTemplate.toEntity()
         )
     }
+
+fun Command.toEntity(): CommandEntityJson =
+    CommandEntityJson(
+        name = this.name.value,
+        commandParams = this.commandParams,
+        apis = this.apis.mapValues { entry ->
+            ApiCallRepresentationEntity(
+                apiResultAlias = entry.value.apiResultAlias,
+                apiId = entry.value.apiId,
+                apiParams = entry.value.apiParams,
+            )
+        },
+        itemTemplate = this.itemTemplate?.toEntity(),
+        fallbackMessage = this.fallbackMessage,
+    )
+
+private fun ComponentTemplateFromDatabase.toEntity(): ComponentTemplateFromDatabaseEntity =
+    ComponentTemplateFromDatabaseEntity(
+        id = this.id,
+        createdAtTimestampMs = this.createdAtTimestampMs,
+        lastModifiedTimestampMs = this.lastModifiedTimestampMs,
+        template = this.template.toEntity()
+    )
 
 private fun ComponentTemplate.toEntity(): ComponentTemplateEntity =
     ComponentTemplateEntity(
