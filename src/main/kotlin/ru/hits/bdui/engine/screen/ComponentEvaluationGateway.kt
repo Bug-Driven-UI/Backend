@@ -3,6 +3,7 @@ package ru.hits.bdui.engine.screen
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.TextNode
+import ru.hits.bdui.common.exceptions.BadRequestException
 import ru.hits.bdui.domain.screen.components.Box
 import ru.hits.bdui.domain.screen.components.Column
 import ru.hits.bdui.domain.screen.components.Component
@@ -40,9 +41,10 @@ class ComponentEvaluationGatewayImpl(
             }
 
             is StatefulComponent -> {
-                val evaluatedStates = component.states.first { st ->
+                val evaluatedStates = component.states.firstOrNull { st ->
                     interpreter.evaluateExpression(st.condition.value).toBoolean()
                 }
+                    ?: throw BadRequestException("Для компонента ${component.base.id.value} не найдено ни одного состояния с true-условием")
                 val evaluatedChild = evaluate(evaluatedStates.component, interpreter)
 
                 Box(
