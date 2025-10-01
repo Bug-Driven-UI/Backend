@@ -2275,7 +2275,7 @@ components:
 
     Screen:
       type: object
-      required: [ screenId, screenName, version, components, apis ]
+      required: [ screenId, screenName, version, components, apis, description, screenNavigationParams ]
       properties:
         screenId:
           type: string
@@ -2305,7 +2305,7 @@ components:
 
     ScreenForSave:
       type: object
-      required: [ screenName, components, apis ]
+      required: [ screenName, components, apis, screenNavigationParams, description ]
       properties:
         screenName:
           type: string
