@@ -1,7 +1,7 @@
 package ru.hits.bdui.client.action.controller.raw
 
-import ru.hits.bdui.client.action.ActionResponse
+import ru.hits.bdui.client.action.controller.raw.actions.response.ActionResponseRaw
 
 data class ExecuteActionsResponseRaw(
-    val responses: List<ActionResponse>
+    val responses: List<ActionResponseRaw>
 )

@@ -1,15 +1,14 @@
 package ru.hits.bdui.client.action.controller.raw.actions.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonTypeName
-import ru.hits.bdui.client.action.ActionResponse
 import ru.hits.bdui.common.models.client.raw.components.RenderedComponentRaw
 
-@JsonTypeName("updateScreen")
 data class UpdateScreenActionResponseRaw(
     @JsonProperty("response")
     val response: UpdateScreenResponsePayloadRaw
-) : ActionResponse
+) : ActionResponseRaw {
+    override val type: String = "updateScreen"
+}
 
 data class UpdateScreenResponsePayloadRaw(
     @JsonProperty("data")

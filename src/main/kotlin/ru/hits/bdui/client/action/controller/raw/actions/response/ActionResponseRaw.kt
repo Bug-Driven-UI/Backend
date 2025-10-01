@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 )
 @JsonSubTypes(
     JsonSubTypes.Type(CommandActionResponseRaw::class, name = "command"),
-    JsonSubTypes.Type(UpdateScreenActionResponse::class, name = "updateScreen")
+    JsonSubTypes.Type(UpdateScreenActionResponseRaw::class, name = "updateScreen")
 )
-abstract class ActionResponseRaw(
-    @JsonProperty("type")
+sealed interface ActionResponseRaw {
+    @get:JsonProperty("type")
     val type: String
-)
+}

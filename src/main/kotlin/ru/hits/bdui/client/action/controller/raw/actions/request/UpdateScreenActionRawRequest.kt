@@ -17,5 +17,5 @@ data class UpdateScreenActionRawRequest(
 data class HashNode(
     val id: String,
     val hash: String,
-    val children: List<HashNode>
+    val children: List<HashNode>?
 )
