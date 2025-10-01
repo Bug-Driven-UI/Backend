@@ -21,7 +21,7 @@ import ru.hits.bdui.common.models.api.DataModel
 import ru.hits.bdui.common.models.api.DeleteResponseRaw
 
 @RestController
-@RequestMapping("/v1/api")
+@RequestMapping("/v1/external")
 class ApiRepresentationController(
     private val apiRepresentationService: ApiRepresentationStorageService
 ) {
