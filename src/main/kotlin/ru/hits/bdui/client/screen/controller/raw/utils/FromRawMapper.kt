@@ -6,6 +6,6 @@ import ru.hits.bdui.client.screen.models.RenderScreenRequestModel
 fun RenderScreenRequestModel.Companion.emerge(request: RenderScreenRequestRaw): RenderScreenRequestModel {
     return RenderScreenRequestModel(
         screenName = request.screenName,
-        variables = request.variables,
+        variables = request.variables ?: emptyMap(),
     )
 }

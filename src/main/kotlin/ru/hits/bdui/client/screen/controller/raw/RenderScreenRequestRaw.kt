@@ -4,5 +4,5 @@ import com.fasterxml.jackson.databind.JsonNode
 
 data class RenderScreenRequestRaw(
     val screenName: String,
-    val variables: Map<String, JsonNode>,
+    val variables: Map<String, JsonNode>?,
 )
