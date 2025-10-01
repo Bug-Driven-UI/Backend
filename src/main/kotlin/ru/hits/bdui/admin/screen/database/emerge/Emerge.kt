@@ -50,6 +50,7 @@ fun ScreenVersionEntity.Companion.emerge(data: ScreenFromDatabase, metaEntity: S
         createdAtTimestampMs = data.createdAtTimestampMs,
         lastModifiedAtTimestampMs = Instant.now().toEpochMilli(),
     )
+        .also { it.rowVersion = data.rowVersion }
 
 fun ScreenFromDatabase.Companion.emerge(entity: ScreenVersionEntity): ScreenFromDatabase =
     ScreenFromDatabase(

@@ -8,6 +8,7 @@ import ru.hits.bdui.admin.screen.database.ScreenVersionRepository
 import ru.hits.bdui.admin.screen.models.ScreenUpdateCommand
 import ru.hits.bdui.common.exceptions.notFound
 import ru.hits.bdui.domain.ScreenId
+import ru.hits.bdui.domain.ScreenName
 import ru.hits.bdui.domain.screen.Screen
 import ru.hits.bdui.domain.screen.ScreenFromDatabase
 import ru.hits.bdui.domain.screen.ScreenVersion
@@ -17,7 +18,8 @@ import java.util.UUID
 
 interface ScreenService {
     fun findAllVersions(screenId: ScreenId): Mono<List<ScreenVersion>>
-    fun findAllLikeName(name: String): Mono<List<ScreenMetaFromDatabase>>
+    fun findAllLikeName(name: ScreenName): Mono<List<ScreenMetaFromDatabase>>
+    fun findByName(name: ScreenName): Mono<ScreenMetaFromDatabase>
     fun setProductionVersion(screenId: ScreenId, versionId: UUID): Mono<ScreenVersion>
     fun find(screenId: ScreenId, versionId: UUID): Mono<ScreenFromDatabase>
     fun update(command: ScreenUpdateCommand): Mono<ScreenFromDatabase>
@@ -51,12 +53,23 @@ class ScreenServiceImpl(
             }
 
     @Transactional(readOnly = true)
-    override fun findAllLikeName(name: String): Mono<List<ScreenMetaFromDatabase>> =
+    override fun findAllLikeName(name: ScreenName): Mono<List<ScreenMetaFromDatabase>> =
         metaRepository.findAllLikeName(name)
             .map { response ->
                 when (response) {
                     is ScreenMetaRepository.FindAllResponse.Success -> response.metas
                     is ScreenMetaRepository.FindAllResponse.Error -> throw response.error
+                }
+            }
+
+    @Transactional(readOnly = true)
+    override fun findByName(name: ScreenName): Mono<ScreenMetaFromDatabase> =
+        metaRepository.findByName(name)
+            .map { response ->
+                when (response) {
+                    is ScreenMetaRepository.FindResponse.Found -> response.meta
+                    is ScreenMetaRepository.FindResponse.NotFound ->
+                        throw notFound<ScreenMetaFromDatabase>(name.value)
                 }
             }
 

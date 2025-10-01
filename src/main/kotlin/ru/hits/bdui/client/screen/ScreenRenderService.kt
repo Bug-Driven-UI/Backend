@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 import ru.hits.bdui.admin.screen.ScreenService
 import ru.hits.bdui.client.screen.models.RenderScreenRequestModel
+import ru.hits.bdui.common.exceptions.BadRequestException
+import ru.hits.bdui.domain.ScreenName
 import ru.hits.bdui.domain.screen.ScreenFromDatabase
 import ru.hits.bdui.engine.api.ExternalApiManager
 import ru.hits.bdui.engine.api.ExternalApisCallResult
@@ -31,26 +34,28 @@ class ScreenRenderServiceImpl(
         val interpreter = JSInterpreter(objectMapper)
         interpreter.setVariables(request.variables)
 
-        return screenService.findAllLikeName(request.screenName)
-            .flatMapIterable { it }
-            .next()
+        return screenService.findByName(ScreenName(request.screenName))
             .flatMap { meta ->
-                screenService.find(meta.id, requireNotNull(meta.versionId))
+                if (meta.versionId == null)
+                    throw BadRequestException("Для экрана ${request.screenName} не установлена версия для рендеринга")
+
+                screenService.find(meta.id, meta.versionId)
             }
             .flatMap { screen ->
                 externalApiManager.getData(interpreter, screen.screen.apis)
                     .map { apiData ->
                         when (apiData) {
-                            is ExternalApisCallResult.Error -> throw apiData.error
                             is ExternalApisCallResult.Success -> interpreter.setVariables(apiData.data)
+                            is ExternalApisCallResult.Error -> throw apiData.error
                         }
                     }
-                    .then(Mono.just(screen))
+                    .then(screen.toMono())
             }
             .map { screen ->
                 screenRenderer.renderScreen(screen, interpreter)
-            }.doOnError { throwable ->
-                log.error("Error rendering screen ${request.screenName}", throwable)
+            }
+            .doOnError { throwable ->
+                log.error("Ошибка при рендеринге экрана ${request.screenName}", throwable)
             }
     }
 }

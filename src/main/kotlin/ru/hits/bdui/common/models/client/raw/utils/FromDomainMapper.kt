@@ -1,20 +1,50 @@
 package ru.hits.bdui.common.models.client.raw.utils
 
-import ru.hits.bdui.common.models.client.raw.components.*
+import ru.hits.bdui.common.models.client.raw.components.BoxRawRendered
+import ru.hits.bdui.common.models.client.raw.components.ButtonRawRendered
+import ru.hits.bdui.common.models.client.raw.components.ColumnRawRendered
+import ru.hits.bdui.common.models.client.raw.components.ImageRawRendered
+import ru.hits.bdui.common.models.client.raw.components.InputRawRendered
+import ru.hits.bdui.common.models.client.raw.components.ProgressBarRawRendered
+import ru.hits.bdui.common.models.client.raw.components.RenderedComponentBaseRawProperties
+import ru.hits.bdui.common.models.client.raw.components.RenderedComponentRaw
+import ru.hits.bdui.common.models.client.raw.components.RenderedMaskRaw
+import ru.hits.bdui.common.models.client.raw.components.RowRawRendered
+import ru.hits.bdui.common.models.client.raw.components.SpacerRawRendered
+import ru.hits.bdui.common.models.client.raw.components.SwitchRawRendered
+import ru.hits.bdui.common.models.client.raw.components.TextRawRendered
 import ru.hits.bdui.common.models.client.raw.components.additional.RenderedBorderRaw
 import ru.hits.bdui.common.models.client.raw.components.additional.RenderedRegexRaw
 import ru.hits.bdui.common.models.client.raw.components.additional.RenderedShapeRaw
+import ru.hits.bdui.common.models.client.raw.components.additional.ShapeTypeRaw
 import ru.hits.bdui.common.models.client.raw.components.properties.RenderedInsetsRaw
 import ru.hits.bdui.common.models.client.raw.components.properties.RenderedSizeRaw
-import ru.hits.bdui.common.models.client.raw.components.additional.ShapeTypeRaw
 import ru.hits.bdui.common.models.client.raw.interactions.RenderedInteractionRaw
 import ru.hits.bdui.common.models.client.raw.interactions.RenderedInteractionTypeRaw
-import ru.hits.bdui.common.models.client.raw.interactions.actions.*
+import ru.hits.bdui.common.models.client.raw.interactions.actions.CommandRenderedActionRaw
+import ru.hits.bdui.common.models.client.raw.interactions.actions.NavigateBackRenderedActionRaw
+import ru.hits.bdui.common.models.client.raw.interactions.actions.NavigateToRenderedActionRaw
+import ru.hits.bdui.common.models.client.raw.interactions.actions.RenderedActionRaw
+import ru.hits.bdui.common.models.client.raw.interactions.actions.UpdateScreenRenderedActionRaw
 import ru.hits.bdui.common.models.client.raw.styles.color.RenderedColorStyleRaw
 import ru.hits.bdui.common.models.client.raw.styles.text.RenderedTextStyleRaw
 import ru.hits.bdui.common.models.client.raw.styles.text.RenderedTextWithStyleRaw
 import ru.hits.bdui.common.models.client.raw.styles.text.TextDecorationRaw
-import ru.hits.bdui.domain.screen.components.*
+import ru.hits.bdui.domain.screen.components.Box
+import ru.hits.bdui.domain.screen.components.Button
+import ru.hits.bdui.domain.screen.components.Column
+import ru.hits.bdui.domain.screen.components.Component
+import ru.hits.bdui.domain.screen.components.DynamicColumn
+import ru.hits.bdui.domain.screen.components.DynamicRow
+import ru.hits.bdui.domain.screen.components.Image
+import ru.hits.bdui.domain.screen.components.Input
+import ru.hits.bdui.domain.screen.components.Mask
+import ru.hits.bdui.domain.screen.components.ProgressBar
+import ru.hits.bdui.domain.screen.components.Row
+import ru.hits.bdui.domain.screen.components.Spacer
+import ru.hits.bdui.domain.screen.components.StatefulComponent
+import ru.hits.bdui.domain.screen.components.Switch
+import ru.hits.bdui.domain.screen.components.Text
 import ru.hits.bdui.domain.screen.components.additional.Border
 import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
@@ -32,6 +62,7 @@ import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
+import ru.hits.bdui.utils.DomainComponentHasher
 
 fun Component.toRaw(): RenderedComponentRaw =
     when (this) {
@@ -105,13 +136,14 @@ fun Component.toRaw(): RenderedComponentRaw =
             base = this.toRawBaseProperties(),
         )
 
-        is StatefulComponent, is DynamicColumn, is DynamicRow -> throw IllegalStateException("StatefulComponent, DynamicColumn and DynamicRow cannot be mapped to client models.")
+        is StatefulComponent, is DynamicColumn, is DynamicRow ->
+            throw IllegalStateException("StatefulComponent, DynamicColumn and DynamicRow cannot be mapped to client models.")
     }
 
 private fun Component.toRawBaseProperties(): RenderedComponentBaseRawProperties =
     RenderedComponentBaseRawProperties(
         id = this.base.id.value.value as String,
-        hash = this.hashCode().toString(),
+        hash = DomainComponentHasher.calculate(this),
         interactions = this.base.interactions.map(Interaction::toRaw),
         margins = this.base.margins?.toRaw(),
         paddings = this.base.paddings?.toRaw(),

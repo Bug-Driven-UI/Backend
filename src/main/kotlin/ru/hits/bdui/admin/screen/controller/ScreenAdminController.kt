@@ -23,6 +23,7 @@ import ru.hits.bdui.admin.screen.controller.raw.utils.emerge
 import ru.hits.bdui.admin.screen.models.ScreenUpdateCommand
 import ru.hits.bdui.common.models.api.ApiResponse
 import ru.hits.bdui.domain.ScreenId
+import ru.hits.bdui.domain.ScreenName
 import ru.hits.bdui.utils.doOnNextWithMeasure
 
 @RestController
@@ -34,7 +35,7 @@ class ScreenAdminController(
 
     @PostMapping("/v1/screen/getByName")
     fun getByName(@RequestBody request: GetByNameRequestRaw): Mono<ApiResponse<GetByNameResponseRaw>> =
-        screenService.findAllLikeName(request.data.query)
+        screenService.findAllLikeName(ScreenName(request.data.query))
             .map { list ->
                 GetByNameResponseRaw(
                     screenNames = list.map {
