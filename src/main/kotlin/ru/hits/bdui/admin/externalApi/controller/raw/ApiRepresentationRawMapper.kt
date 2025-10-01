@@ -29,15 +29,17 @@ object ApiRepresentationRawMapper {
 
     fun fromDomain(apiRepresentation: ApiRepresentationFromDatabase): ApiRepresentationResponseRaw =
         ApiRepresentationResponseRaw(
-            id = apiRepresentation.id,
-            name = apiRepresentation.api.name.value,
-            description = apiRepresentation.api.description,
-            params = apiRepresentation.api.params,
-            endpoints = apiRepresentation.api.endpoints,
-            schema = apiRepresentation.api.schema ?: throw IllegalArgumentException("Schema cannot be null"),
-            mappingScript = apiRepresentation.api.mappingScript ?: "",
-            createdAtTimestampMs = apiRepresentation.createdAtTimestampMs,
-            lastModifiedAtTimestampMs = apiRepresentation.lastModifiedTimestampMs ?: 0L
+            api = ApiDataRaw(
+                id = apiRepresentation.id,
+                name = apiRepresentation.api.name.value,
+                description = apiRepresentation.api.description,
+                params = apiRepresentation.api.params,
+                endpoints = apiRepresentation.api.endpoints,
+                schema = apiRepresentation.api.schema ?: throw IllegalArgumentException("Schema cannot be null"),
+                mappingScript = apiRepresentation.api.mappingScript ?: "",
+                createdAtTimestampMs = apiRepresentation.createdAtTimestampMs,
+                lastModifiedAtTimestampMs = apiRepresentation.lastModifiedTimestampMs ?: 0L
+            )
         )
 
     fun fromDomain(shortApiRepresentation: ShortApiRepresentation): ApiRepresentationShortRaw =

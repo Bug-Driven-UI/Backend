@@ -5,6 +5,10 @@ import ru.hits.bdui.domain.api.schema.Schema
 import java.util.UUID
 
 data class ApiRepresentationResponseRaw(
+    val api: ApiDataRaw
+)
+
+data class ApiDataRaw(
     val id: UUID,
     val name: String,
     val description: String,
