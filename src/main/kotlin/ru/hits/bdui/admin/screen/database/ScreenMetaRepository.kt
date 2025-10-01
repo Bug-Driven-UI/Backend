@@ -42,7 +42,7 @@ interface ScreenMetaRepository {
         data class Error(val error: Throwable) : SaveResponse
     }
 
-    fun findAllLikeName(name: String): Mono<FindAllResponse>
+    fun findAllLikeName(name: ScreenName): Mono<FindAllResponse>
 
     sealed interface FindAllResponse {
         data class Success(val metas: List<ScreenMetaFromDatabase>) : FindAllResponse
@@ -104,8 +104,8 @@ class ScreenMetaRepositoryImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun findAllLikeName(name: String): Mono<FindAllResponse> =
-        Mono.fromCallable { repository.findAllLikeName(name) }
+    override fun findAllLikeName(name: ScreenName): Mono<FindAllResponse> =
+        Mono.fromCallable { repository.findAllLikeName(name.value) }
             .map { list -> list.map(ScreenMetaFromDatabase::emerge) }
             .map<FindAllResponse>(FindAllResponse::Success)
             .doOnError { error -> log.error("При получении мета данных экранов по имени произошла ошибка", error) }

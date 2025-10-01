@@ -1170,10 +1170,10 @@ components:
           const: success
         data:
           type: object
-          required: [ version ]
+          required: [ screen ]
           properties:
-            version:
-              $ref: '#/components/schemas/ScreenVersion'
+            screen:
+              $ref: '#/components/schemas/Screen'
       additionalProperties: false
 
     ScreenUpdateResponseError:

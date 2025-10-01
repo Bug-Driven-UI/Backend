@@ -24,7 +24,7 @@ data class InputRaw(
     val placeholder: PlaceholderRaw?,
     override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
-    override val type: String = "textField"
+    override val type: String = "input"
 
     data class HintRaw(
         val textWithStyle: TextWithStyleRaw
