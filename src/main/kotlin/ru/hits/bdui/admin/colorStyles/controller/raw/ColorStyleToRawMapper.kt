@@ -2,7 +2,7 @@ package ru.hits.bdui.admin.colorStyles.controller.raw
 
 import ru.hits.bdui.domain.screen.styles.color.ColorStyleFromDatabase
 
-fun ColorStyleRaw.Companion.of(data: ColorStyleFromDatabase): ColorStyleRaw =
+fun ColorStyleRaw.Companion.emerge(data: ColorStyleFromDatabase): ColorStyleRaw =
     ColorStyleRaw(
         id = data.id,
         token = data.colorStyle.token.value as String,

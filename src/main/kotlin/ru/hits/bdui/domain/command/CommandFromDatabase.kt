@@ -15,4 +15,6 @@ data class CommandFromDatabase(
     val createdAtTimestampMs: Long,
     val lastModifiedTimestampMs: Long?,
     val command: Command
-)
+) {
+    companion object
+}
