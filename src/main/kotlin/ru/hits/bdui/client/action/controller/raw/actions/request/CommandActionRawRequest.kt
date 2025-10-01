@@ -1,5 +1,7 @@
 package ru.hits.bdui.client.action.controller.raw.actions.request
 
+import com.fasterxml.jackson.databind.JsonNode
+
 /**
  * Действие, отвечающее за вызов команд из реестра
  *
@@ -8,7 +10,7 @@ package ru.hits.bdui.client.action.controller.raw.actions.request
  */
 data class CommandActionRawRequest(
     val name: String,
-    val params: Map<String, String>
+    val params: Map<String, JsonNode>
 ) : ActionRawRequest {
     override val type: String = "command"
 }

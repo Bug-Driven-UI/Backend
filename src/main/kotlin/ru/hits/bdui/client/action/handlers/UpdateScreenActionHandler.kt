@@ -1,4 +1,4 @@
-package ru.hits.bdui.client.action.updateScreen
+package ru.hits.bdui.client.action.handlers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
@@ -114,7 +114,7 @@ class UpdateScreenActionHandler(
                     continue
                 }
 
-                // Узел был, но контент поменялся — апдейтим все поддерево и не трогаем детей
+                // Узел был, но контент поменялся — обновляем все поддерево и не трогаем детей
                 oldNode.hash != current.base.hash -> {
                     deltas += UpdateInstructionRaw(
                         target = path,
@@ -137,7 +137,7 @@ class UpdateScreenActionHandler(
         }
 
         // Удаления: всё, что было в старом, но не встретилось в новом,
-        // и при этом не лежит под узлом, который мы уже INSERT/UPDATE-нули.
+        // и при этом не является ребенком узла, который мы уже добавили или обновили.
         oldIndex.pathToNode.keys.forEach { oldPath ->
             val shadowedByParent = coveredByParentChange.any { cover -> equalOrDescendant(oldPath, cover) }
             if (!shadowedByParent && oldPath !in visitedNewPaths) {

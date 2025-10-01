@@ -64,15 +64,15 @@ import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
 import ru.hits.bdui.utils.DomainComponentHasher
 
-fun Component.toRaw(): RenderedComponentRaw =
+fun Component.toRendered(): RenderedComponentRaw =
     when (this) {
         is Text -> TextRawRendered(
-            textWithStyle = this.textWithStyle.toRaw(),
-            base = this.toRawBaseProperties(),
+            textWithStyle = this.textWithStyle.toRendered(),
+            base = this.toRenderedBaseProperties(),
         )
 
         is Input -> InputRawRendered(
-            textWithStyle = this.textWithStyle.toRaw(),
+            textWithStyle = this.textWithStyle.toRendered(),
             mask = this.mask?.let {
                 when (it) {
                     Mask.PHONE -> RenderedMaskRaw.PHONE
@@ -83,81 +83,81 @@ fun Component.toRaw(): RenderedComponentRaw =
                     Regex.EMAIL -> RenderedRegexRaw.EMAIL
                 }
             },
-            rightIcon = this.rightIcon?.toRaw() as ImageRawRendered?,
+            rightIcon = this.rightIcon?.toRendered() as ImageRawRendered?,
             hint = this.hint?.let {
                 InputRawRendered.RenderedHintRaw(
-                    it.textWithStyle.toRaw()
+                    it.textWithStyle.toRendered()
                 )
             },
             placeholder = this.placeholder?.let {
                 InputRawRendered.RenderedPlaceholderRaw(
-                    it.textWithStyle.toRaw()
+                    it.textWithStyle.toRendered()
                 )
             },
-            base = this.toRawBaseProperties(),
+            base = this.toRenderedBaseProperties(),
         )
 
         is Image -> ImageRawRendered(
             imageUrl = this.imageUrl.value as String,
-            badge = this.badge?.toRaw(),
-            base = this.toRawBaseProperties(),
+            badge = this.badge?.toRendered(),
+            base = this.toRenderedBaseProperties(),
         )
 
         is Spacer -> SpacerRawRendered(
-            base = this.toRawBaseProperties(),
+            base = this.toRenderedBaseProperties(),
         )
 
         is ProgressBar -> ProgressBarRawRendered(
-            base = this.toRawBaseProperties(),
+            base = this.toRenderedBaseProperties(),
         )
 
         is Switch -> SwitchRawRendered(
-            base = this.toRawBaseProperties(),
+            base = this.toRenderedBaseProperties(),
         )
 
         is Button -> ButtonRawRendered(
-            textWithStyle = this.textWithStyle.toRaw(),
+            textWithStyle = this.textWithStyle.toRendered(),
             enabled = this.enabled,
-            base = this.toRawBaseProperties(),
+            base = this.toRenderedBaseProperties(),
         )
 
         is Column -> ColumnRawRendered(
-            children = this.children.map { it.toRaw() },
-            base = this.toRawBaseProperties(),
+            children = this.children.map { it.toRendered() },
+            base = this.toRenderedBaseProperties(),
         )
 
         is Row -> RowRawRendered(
-            children = this.children.map { it.toRaw() },
-            base = this.toRawBaseProperties(),
+            children = this.children.map { it.toRendered() },
+            base = this.toRenderedBaseProperties(),
         )
 
         is Box -> BoxRawRendered(
-            children = this.children.map { it.toRaw() },
-            base = this.toRawBaseProperties(),
+            children = this.children.map { it.toRendered() },
+            base = this.toRenderedBaseProperties(),
         )
 
         is StatefulComponent, is DynamicColumn, is DynamicRow ->
             throw IllegalStateException("StatefulComponent, DynamicColumn and DynamicRow cannot be mapped to client models.")
     }
 
-private fun Component.toRawBaseProperties(): RenderedComponentBaseRawProperties =
+private fun Component.toRenderedBaseProperties(): RenderedComponentBaseRawProperties =
     RenderedComponentBaseRawProperties(
         id = this.base.id.value.value as String,
         hash = DomainComponentHasher.calculate(this),
-        interactions = this.base.interactions.map(Interaction::toRaw),
-        margins = this.base.margins?.toRaw(),
-        paddings = this.base.paddings?.toRaw(),
-        width = this.base.width.toRaw(),
-        height = this.base.height.toRaw(),
-        backgroundColor = this.base.backgroundColor?.toRaw(),
-        border = this.base.border?.toRaw(),
-        shape = this.base.shape?.toRaw(),
+        interactions = this.base.interactions.map(Interaction::toRendered),
+        margins = this.base.margins?.toRendered(),
+        paddings = this.base.paddings?.toRendered(),
+        width = this.base.width.toRendered(),
+        height = this.base.height.toRendered(),
+        backgroundColor = this.base.backgroundColor?.toRendered(),
+        border = this.base.border?.toRendered(),
+        shape = this.base.shape?.toRendered(),
     )
 
-private fun Insets.toRaw(): RenderedInsetsRaw =
+private fun Insets.toRendered(): RenderedInsetsRaw =
     RenderedInsetsRaw(top = this.top, start = this.start, bottom = this.bottom, end = this.end)
 
-private fun Size.toRaw(): RenderedSizeRaw =
+private fun Size.toRendered(): RenderedSizeRaw =
     when (this) {
         is Size.WrapContent -> RenderedSizeRaw.WrapContentRawRendered()
         is Size.MatchParent -> RenderedSizeRaw.MatchParentRawRendered()
@@ -165,13 +165,13 @@ private fun Size.toRaw(): RenderedSizeRaw =
         is Size.Weighted -> RenderedSizeRaw.WeightedRawRendered(this.fraction)
     }
 
-private fun Border.toRaw(): RenderedBorderRaw =
+private fun Border.toRendered(): RenderedBorderRaw =
     RenderedBorderRaw(
         thickness = this.thickness,
-        color = this.color.toRaw()
+        color = this.color.toRendered()
     )
 
-private fun Shape.toRaw(): RenderedShapeRaw =
+private fun Shape.toRendered(): RenderedShapeRaw =
     RenderedShapeRaw(
         type = when (this.type) {
             ShapeType.ROUNDED_CORNERS -> ShapeTypeRaw.ROUNDED_CORNERS
@@ -182,16 +182,16 @@ private fun Shape.toRaw(): RenderedShapeRaw =
         bottomLeft = this.bottomLeft,
     )
 
-private fun Interaction.toRaw(): RenderedInteractionRaw =
+private fun Interaction.toRendered(): RenderedInteractionRaw =
     RenderedInteractionRaw(
         type = when (this.type) {
             InteractionType.ON_CLICK -> RenderedInteractionTypeRaw.ON_CLICK
             InteractionType.ON_SHOW -> RenderedInteractionTypeRaw.ON_SHOW
         },
-        actions = this.actions.map(Action::toRaw)
+        actions = this.actions.map(Action::toRendered)
     )
 
-private fun Action.toRaw(): RenderedActionRaw =
+private fun Action.toRendered(): RenderedActionRaw =
     when (this) {
         is UpdateScreenAction -> UpdateScreenRenderedActionRaw(
             screenName = this.screenName.value,
@@ -211,25 +211,25 @@ private fun Action.toRaw(): RenderedActionRaw =
         is NavigateBackAction -> NavigateBackRenderedActionRaw()
     }
 
-private fun Image.Badge.toRaw(): ImageRawRendered.RenderedBadgeRaw =
+private fun Image.Badge.toRendered(): ImageRawRendered.RenderedBadgeRaw =
     when (this) {
         is Image.Badge.BadgeWithImage -> ImageRawRendered.RenderedBadgeRaw.BadgeWithImageRaw(
             imageUrl = this.imageUrl.value as String
         )
 
         is Image.Badge.BadgeWithText -> ImageRawRendered.RenderedBadgeRaw.BadgeWithTextRaw(
-            textWithStyle = textWithStyle.toRaw()
+            textWithStyle = textWithStyle.toRendered()
         )
     }
 
-private fun TextWithStyle.toRaw(): RenderedTextWithStyleRaw =
+private fun TextWithStyle.toRendered(): RenderedTextWithStyleRaw =
     RenderedTextWithStyleRaw(
         text = this.text.value as String,
-        textStyle = this.textStyle.toRaw(),
-        colorStyle = this.color.toRaw()
+        textStyle = this.textStyle.toRendered(),
+        colorStyle = this.color.toRendered()
     )
 
-private fun TextStyle.toRaw(): RenderedTextStyleRaw =
+private fun TextStyle.toRendered(): RenderedTextStyleRaw =
     RenderedTextStyleRaw(
         decoration = when (this.decoration) {
             TextDecoration.REGULAR -> TextDecorationRaw.REGULAR
@@ -247,7 +247,7 @@ private fun TextStyle.toRaw(): RenderedTextStyleRaw =
     )
 
 
-private fun ColorStyle.toRaw(): RenderedColorStyleRaw =
+private fun ColorStyle.toRendered(): RenderedColorStyleRaw =
     RenderedColorStyleRaw(
         hex = this.color.value as String,
     )
