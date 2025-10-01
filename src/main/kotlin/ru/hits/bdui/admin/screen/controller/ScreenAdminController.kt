@@ -15,6 +15,7 @@ import ru.hits.bdui.admin.screen.controller.raw.ScreenVersionRaw
 import ru.hits.bdui.admin.screen.controller.raw.get.GetByNameRequestRaw
 import ru.hits.bdui.admin.screen.controller.raw.get.GetByNameResponseRaw
 import ru.hits.bdui.admin.screen.controller.raw.get.GetScreenRequestRaw
+import ru.hits.bdui.admin.screen.controller.raw.get.GetScreenVersionRaw
 import ru.hits.bdui.admin.screen.controller.raw.get.GetVersionsRequestRaw
 import ru.hits.bdui.admin.screen.controller.raw.get.GetVersionsResponseRaw
 import ru.hits.bdui.admin.screen.controller.raw.save.ScreenSaveResponseRaw
@@ -79,7 +80,7 @@ class ScreenAdminController(
             .map { ApiResponse.success(it) }
 
     @PostMapping("/v1/screen/get")
-    fun get(@RequestBody request: GetScreenRequestRaw): Mono<ApiResponse<ScreenFromDatabaseRaw>> =
+    fun get(@RequestBody request: GetScreenRequestRaw): Mono<ApiResponse<GetScreenVersionRaw>> =
         screenService.find(
             screenId = ScreenId(request.data.screenId),
             versionId = request.data.versionId
@@ -88,7 +89,7 @@ class ScreenAdminController(
                 log.info("Экран получен за {} мс", duration.toMillis())
             }
             .map { ScreenFromDatabaseRaw.emerge(it) }
-            .map { ApiResponse.success(it) }
+            .map { ApiResponse.success(GetScreenVersionRaw(it)) }
 
     @PostMapping("/v1/screen/save")
     fun save(@RequestBody screenForSaveRaw: ScreenRaw): Mono<ApiResponse<ScreenSaveResponseRaw>> =
