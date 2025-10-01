@@ -1860,7 +1860,7 @@ components:
           properties:
             commands:
               items:
-                $ref: '#/components/schemas/CommandForSave'
+                $ref: '#/components/schemas/Command'
       additionalProperties: false
 
     CommandsByNameResponseError:
