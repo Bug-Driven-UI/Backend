@@ -2959,7 +2959,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, text, enabled, textWithStyle ]
+          required: [ type, enabled, textWithStyle ]
           properties:
             type: { const: button }
             textWithStyle:
