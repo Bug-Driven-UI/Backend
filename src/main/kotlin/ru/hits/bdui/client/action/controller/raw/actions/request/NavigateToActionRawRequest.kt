@@ -1,4 +1,4 @@
-package ru.hits.bdui.client.action.models
+package ru.hits.bdui.client.action.controller.raw.actions.request
 
 /**
  * Действие, отвечающее за навигацию
@@ -6,9 +6,9 @@ package ru.hits.bdui.client.action.models
  * @property screenName название экрана, куда требуется перейти
  * @property screenNavigationParams параметры для получения экрана
  */
-data class ExecutableNavigateToActionRaw(
+data class NavigateToActionRawRequest(
     val screenName: String,
     val screenNavigationParams: Map<String, String>
-) : ExecutableActionRaw {
+) : ActionRawRequest {
     override val type: String = "navigateTo"
 }

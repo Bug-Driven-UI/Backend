@@ -1,4 +1,4 @@
-package ru.hits.bdui.client.action.models
+package ru.hits.bdui.client.action.controller.raw.actions.request
 
 /**
  * Действие, отвечающее за обновление экрана
@@ -6,10 +6,11 @@ package ru.hits.bdui.client.action.models
  * @property screenName название экрана
  * @property screenNavigationParams параметры для обновления экрана
  */
-data class ExecutableUpdateScreenActionRaw(
+data class UpdateScreenActionRawRequest(
     val screenName: String,
-    val screenNavigationParams: Map<String, String>
-) : ExecutableActionRaw {
+    val screenNavigationParams: Map<String, String>,
+    val hashes: List<HashNode>
+) : ActionRawRequest {
     override val type: String = "updateScreen"
 }
 

@@ -1,4 +1,4 @@
-package ru.hits.bdui.client.action.models
+package ru.hits.bdui.client.action.controller.raw.actions.request
 
 /**
  * Действие, отвечающее за вызов команд из реестра
@@ -6,9 +6,9 @@ package ru.hits.bdui.client.action.models
  * @property name название команды, которую нужно исполнить
  * @property params передаваемые параметры для исполнения команды
  */
-data class ExecutableCommandActionRaw(
+data class CommandActionRawRequest(
     val name: String,
     val params: Map<String, String>
-) : ExecutableActionRaw {
+) : ActionRawRequest {
     override val type: String = "command"
 }
