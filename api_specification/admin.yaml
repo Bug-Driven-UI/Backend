@@ -1332,11 +1332,16 @@ components:
 
     TextStyleDeleteResponseSuccess:
       type: object
+      required: [ type, data ]
       properties:
         type:
           const: success
-        message:
-          type: string
+        data:
+          type: object
+          required: [ message ]
+          properties:
+            message:
+              type: string
       additionalProperties: false
 
     TextStyleDeleteResponseError:
@@ -1557,11 +1562,16 @@ components:
 
     ColorStyleDeleteResponseSuccess:
       type: object
+      required: [ type, data ]
       properties:
         type:
           const: success
-        message:
-          type: string
+        data:
+          type: object
+          required: [ message ]
+          properties:
+            message:
+              type: string
       additionalProperties: false
 
     ColorStyleDeleteResponseError:
@@ -1762,11 +1772,16 @@ components:
 
     CommandDeleteResponseSuccess:
       type: object
+      required: [ type, data ]
       properties:
         type:
           const: success
-        message:
-          type: string
+        data:
+          type: object
+          required: [ message ]
+          properties:
+            message:
+              type: string
       additionalProperties: false
 
     CommandDeleteResponseError:
@@ -1844,16 +1859,7 @@ components:
           required: [ commands ]
           properties:
             commands:
-              type: array
-              items:
-                type: object
-                required: [ id, name ]
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  name:
-                    type: string
+              $ref: '#/components/schemas/CommandForSave'
       additionalProperties: false
 
     CommandsByNameResponseError:
@@ -1965,11 +1971,16 @@ components:
 
     TemplateDeleteResponseSuccess:
       type: object
+      required: [ type, data ]
       properties:
         type:
           const: success
-        message:
-          type: string
+        data:
+          type: object
+          required: [ message ]
+          properties:
+            message:
+              type: string
       additionalProperties: false
 
     TemplateDeleteResponseError:
@@ -2149,11 +2160,16 @@ components:
 
     APIDeleteResponseSuccess:
       type: object
+      required: [ type, data ]
       properties:
         type:
           const: success
-        message:
-          type: string
+        data:
+          type: object
+          required: [ message ]
+          properties:
+            message:
+              type: string
       additionalProperties: false
 
     APIDeleteResponseError:

@@ -12,7 +12,6 @@ import ru.hits.bdui.admin.colorStyles.database.ColorStyleRepository.SaveResponse
 import ru.hits.bdui.admin.colorStyles.database.emerge.emerge
 import ru.hits.bdui.admin.colorStyles.database.entity.ColorStyleEntity
 import ru.hits.bdui.admin.colorStyles.database.repository.ColorStyleJpaRepository
-import ru.hits.bdui.admin.templates.database.emerge.emerge
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.color.ColorStyleFromDatabase
 import java.util.UUID
@@ -106,6 +105,7 @@ class ColorStyleRepositoryImpl(
             .onErrorResume { SaveResponse.Error(it).toMono() }
             .subscribeOn(Schedulers.boundedElastic())
 
+    @Transactional
     override fun delete(id: UUID): Mono<Unit> =
         Mono.fromCallable { repository.deleteById(id) }
             .subscribeOn(Schedulers.boundedElastic())

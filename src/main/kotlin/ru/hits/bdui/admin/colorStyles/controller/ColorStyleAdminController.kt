@@ -13,9 +13,9 @@ import ru.hits.bdui.admin.colorStyles.controller.raw.ColorStyleRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.ColorStyleResponseRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.delete.ColorStyleDeleteRequestRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.delete.ColorStyleDeleteResponseRaw
+import ru.hits.bdui.admin.colorStyles.controller.raw.emerge
 import ru.hits.bdui.admin.colorStyles.controller.raw.get.ColorStyleGetByTokenRequestRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.get.ColorStyleGetRequestRaw
-import ru.hits.bdui.admin.colorStyles.controller.raw.of
 import ru.hits.bdui.admin.colorStyles.controller.raw.save.ColorStyleSaveRequestRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.update.ColorStyleUpdateRequestRaw
 import ru.hits.bdui.common.models.api.ApiResponse
@@ -28,14 +28,14 @@ class ColorStyleAdminController(
     fun save(@RequestBody request: ColorStyleSaveRequestRaw): Mono<ApiResponse<ColorStyleResponseRaw>> =
         Mono.fromCallable { ColorStyleFromRawMapper.ColorStyle(request.data.colorStyle) }
             .flatMap { colorStyle -> service.save(colorStyle) }
-            .map { ColorStyleRaw.of(it) }
+            .map { ColorStyleRaw.emerge(it) }
             .map { ApiResponse.success(ColorStyleResponseRaw(it)) }
 
     @PutMapping("/v1/colorStyle/update")
     fun update(@RequestBody request: ColorStyleUpdateRequestRaw): Mono<ApiResponse<ColorStyleResponseRaw>> =
         Mono.fromCallable { ColorStyleFromRawMapper.ColorStyleFromDatabase(request.data.id, request.data.colorStyle) }
             .flatMap { colorStyle -> service.update(colorStyle) }
-            .map { ColorStyleRaw.of(it) }
+            .map { ColorStyleRaw.emerge(it) }
             .map { ApiResponse.success(ColorStyleResponseRaw(it)) }
 
     @DeleteMapping("/v1/colorStyle/delete")
@@ -47,13 +47,13 @@ class ColorStyleAdminController(
     @PostMapping("/v1/colorStyle/get")
     fun get(@RequestBody request: ColorStyleGetRequestRaw): Mono<ApiResponse<ColorStyleResponseRaw>> =
         service.findById(request.data.id)
-            .map { ColorStyleRaw.of(it) }
+            .map { ColorStyleRaw.emerge(it) }
             .map { ApiResponse.success(ColorStyleResponseRaw(it)) }
 
 
     @PostMapping("/v1/colorStyle/getByToken")
     fun getByToken(@RequestBody request: ColorStyleGetByTokenRequestRaw): Mono<ApiResponse<ColorStyleListResponseRaw>> =
         service.findAllLikeToken(request.data.query)
-            .map { list -> list.map { ColorStyleRaw.of(it) } }
+            .map { list -> list.map { ColorStyleRaw.emerge(it) } }
             .map { ApiResponse.success(ColorStyleListResponseRaw(it)) }
 }
