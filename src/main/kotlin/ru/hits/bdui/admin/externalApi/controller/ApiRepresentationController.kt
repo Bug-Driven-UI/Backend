@@ -1,6 +1,5 @@
 package ru.hits.bdui.admin.externalApi.controller
 
-import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -20,18 +19,11 @@ import ru.hits.bdui.admin.externalApi.controller.raw.ApiRepresentationUpdateRequ
 import ru.hits.bdui.common.models.api.ApiResponse
 import ru.hits.bdui.common.models.api.DataModel
 import ru.hits.bdui.common.models.api.DeleteResponseRaw
-import ru.hits.bdui.common.models.api.ErrorContentRaw
-import ru.hits.bdui.domain.api.ApiCallRepresentation
-import ru.hits.bdui.engine.Interpreter
-import ru.hits.bdui.engine.api.ExternalApiManager
-import ru.hits.bdui.engine.api.ExternalApisCallResult
 
 @RestController
 @RequestMapping("/v1/api")
 class ApiRepresentationController(
-    private val apiRepresentationService: ApiRepresentationStorageService,
-    private val interpreter: Interpreter,
-    private val externalApiManager: ExternalApiManager,
+    private val apiRepresentationService: ApiRepresentationStorageService
 ) {
 
     @PostMapping("/save")
@@ -60,7 +52,7 @@ class ApiRepresentationController(
     ): Mono<ApiResponse<DeleteResponseRaw>> =
         Mono.fromCallable { deleteModel.data.apiId }
             .flatMap { apiId -> apiRepresentationService.deleteApiRepresentation(apiId) }
-            .map { DeleteResponseRaw("Api representation with id $it deleted successfully") }
+            .map { DeleteResponseRaw("Api representation with id $${deleteModel.data.apiId} deleted successfully") }
             .map(ApiResponse.Companion::success)
 
     @PostMapping("/get")
@@ -81,21 +73,4 @@ class ApiRepresentationController(
             .map { list -> list.map(ApiRepresentationRawMapper::fromDomain) }
             .map { ApiRepresentationShortListResponseRaw(it) }
             .map(ApiResponse.Companion::success)
-
-    @PostMapping("/test/callApis")
-    fun testCallApis(
-        @RequestBody apiCalls: DataModel<List<ApiCallRepresentation>>,
-    ): Mono<ApiResponse<Map<String, JsonNode>>> =
-        externalApiManager.getData(interpreter, apiCalls.data)
-            .map { apisCallResult ->
-                when (apisCallResult) {
-                    is ExternalApisCallResult.Success -> {
-                        ApiResponse.success(apisCallResult.data)
-                    }
-
-                    is ExternalApisCallResult.Error -> {
-                        ApiResponse.error(ErrorContentRaw.emerge(apisCallResult.error.stackTraceToString()))
-                    }
-                }
-            }
 }
