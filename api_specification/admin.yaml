@@ -2918,7 +2918,7 @@ components:
 
     Placeholder:
       type: object
-      required: [ text, textWithStyle, colorStyle ]
+      required: [ text, textWithStyle ]
       properties:
         textWithStyle:
           $ref: '#/components/schemas/StyledTextRepresentation'
@@ -2926,7 +2926,7 @@ components:
 
     Hint:
       type: object
-      required: [ text, textWithStyle, colorStyle ]
+      required: [ text, textWithStyle ]
       properties:
         textWithStyle:
           $ref: '#/components/schemas/StyledTextRepresentation'
