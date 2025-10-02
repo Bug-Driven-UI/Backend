@@ -1,5 +1,7 @@
 package ru.hits.bdui.common.models.admin.entity.styles.text
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class TextStyleEntity(
     val token: String,
     val decoration: TextDecorationEntity?,
@@ -9,11 +11,21 @@ data class TextStyleEntity(
 )
 
 enum class TextDecorationEntity {
+    @JsonProperty("regular")
     REGULAR,
-    BOLD,
+
+    @JsonProperty("italic")
     ITALIC,
+
+    @JsonProperty("underline")
     UNDERLINE,
+
+    @JsonProperty("strikethrough")
     STRIKETHROUGH,
+
+    @JsonProperty("overline")
     OVERLINE,
+
+    @JsonProperty("strikethroughRed")
     STRIKETHROUGH_RED
 }

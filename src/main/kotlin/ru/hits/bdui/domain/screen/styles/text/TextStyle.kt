@@ -18,7 +18,6 @@ data class TextStyle(
 
 enum class TextDecoration {
     REGULAR,
-    BOLD,
     ITALIC,
     UNDERLINE,
     STRIKETHROUGH,

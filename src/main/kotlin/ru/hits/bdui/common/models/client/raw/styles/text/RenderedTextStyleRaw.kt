@@ -11,7 +11,6 @@ data class RenderedTextStyleRaw(
 
 enum class TextDecorationRaw {
     @JsonProperty("regular") REGULAR,
-    @JsonProperty("bold") BOLD,
     @JsonProperty("italic") ITALIC,
     @JsonProperty("underline") UNDERLINE,
     @JsonProperty("strikeThrough") STRIKETHROUGH,

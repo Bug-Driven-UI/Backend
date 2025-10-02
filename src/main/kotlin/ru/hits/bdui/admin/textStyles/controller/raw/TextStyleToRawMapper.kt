@@ -15,7 +15,6 @@ fun TextStyleRaw.Companion.of(data: TextStyleFromDatabase): TextStyleRaw =
 
 private fun TextDecoration.toRaw(): TextDecorationRaw =
     when (this) {
-        TextDecoration.BOLD -> TextDecorationRaw.BOLD
         TextDecoration.ITALIC -> TextDecorationRaw.ITALIC
         TextDecoration.UNDERLINE -> TextDecorationRaw.UNDERLINE
         TextDecoration.STRIKETHROUGH -> TextDecorationRaw.STRIKETHROUGH

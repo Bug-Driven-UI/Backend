@@ -233,7 +233,6 @@ private fun TextStyle.toRendered(): RenderedTextStyleRaw =
     RenderedTextStyleRaw(
         decoration = when (this.decoration) {
             TextDecoration.REGULAR -> TextDecorationRaw.REGULAR
-            TextDecoration.BOLD -> TextDecorationRaw.BOLD
             TextDecoration.ITALIC -> TextDecorationRaw.ITALIC
             TextDecoration.UNDERLINE -> TextDecorationRaw.UNDERLINE
             TextDecoration.STRIKETHROUGH -> TextDecorationRaw.STRIKETHROUGH

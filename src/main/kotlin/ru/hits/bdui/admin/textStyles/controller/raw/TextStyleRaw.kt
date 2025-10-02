@@ -1,5 +1,6 @@
 package ru.hits.bdui.admin.textStyles.controller.raw
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.UUID
 
 data class TextStyleRaw(
@@ -22,11 +23,21 @@ data class TextStyleForSaveRaw(
 )
 
 enum class TextDecorationRaw {
+    @JsonProperty("regular")
     REGULAR,
-    BOLD,
+
+    @JsonProperty("italic")
     ITALIC,
+
+    @JsonProperty("underline")
     UNDERLINE,
+
+    @JsonProperty("strikethrough")
     STRIKETHROUGH,
+
+    @JsonProperty("overline")
     OVERLINE,
+
+    @JsonProperty("strikethroughRed")
     STRIKETHROUGH_RED
 }

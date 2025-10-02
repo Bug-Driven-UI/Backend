@@ -29,7 +29,6 @@ object TextStyleFromRawMapper {
 
     fun TextDecoration(decoration: TextDecorationRaw): TextDecoration =
         when (decoration) {
-            TextDecorationRaw.BOLD -> TextDecoration.BOLD
             TextDecorationRaw.ITALIC -> TextDecoration.ITALIC
             TextDecorationRaw.UNDERLINE -> TextDecoration.UNDERLINE
             TextDecorationRaw.STRIKETHROUGH -> TextDecoration.STRIKETHROUGH

@@ -291,7 +291,6 @@ private fun TextStyleEntity.toDomain(): TextStyle =
             when (it) {
                 TextDecorationEntity.REGULAR -> TextDecoration.REGULAR
                 TextDecorationEntity.ITALIC -> TextDecoration.ITALIC
-                TextDecorationEntity.BOLD -> TextDecoration.BOLD
                 TextDecorationEntity.UNDERLINE -> TextDecoration.UNDERLINE
                 TextDecorationEntity.STRIKETHROUGH_RED -> TextDecoration.STRIKETHROUGH_RED
                 TextDecorationEntity.STRIKETHROUGH -> TextDecoration.STRIKETHROUGH
