@@ -7,27 +7,35 @@ import ru.hits.bdui.domain.api.ApiRepresentationFromDatabase
 import ru.hits.bdui.domain.api.schema.Schema
 import java.util.UUID
 
-fun ApiSchema.toDomainSchema(): Schema = when (this) {
-    is ApiSchema.Object -> Schema.Object(
-        properties = this.properties.mapValues { it.value.toDomainSchema() }
-    )
-    is ApiSchema.Array -> Schema.Array(
-        items = this.items.toDomainSchema()
-    )
-    is ApiSchema.String -> Schema.String
-    is ApiSchema.Number -> Schema.Number
-}
+fun ApiSchema.toDomainSchema(): Schema =
+    when (this) {
+        is ApiSchema.Object -> Schema.Object(
+            properties = this.properties.mapValues { it.value.toDomainSchema() }
+        )
 
-fun Schema.toApiSchema(): ApiSchema = when (this) {
-    is Schema.Object -> ApiSchema.Object(
-        properties = this.properties.mapValues { it.value.toApiSchema() }
-    )
-    is Schema.Array -> ApiSchema.Array(
-        items = this.items.toApiSchema()
-    )
-    is Schema.String -> ApiSchema.String
-    is Schema.Number -> ApiSchema.Number
-}
+        is ApiSchema.Array -> Schema.Array(
+            items = this.items.toDomainSchema()
+        )
+
+        is ApiSchema.String -> Schema.String
+        is ApiSchema.Number -> Schema.Number
+        is ApiSchema.Boolean -> Schema.Boolean
+    }
+
+fun Schema.toApiSchema(): ApiSchema =
+    when (this) {
+        is Schema.Object -> ApiSchema.Object(
+            properties = this.properties.mapValues { it.value.toApiSchema() }
+        )
+
+        is Schema.Array -> ApiSchema.Array(
+            items = this.items.toApiSchema()
+        )
+
+        is Schema.String -> ApiSchema.String
+        is Schema.Number -> ApiSchema.Number
+        is Schema.Boolean -> ApiSchema.Boolean
+    }
 
 fun ApiRepresentationEntity.Companion.emerge(apiRepresentation: ApiRepresentation): ApiRepresentationEntity =
     ApiRepresentationEntity(
