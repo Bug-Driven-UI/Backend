@@ -1,5 +1,6 @@
 package ru.hits.bdui.common.models.admin.entity.styles.text
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class TextStyleEntity(
@@ -27,5 +28,19 @@ enum class TextDecorationEntity {
     OVERLINE,
 
     @JsonProperty("strikethroughRed")
-    STRIKETHROUGH_RED
+    STRIKETHROUGH_RED;
+
+    companion object {
+        @JvmStatic
+        @JsonCreator
+        fun fromValue(value: String): TextDecorationEntity {
+            return entries.firstOrNull {
+                it.name.equals(value, ignoreCase = true) ||
+                        it.getJsonName().equals(value, ignoreCase = true)
+            } ?: throw IllegalArgumentException("Неизвестное значение: $value")
+        }
+    }
+
+    private fun getJsonName(): String =
+        this::class.java.getField(name).getAnnotation(JsonProperty::class.java)?.value ?: name
 }
