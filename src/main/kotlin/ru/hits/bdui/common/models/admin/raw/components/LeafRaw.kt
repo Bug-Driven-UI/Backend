@@ -91,7 +91,7 @@ data class SwitchRaw(
 }
 
 data class ButtonRaw(
-    val textWithStyle: TextWithStyleRaw,
+    val text: TextRaw,
     val enabled: Boolean,
     override val base: ComponentBaseRawProperties,
 ) : LeafRaw {

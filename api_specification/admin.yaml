@@ -2976,11 +2976,11 @@ components:
       allOf:
         - $ref: '#/components/schemas/LeafBase'
         - type: object
-          required: [ type, enabled, textWithStyle ]
+          required: [ type, enabled, text ]
           properties:
             type: { const: button }
-            textWithStyle:
-              $ref: '#/components/schemas/StyledTextRepresentation'
+            text:
+              $ref: '#/components/schemas/Text'
             enabled:
               type: boolean
 

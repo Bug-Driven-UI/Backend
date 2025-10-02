@@ -119,7 +119,7 @@ fun Component.toRaw(): ComponentRaw =
         )
 
         is Button -> ButtonRaw(
-            textWithStyle = this.textWithStyle.toRaw(),
+            text = this.text.toRaw() as TextRaw,
             enabled = this.enabled,
             base = this.base.toRaw(),
         )

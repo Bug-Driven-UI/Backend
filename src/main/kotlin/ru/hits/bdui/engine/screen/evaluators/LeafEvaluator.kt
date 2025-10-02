@@ -96,5 +96,9 @@ class ButtonEvaluator : LeafEvaluator<Button> {
 
     override fun evaluateTyped(component: Button, interpreter: Interpreter): Button =
         component.evaluateBaseProperties(interpreter)
-            .copy(textWithStyle = component.textWithStyle.evaluate(interpreter))
+            .copy(
+                text = component.text.copy(
+                    textWithStyle = component.text.textWithStyle.evaluate(interpreter)
+                )
+            )
 }

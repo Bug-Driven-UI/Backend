@@ -108,7 +108,7 @@ fun ComponentRaw.toDomain(ctx: MappingContext): Component =
         )
 
         is ButtonRaw -> Button(
-            textWithStyle = this.textWithStyle.toDomain(ctx),
+            text = this.text.toDomain(ctx) as Text,
             enabled = this.enabled,
             base = this.base.toDomain(ctx),
         )

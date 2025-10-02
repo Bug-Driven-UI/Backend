@@ -116,7 +116,7 @@ fun Component.toRendered(): RenderedComponentRaw =
         )
 
         is Button -> ButtonRawRendered(
-            textWithStyle = this.textWithStyle.toRendered(),
+            text = this.text.toRendered() as TextRawRendered,
             enabled = this.enabled,
             base = this.toRenderedBaseProperties(),
         )

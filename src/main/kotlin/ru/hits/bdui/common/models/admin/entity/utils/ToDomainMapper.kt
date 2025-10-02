@@ -117,7 +117,7 @@ fun ComponentEntity.toDomain(): Component =
         )
 
         is ButtonEntity -> Button(
-            textWithStyle = this.textWithStyle.toDomain(),
+            text = this.text.toDomain() as Text,
             enabled = this.enabled,
             base = this.base.toDomain(),
         )

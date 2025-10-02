@@ -91,7 +91,7 @@ data class SwitchEntity(
 }
 
 data class ButtonEntity(
-    val textWithStyle: TextWithStyleEntity,
+    val text: TextEntity,
     val enabled: Boolean,
     override val base: ComponentBaseEntityProperties
 ) : LeafEntity {

@@ -717,11 +717,11 @@ components:
       allOf:
         - $ref: '#/components/schemas/RenderedLeafBase'
         - type: object
-          required: [ type, textWithStyle, enabled ]
+          required: [ type, text, enabled ]
           properties:
             type: { const: button }
-            textWithStyle:
-              $ref: '#/components/schemas/RenderedStyledTextRepresentation'
+            text:
+              $ref: '#/components/schemas/RenderedText'
             enabled:
               type: boolean
               default: true

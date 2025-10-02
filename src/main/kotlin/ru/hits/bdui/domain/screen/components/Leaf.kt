@@ -80,7 +80,7 @@ data class Switch(
 }
 
 data class Button(
-    val textWithStyle: TextWithStyle,
+    val text: Text,
     val enabled: Boolean,
     override val base: ComponentBaseProperties,
 ) : Leaf {

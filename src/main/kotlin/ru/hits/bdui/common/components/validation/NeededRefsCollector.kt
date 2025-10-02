@@ -59,7 +59,7 @@ class NeededRefsCollector {
 
             when (component) {
                 is TextRaw -> extractTokensFromTextWithStyle(component.textWithStyle)
-                is ButtonRaw -> extractTokensFromTextWithStyle(component.textWithStyle)
+                is ButtonRaw -> stack.addLast(component.text)
 
                 is InputRaw -> {
                     extractTokensFromTextWithStyle(component.textWithStyle)

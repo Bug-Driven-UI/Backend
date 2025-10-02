@@ -128,7 +128,7 @@ fun Component.toEntity(): ComponentEntity =
         )
 
         is Button -> ButtonEntity(
-            textWithStyle = this.textWithStyle.toEntity(),
+            text = this.text.toEntity() as TextEntity,
             enabled = this.enabled,
             base = this.base.toEntity(),
         )
