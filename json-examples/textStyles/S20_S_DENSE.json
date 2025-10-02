@@ -1,0 +1,11 @@
+{
+  "data": {
+    "textStyle": {
+      "token": "S20_S_DENSE",
+      "size": 13,
+      "weight": 500,
+      "lineHeight": 16,
+      "decoration": "regular"
+    }
+  }
+}

@@ -281,7 +281,7 @@ private fun TextWithStyleEntity.toDomain(): TextWithStyle =
     TextWithStyle(
         text = getValueOrExpression(this.text),
         textStyle = this.textStyle.toDomain(),
-        color = this.color.toDomain()
+        color = this.colorStyle.toDomain()
     )
 
 private fun TextStyleEntity.toDomain(): TextStyle =

@@ -1,0 +1,501 @@
+{
+  "data": {
+    "template": {
+      "name": "Card",
+      "component": {
+        "id": "51dd0c03-d58d-4807-8f28-000a92bb28b3",
+        "shape": null,
+        "width": {
+          "type": "matchParent"
+        },
+        "border": null,
+        "height": {
+          "type": "wrapContent"
+        },
+        "margins": null,
+        "paddings": {
+          "end": 16,
+          "top": 0,
+          "start": 16,
+          "bottom": 0
+        },
+        "interactions": [],
+        "backgroundColor": {
+          "color": "#f5f5f5",
+          "token": "colors.gray.gray4"
+        },
+        "type": "row",
+        "children": [
+          {
+            "id": "bc0372a6-b9ea-485b-a0a6-e0a511c8a110",
+            "shape": null,
+            "width": {
+              "type": "fixed",
+              "value": 21
+            },
+            "border": null,
+            "height": {
+              "type": "fixed",
+              "value": 21
+            },
+            "margins": null,
+            "paddings": null,
+            "interactions": [],
+            "backgroundColor": null,
+            "type": "image",
+            "badge": null,
+            "imageUrl": "https://s685sas.storage.yandex.net/rdisk/b3f5673b529b6e2d5226a216f8bdfa05346f1895d742a8b2af0ab3594325ca94/68dd9309/axxYlLZrV50aOsxOWElsvluHyytpCUL5z7esAnqkiAoB7Lu3XTic6-iXs4GWR2Uajjl2gMAYbZ1Wvg8bQRewPg==?uid=0&filename=Checkbox.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&fsize=1169&hid=a5395faec638344b43721f30ece4b95b&media_type=image&tknv=v3&etag=501191459c2ed6ae12ddb24c1fae346f&ts=6401ef4d41440&s=ae48d97043f39b05632f14947801c4d8d6351c7587f22ca491a4002925399d77&pb=U2FsdGVkX18DrhBQDPvczWDUoRltv2pWWn9ILt8dwF4r7mR6GAKZu3BOCdd5y4_CTSKk6G79juC-byfRXtusrsJf3JEKdic4ZPxR2XkJvew"
+          },
+          {
+            "id": "c6413e8a-c7c3-47c0-aaa7-732df32b66b0",
+            "shape": null,
+            "width": {
+              "type": "fixed",
+              "value": 12
+            },
+            "border": null,
+            "height": {
+              "type": "wrapContent"
+            },
+            "margins": null,
+            "paddings": null,
+            "interactions": [],
+            "backgroundColor": null,
+            "type": "spacer"
+          },
+          {
+            "id": "7c2a063c-8915-4b8b-b524-e5b99c177e46",
+            "shape": {
+              "type": "roundedCorners",
+              "topLeft": 12,
+              "topRight": 12,
+              "bottomLeft": 12,
+              "bottomRight": 12
+            },
+            "width": {
+              "type": "fixed",
+              "value": 96
+            },
+            "border": null,
+            "height": {
+              "type": "fixed",
+              "value": 96
+            },
+            "margins": null,
+            "paddings": null,
+            "interactions": [],
+            "backgroundColor": null,
+            "type": "image",
+            "badge": null,
+            "imageUrl": "${item.imageUrl}"
+          },
+          {
+            "id": "d6cfbdc4-2012-4a8e-9f48-ddce646d5f7a",
+            "shape": null,
+            "width": {
+              "type": "fixed",
+              "value": 12
+            },
+            "border": null,
+            "height": {
+              "type": "wrapContent"
+            },
+            "margins": null,
+            "paddings": null,
+            "interactions": [],
+            "backgroundColor": null,
+            "type": "spacer"
+          },
+          {
+            "id": "46035d64-466c-4557-8f9a-e8180eace278",
+            "shape": null,
+            "width": {
+              "type": "weighted",
+              "fraction": 1.0
+            },
+            "border": null,
+            "height": {
+              "type": "wrapContent"
+            },
+            "margins": null,
+            "paddings": null,
+            "interactions": [],
+            "backgroundColor": null,
+            "type": "column",
+            "children": [
+              {
+                "id": "44dab058-0350-45b9-b290-6d09629ecf20",
+                "shape": null,
+                "width": {
+                  "type": "wrapContent"
+                },
+                "border": null,
+                "height": {
+                  "type": "wrapContent"
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "text",
+                "textWithStyle": {
+                  "text": "${item.priceWithDiscount}",
+                  "colorStyle": {
+                    "color": "#000000",
+                    "token": "color.content.primary"
+                  },
+                  "textStyle": {
+                    "size": 18,
+                    "token": "H40_H4",
+                    "weight": 600,
+                    "decoration": "REGULAR",
+                    "lineHeight": 22
+                  }
+                }
+              },
+              {
+                "id": "1e128753-ef97-402d-8932-fd67842ca7b5",
+                "shape": null,
+                "width": {
+                  "type": "wrapContent"
+                },
+                "border": null,
+                "height": {
+                  "type": "fixed",
+                  "value": 2
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "spacer"
+              },
+              {
+                "id": "a36d4088-5f6a-47bf-8bb6-307ede80ec2e",
+                "shape": null,
+                "width": {
+                  "type": "wrapContent"
+                },
+                "border": null,
+                "height": {
+                  "type": "wrapContent"
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "text",
+                "textWithStyle": {
+                  "text": "${item.name}",
+                  "colorStyle": {
+                    "color": "#000000",
+                    "token": "color.content.primary"
+                  },
+                  "textStyle": {
+                    "size": 13,
+                    "token": "S20_S_DENSE",
+                    "weight": 500,
+                    "decoration": "REGULAR",
+                    "lineHeight": 16
+                  }
+                }
+              },
+              {
+                "id": "e7b139cf-ff3a-4bf2-888e-14a321e499ab",
+                "shape": null,
+                "width": {
+                  "type": "wrapContent"
+                },
+                "border": null,
+                "height": {
+                  "type": "fixed",
+                  "value": 10
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "spacer"
+              },
+              {
+                "id": "8af36e93-6041-4bdf-b5b1-60a27f15aac7",
+                "shape": {
+                  "type": "roundedCorners",
+                  "topLeft": 12,
+                  "topRight": 12,
+                  "bottomLeft": 12,
+                  "bottomRight": 12
+                },
+                "width": {
+                  "type": "wrapContent"
+                },
+                "border": null,
+                "height": {
+                  "type": "wrapContent"
+                },
+                "margins": null,
+                "paddings": {
+                  "end": 14,
+                  "top": 11,
+                  "start": 14,
+                  "bottom": 13
+                },
+                "interactions": [],
+                "backgroundColor": {
+                  "color": "#ffffff",
+                  "token": "color.bg.base"
+                },
+                "type": "row",
+                "children": [
+                  {
+                    "id": "8f9ff919-658e-46a4-ba05-c72b18d0be26",
+                    "shape": null,
+                    "width": {
+                      "type": "fixed",
+                      "value": 20
+                    },
+                    "border": null,
+                    "height": {
+                      "type": "fixed",
+                      "value": 20
+                    },
+                    "margins": null,
+                    "paddings": null,
+                    "interactions": [],
+                    "backgroundColor": null,
+                    "type": "image",
+                    "badge": null,
+                    "imageUrl": "https://s586sas.storage.yandex.net/rdisk/09667dcf0817ccef758ebb9d70832e635b3a55f534850cd48544401a8654a84c/68dd95e9/axxYlLZrV50aOsxOWElsvtEsv5Z072nQOr3bfCAkKhA2I9ZvWhHOE_0-O-S_kdOcSSSPnXMgol0FJaEFK1zzgg==?uid=0&filename=Icon_L.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&fsize=183&hid=1e0277cf60b2684f2007bcb85b621992&media_type=image&tknv=v3&etag=49a55a3043d9f4bd9b7576b1442fea7e&ts=6401f20b28c40&s=50a48712f7752431ffe6924ba3749ae78a4800f12908530eb3d6b65796bd394d&pb=U2FsdGVkX1_9nJFG8PjgYgs-4YOXTdNQu77xn8sQUVGoVOP54dsjvBh89221S67DR5yv5NLuILLZIlcFd_eoSIrPRihihugZiaNMxGPF3vw"
+                  },
+                  {
+                    "id": "0c040d3f-a15e-487e-9c72-d5c1177cb13e",
+                    "shape": null,
+                    "width": {
+                      "type": "fixed",
+                      "value": 24
+                    },
+                    "border": null,
+                    "height": {
+                      "type": "wrapContent"
+                    },
+                    "margins": null,
+                    "paddings": null,
+                    "interactions": [],
+                    "backgroundColor": null,
+                    "type": "spacer"
+                  },
+                  {
+                    "id": "04b1485c-2645-4ee4-b2ad-ae43b02a3dac",
+                    "shape": null,
+                    "width": {
+                      "type": "wrapContent"
+                    },
+                    "border": null,
+                    "height": {
+                      "type": "wrapContent"
+                    },
+                    "margins": null,
+                    "paddings": null,
+                    "interactions": [],
+                    "backgroundColor": null,
+                    "type": "text",
+                    "textWithStyle": {
+                      "text": "${item.rating}",
+                      "colorStyle": {
+                        "color": "#000000",
+                        "token": "color.content.primary"
+                      },
+                      "textStyle": {
+                        "size": 15,
+                        "token": "M20_DENSE",
+                        "weight": 500,
+                        "decoration": "REGULAR",
+                        "lineHeight": 20
+                      }
+                    }
+                  },
+                  {
+                    "id": "d80f4919-929f-42c5-be6b-7eacabec65c7",
+                    "shape": null,
+                    "width": {
+                      "type": "fixed",
+                      "value": 24
+                    },
+                    "border": null,
+                    "height": {
+                      "type": "wrapContent"
+                    },
+                    "margins": null,
+                    "paddings": null,
+                    "interactions": [],
+                    "backgroundColor": null,
+                    "type": "spacer"
+                  },
+                  {
+                    "id": "6d7f55a9-74cc-4dd0-bc37-f0669a93a8d4",
+                    "shape": null,
+                    "width": {
+                      "type": "fixed",
+                      "value": 20
+                    },
+                    "border": null,
+                    "height": {
+                      "type": "fixed",
+                      "value": 20
+                    },
+                    "margins": null,
+                    "paddings": null,
+                    "interactions": [],
+                    "backgroundColor": null,
+                    "type": "image",
+                    "badge": null,
+                    "imageUrl": "https://s99vla.storage.yandex.net/rdisk/80a1471ceaa47d1beee19bc7bfbc14542a09b39b37d576ec26bca360f1eac760/68dd9653/axxYlLZrV50aOsxOWElsvrT_GK31LJ7QLuesKJvkTzwAtYg1DI5sXMAxOf-J0z8ZB0QBTZjHRDqgs1tn4DeKDQ==?uid=0&filename=Icon_R.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&fsize=258&hid=22a57ab8717bbf0c8904db1caa273639&media_type=image&tknv=v3&etag=21304c9ed749fea440af767b973b65be&ts=6401f2703fac0&s=e8c4babf255564a6f1122ee6eec286f8573ffadc2e0ed30290bb7d75888bb4d8&pb=U2FsdGVkX1-Hu_2UbnJ08Y75QO7sEY386Jt-iVef2E20R9C_i1lUAiwWSvYTC1SkGP0lhEPSRshmIOkuXDMFmlKQ-n3qlRlGuktAd2B60fA"
+                  }
+                ]
+              },
+              {
+                "id": "97495dc1-9bf0-4b10-93cd-a410d973ab75",
+                "shape": null,
+                "width": {
+                  "type": "wrapContent"
+                },
+                "border": null,
+                "height": {
+                  "type": "fixed",
+                  "value": 10
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "spacer"
+              },
+              {
+                "id": "0961c6aa-98df-4f39-81b3-9fff702b9ba0",
+                "shape": null,
+                "width": {
+                  "type": "wrapContent"
+                },
+                "border": null,
+                "height": {
+                  "type": "wrapContent"
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "text",
+                "textWithStyle": {
+                  "text": "Купить с доставкой",
+                  "colorStyle": {
+                    "color": "#a168f7",
+                    "token": "violet500"
+                  },
+                  "textStyle": {
+                    "size": 13,
+                    "token": "S10_S",
+                    "weight": 500,
+                    "decoration": "REGULAR",
+                    "lineHeight": 18
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "e12b7579-c041-4f2b-bea0-477ad5d47504",
+            "shape": null,
+            "width": {
+              "type": "wrapContent"
+            },
+            "border": null,
+            "height": {
+              "type": "fixed",
+              "value": 12
+            },
+            "margins": null,
+            "paddings": null,
+            "interactions": [],
+            "backgroundColor": null,
+            "type": "spacer"
+          },
+          {
+            "id": "95165dd6-0235-4ea2-9918-dc39aab8664d",
+            "shape": null,
+            "width": {
+              "type": "wrapContent"
+            },
+            "border": null,
+            "height": {
+              "type": "wrapContent"
+            },
+            "margins": null,
+            "paddings": null,
+            "interactions": [],
+            "backgroundColor": null,
+            "type": "column",
+            "children": [
+              {
+                "id": "c773646f-3f96-4332-8eed-8629ec002d86",
+                "shape": null,
+                "width": {
+                  "type": "fixed",
+                  "value": 28
+                },
+                "border": null,
+                "height": {
+                  "type": "fixed",
+                  "value": 28
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "image",
+                "badge": null,
+                "imageUrl": "https://s811sas.storage.yandex.net/rdisk/8ef3faf3db1b038d9d32dd5b523c57e9672fc8ef21fc68634dac6da4146a8c18/68dd985c/axxYlLZrV50aOsxOWElsvuc_SALg6IaspMmTFAHqlKs8_81uj3NKMKeu1BqeohQ3x_MCCPvZzytR1exyfYfNgQ==?uid=0&filename=favorites.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&fsize=817&hid=b1dae1d6f95d2486ae11029e5b696eb1&media_type=image&tknv=v3&etag=a8c6abcce30193f2829f42d5b3bb6950&ts=6401f4611cf00&s=b29e62905d75874ee2edfdbb085c62dc5e1b1e73dbfe630bdea6a85aaac39abd&pb=U2FsdGVkX19i7xCarmMHmVXEFv4fwwMHNceegHi1ZNFMoZPLf6y7CHp54_xNIGWZHsfkwrjqmFxO305H6tcFE7Q6TtXReKh3iwjQsSisp2E"
+              },
+              {
+                "id": "56549f90-326e-49e9-830a-d5bdc5871e52",
+                "shape": null,
+                "width": {
+                  "type": "wrapContent"
+                },
+                "border": null,
+                "height": {
+                  "type": "fixed",
+                  "value": 4
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "spacer"
+              },
+              {
+                "id": "f548df27-a1e7-4212-aeea-a5a11fb7ee55",
+                "shape": null,
+                "width": {
+                  "type": "fixed",
+                  "value": 28
+                },
+                "border": null,
+                "height": {
+                  "type": "fixed",
+                  "value": 28
+                },
+                "margins": null,
+                "paddings": null,
+                "interactions": [],
+                "backgroundColor": null,
+                "type": "image",
+                "badge": null,
+                "imageUrl": "https://s197klg.storage.yandex.net/rdisk/82dbd737a12c2c676bc2f82ab925ccf754d1267fc15fe45b44dd4c058d584dc4/68dd988f/axxYlLZrV50aOsxOWElsvlZy4i0j-QrCTSEf-aHnItePO9_0XmXXV_qFUl5kKsCDlbsuLDHnGD3gqp9BGX9B5w==?uid=0&filename=delete.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&fsize=612&hid=44f965931bfb6b6ec468d9485b6302dc&media_type=image&tknv=v3&etag=391f2f91535110b391e7c8b9112b717c&ts=6401f491c01c0&s=904e2574ed54fea7961db49593ae0f7258de438594d0de11b464af742f676388&pb=U2FsdGVkX1_IwuO8TbcqlVSsWju5KWP1DyZeYo_6d81iR0iZm3FtA0LoqQ7qxLWh3LuPHQnsaBH9xSzb_kdEriE102xfdCNMUdA4wyt_P6c"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

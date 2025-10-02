@@ -288,7 +288,7 @@ private fun TextWithStyle.toEntity(): TextWithStyleEntity =
     TextWithStyleEntity(
         text = this.text.value as String,
         textStyle = this.textStyle.toEntity(),
-        color = this.color.toEntity()
+        colorStyle = this.color.toEntity()
     )
 
 private fun TextStyle.toEntity(): TextStyleEntity =

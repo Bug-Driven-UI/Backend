@@ -2,8 +2,9 @@ package ru.hits.bdui.engine.expression
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.convertValue
 import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory
+import org.openjdk.nashorn.api.scripting.ScriptObjectMirror
+import org.openjdk.nashorn.api.scripting.ScriptUtils
 import org.slf4j.LoggerFactory
 import ru.hits.bdui.engine.Interpreter
 import ru.hits.bdui.engine.ScopedInterpreter
@@ -36,11 +37,12 @@ class JSInterpreter(
             value.isNull -> engine.put(name, null)
             value.isTextual -> engine.put(name, value.textValue())
             value.isArray -> {
-                val convertedValue = objectMapper.convertValue<Array<Any>>(value)
+                val convertedValue = jsonNodeToSOM(value)
                 engine.put(name, convertedValue)
             }
+
             else -> {
-                val convertedValue = objectMapper.convertValue<Map<String, Any>>(value)
+                val convertedValue = jsonNodeToSOM(value)
                 engine.put(name, convertedValue)
             }
         }
@@ -67,6 +69,13 @@ class JSInterpreter(
         val result = block(scopedEvaluator)
         scopedEvaluator.clearVariables()
         return@synchronized result
+    }
+
+    private fun jsonNodeToSOM(node: JsonNode): ScriptObjectMirror {
+        val json = objectMapper.writeValueAsString(node)
+        val jsonParse = engine.eval("JSON.parse") as ScriptObjectMirror
+        val parsed = jsonParse.call(null, json)
+        return ScriptUtils.wrap(parsed)
     }
 }
 

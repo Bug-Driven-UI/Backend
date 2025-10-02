@@ -1,0 +1,57 @@
+{
+  "name": "Beverages API",
+  "description": "pivo",
+  "params": [
+    "firstBeverageType",
+    "secondBeverageType",
+    "discountPercent"
+  ],
+  "endpoints": [
+    {
+      "url": "https://api.sampleapis.com/beers/${firstBeverageType}",
+      "method": "GET",
+      "responseName": "firstBeverages",
+      "timeoutMs": 5000,
+      "isRequired": true
+    },
+    {
+      "url": "https://api.sampleapis.com/beers/${secondBeverageType}",
+      "method": "GET",
+      "responseName": "secondBeverages",
+      "timeoutMs": 5000,
+      "isRequired": true
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "properties": {
+      "beverages": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "compositeId": {
+              "type": "number"
+            },
+            "type": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "imageUrl": {
+              "type": "string"
+            },
+            "rating": {
+              "type": "number"
+            },
+            "priceWithDiscount": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "mappingScript": "// Convert Java arrays to real JS arrays if needed (Nashorn specifics)\nvar fb = firstBeverages;\nvar sb = secondBeverages;\n\n// Helper to parse a \"$12.34\" string into a float\nfunction parsePrice(priceStr) {\n    if (!priceStr) return 0;\n    return parseFloat(priceStr.replace(/[^0-9.]/g, ''));\n}\n\n// Helper to format rating to one decimal place\nfunction formatRating(rating) {\n    if (rating === undefined || rating === null) return null;\n    return Number(rating.toFixed ? rating.toFixed(1) : Number(rating).toFixed(1));\n}\n\n// Helper to calculate discounted price\nfunction applyDiscount(price, discountPercent) {\n    var discounted = price * (1 - (discountPercent / 100));\n    return \"$\" + discounted.toFixed(2);\n}\n\nvar beverages = [];\nvar i, item;\n\n// First beverages\nfor (i = 0; i < fb.length; i++) {\n    item = fb[i];\n    beverages.push({\n        compositeId: item.id,\n        type: firstBeverageType,\n        name: item.name,\n        imageUrl: item.image,\n        rating: Number(formatRating(item.rating && item.rating.average)),\n        priceWithDiscount: applyDiscount(parsePrice(item.price), discountPercent)\n    });\n}\n\n// Second beverages (shift compositeId to avoid collisions)\nvar shift = fb.length > 0 ? fb[fb.length - 1].id : 0;\nfor (i = 0; i < sb.length; i++) {\n    item = sb[i];\n    beverages.push({\n        compositeId: shift + item.id,\n        type: secondBeverageType,\n        name: item.name,\n        imageUrl: item.image,\n        rating: Number(formatRating(item.rating && item.rating.average)),\n        priceWithDiscount: applyDiscount(parsePrice(item.price), discountPercent)\n    });\n}\n\n// Return JSON string\nJSON.stringify({\n    beverages: beverages\n});"
+}

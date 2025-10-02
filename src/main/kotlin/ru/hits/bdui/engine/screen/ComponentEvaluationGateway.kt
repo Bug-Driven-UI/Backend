@@ -2,7 +2,6 @@ package ru.hits.bdui.engine.screen
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.node.TextNode
 import ru.hits.bdui.common.exceptions.BadRequestException
 import ru.hits.bdui.domain.screen.components.Box
 import ru.hits.bdui.domain.screen.components.Column
@@ -88,13 +87,13 @@ class ComponentEvaluationGatewayImpl(
 
     //TODO(Добавить санитизацию выражений)
     private fun readItems(component: DynamicComposite, interpreter: Interpreter): List<JsonNode> {
-        val lengthExpr = "Java.from(${component.itemsData}).length"
-        val len = interpreter.execute(lengthExpr)?.toIntOrNull() ?: 0
-        return (0 until len).map { idx ->
-            val itemExpr = "JSON.stringify(Java.from(${component.itemsData})[$idx])"
-            val raw = interpreter.execute(itemExpr)
-            runCatching { objectMapper.readTree(raw) }.getOrElse { TextNode(raw) }
-        }
+        val expr = "JSON.stringify(${component.itemsData})"
+        val raw = interpreter.execute(expr) ?: "[]"
+        val items: List<JsonNode> = objectMapper
+            .readTree(raw)
+            .map { it }
+
+        return items
     }
 
     private fun Composite.withChildren(children: List<Component>): Composite = when (this) {
