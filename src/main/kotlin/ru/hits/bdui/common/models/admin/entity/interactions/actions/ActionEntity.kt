@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 @JsonSubTypes(
     JsonSubTypes.Type(value = CommandActionEntity::class, name = "command"),
     JsonSubTypes.Type(value = UpdateScreenActionEntity::class, name = "updateScreen"),
+    JsonSubTypes.Type(value = NavigateToActionEntity::class, name = "navigateTo"),
+    JsonSubTypes.Type(value = NavigateBackActionEntity::class, name = "navigateBack"),
 )
 sealed interface ActionEntity {
     val type: String
