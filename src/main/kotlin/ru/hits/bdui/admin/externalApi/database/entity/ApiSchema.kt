@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     JsonSubTypes.Type(value = ApiSchema.Array::class, name = "array"),
     JsonSubTypes.Type(value = ApiSchema.String::class, name = "string"),
     JsonSubTypes.Type(value = ApiSchema.Number::class, name = "number"),
+    JsonSubTypes.Type(value = ApiSchema.Boolean::class, name = "boolean"),
 )
 sealed interface ApiSchema {
     val type: kotlin.String
@@ -35,5 +36,9 @@ sealed interface ApiSchema {
 
     data object Number : ApiSchema {
         override val type = "number"
+    }
+
+    data object Boolean : ApiSchema {
+        override val type = "boolean"
     }
 }

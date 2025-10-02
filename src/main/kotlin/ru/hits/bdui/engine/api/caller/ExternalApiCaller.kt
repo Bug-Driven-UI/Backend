@@ -9,9 +9,10 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
-import ru.hits.bdui.engine.api.caller.ExternalApiCaller.Response
 import ru.hits.bdui.domain.api.Endpoint
 import ru.hits.bdui.domain.api.HttpMethod
+import ru.hits.bdui.engine.api.caller.ExternalApiCaller.Response
+import ru.hits.bdui.utils.doOnNextWithMeasure
 import java.time.Duration
 
 /**
@@ -45,6 +46,9 @@ class ExternalApiCallerImpl(
                 Duration.ofMillis(endpoint.timeoutMs),
                 Mono.error(ExternalApiCallerException.TimeoutException("Не удалось получить ответ по запросу в течении ${endpoint.timeoutMs} мс"))
             )
+            .doOnNextWithMeasure { duration, _ ->
+                log.info("Запрос {} был выполнен за {} мс", endpoint.responseName, duration.toMillis())
+            }
             .doOnError { error ->
                 log.error(
                     "При отправке ${endpoint.method} запроса по пути ${endpoint.url} произошла ошибка",
@@ -61,12 +65,13 @@ class ExternalApiCallerImpl(
 
     private fun WebClient.withMethodAndUri(method: HttpMethod, uri: String): WebClient.RequestHeadersSpec<*> =
         when (method) {
-            HttpMethod.GET -> this.get().uri(uri)
-            HttpMethod.POST -> this.post().uri(uri)
-            HttpMethod.PUT -> this.put().uri(uri)
-            HttpMethod.DELETE -> this.delete().uri(uri)
-            HttpMethod.PATCH -> this.patch().uri(uri)
+            HttpMethod.GET -> this.get()
+            HttpMethod.POST -> this.post()
+            HttpMethod.PUT -> this.put()
+            HttpMethod.DELETE -> this.delete()
+            HttpMethod.PATCH -> this.patch()
         }
+            .uri(uri)
 
     private fun WebClient.RequestHeadersSpec<*>.requestBodyWhenPossible(body: JsonNode?): WebClient.RequestHeadersSpec<*> =
         if (body != null && body !is NullNode && this is WebClient.RequestBodySpec) this.bodyValue(body) else this

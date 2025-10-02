@@ -16,6 +16,7 @@ import ru.hits.bdui.utils.doOnNextWithMeasure
 @RestController
 class ScreenRenderController(
     private val screenRenderService: ScreenRenderService,
+    private val metrics: ScreenRenderMetrics
 ) {
     private val log = LoggerFactory.getLogger(this::class.java)
 
@@ -23,7 +24,8 @@ class ScreenRenderController(
     fun renderScreen(@RequestBody request: DataModel<RenderScreenRequestRaw>): Mono<RenderedScreenRawWrapper> =
         screenRenderService.renderScreen(RenderScreenRequestModel.emerge(request.data))
             .map { RenderedScreenRawWrapper.emerge(it) }
-            .doOnNextWithMeasure { duration, _ ->
+            .doOnNextWithMeasure { duration, response ->
                 log.info("Экран был зарендерен за {} мс", duration.toMillis())
+                metrics.incrementMetrics(response.screen.screenName, duration)
             }
 }

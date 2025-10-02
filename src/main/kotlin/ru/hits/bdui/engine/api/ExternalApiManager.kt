@@ -36,7 +36,6 @@ class ExternalApiManager(
     private val expressionUtils: ExternalApiExpressionUtils,
     private val apiRepresentationStorageService: ApiRepresentationStorageService,
 ) {
-
     /**
      * @param interpreter интерпретатор для вычисления выражений, у которого !ВАЖНО! заданы все значения переменных, пришедших из навигации на экран
      * @param apiCalls список вызовов внешних API, которые необходимо выполнить
@@ -118,7 +117,8 @@ class ExternalApiManager(
         this.flatMap { callWithRepresentation ->
             Flux.fromIterable(callWithRepresentation.apiRepresentation.api.endpoints)
                 .flatMap { endpoint ->
-                    apiCaller.call(endpoint).map { response -> endpoint.responseName to response  }
+                    apiCaller.call(endpoint)
+                        .map { response -> endpoint.responseName to response }
                 }
                 .collectMap({ it.first }, { it.second })
                 .map { endpointResults ->
@@ -144,16 +144,18 @@ class ExternalApiManager(
         this.map { callWithRepresentationAndResults ->
             interpreter.scope { apiScopedInterpreter ->
                 apiScopedInterpreter.setVariables(callWithRepresentationAndResults.apiCall.apiParams)
-                val endpointResultVariables = callWithRepresentationAndResults.endpointResults.filterValues { response ->
-                    response is ExternalApiCaller.Response.Success
-                }.mapValues { (_, response) ->
-                    (response as ExternalApiCaller.Response.Success).result
-                }
+                val endpointResultVariables =
+                    callWithRepresentationAndResults.endpointResults.filterValues { response ->
+                        response is ExternalApiCaller.Response.Success
+                    }.mapValues { (_, response) ->
+                        (response as ExternalApiCaller.Response.Success).result
+                    }
                 apiScopedInterpreter.setVariables(endpointResultVariables)
 
-                val mappingResult = callWithRepresentationAndResults.apiRepresentation.api.mappingScript?.let { script ->
-                    apiScopedInterpreter.execute(script)
-                }
+                val mappingResult =
+                    callWithRepresentationAndResults.apiRepresentation.api.mappingScript?.let { script ->
+                        apiScopedInterpreter.execute(script)
+                    }
                 callWithRepresentationAndResults.apiCall.apiResultAlias to mappingResult
             }
         }
