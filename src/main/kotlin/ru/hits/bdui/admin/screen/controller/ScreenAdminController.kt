@@ -1,11 +1,13 @@
 package ru.hits.bdui.admin.screen.controller
 
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 import ru.hits.bdui.admin.screen.ScreenService
 import ru.hits.bdui.admin.screen.ScreenValidationOutcome
 import ru.hits.bdui.admin.screen.ScreenValidationService
@@ -109,7 +111,7 @@ class ScreenAdminController(
             .map { ApiResponse.success(GetScreenVersionRaw(it)) }
 
     @PostMapping("/v1/screen/save")
-    fun save(@RequestBody screenForSaveRaw: ScreenRaw): Mono<ApiResponse<ScreenSaveResponseRaw>> =
+    fun save(@RequestBody screenForSaveRaw: ScreenRaw): Mono<ResponseEntity<ApiResponse<ScreenSaveResponseRaw>>> =
         validationService.validateAndMap(screenForSaveRaw)
             .doOnSubscribe { log.info("Получен запрос на сохранение экрана {}", screenForSaveRaw.screenName) }
             .flatMap { outcome ->
@@ -118,23 +120,20 @@ class ScreenAdminController(
                         screenService.save(outcome.screen)
                             .map { ScreenFromDatabaseRaw.emerge(it) }
                             .map { ApiResponse.success(ScreenSaveResponseRaw(it)) }
+                            .doOnNextWithMeasure { duration, _ ->
+                                log.info("Экран успешно сохранен за {} мс", duration.toMillis())
+                            }
+                            .map { ResponseEntity.ok(it) }
 
                     is ScreenValidationOutcome.Error ->
-                        Mono.just<ApiResponse<ScreenSaveResponseRaw>>(ApiResponse.error(outcome.errors))
-                }
-            }
-            .doOnNextWithMeasure { duration, result ->
-                when (result) {
-                    is ApiResponse.Success -> log.info("Экран успешно сохранен за {} мс", duration.toMillis())
-                    is ApiResponse.Error -> log.error(
-                        "При сохранении экрана произошла ошибка. Время выполнения {} мс",
-                        duration.toMillis()
-                    )
+                        ResponseEntity.badRequest()
+                            .body<ApiResponse<ScreenSaveResponseRaw>>(ApiResponse.error(outcome.errors))
+                            .toMono()
                 }
             }
 
     @PutMapping("/v1/screen/update")
-    fun update(@RequestBody request: ScreenUpdateRequestRaw): Mono<ApiResponse<ScreenUpdateResponseRaw>> =
+    fun update(@RequestBody request: ScreenUpdateRequestRaw): Mono<ResponseEntity<ApiResponse<ScreenUpdateResponseRaw>>> =
         validationService.validateAndMap(request.data.screen)
             .doOnSubscribe {
                 log.info(
@@ -155,18 +154,15 @@ class ScreenAdminController(
                         )
                             .map { ScreenFromDatabaseRaw.emerge(it) }
                             .map { ApiResponse.success(ScreenUpdateResponseRaw(it)) }
+                            .doOnNextWithMeasure { duration, _ ->
+                                log.info("Экран успешно обновлен за {} мс", duration.toMillis())
+                            }
+                            .map { ResponseEntity.ok(it) }
 
                     is ScreenValidationOutcome.Error ->
-                        Mono.just<ApiResponse<ScreenUpdateResponseRaw>>(ApiResponse.error(outcome.errors))
-                }
-            }
-            .doOnNextWithMeasure { duration, result ->
-                when (result) {
-                    is ApiResponse.Success -> log.info("Экран успешно обновлен за {} мс", duration.toMillis())
-                    is ApiResponse.Error -> log.error(
-                        "При обновлении экрана произошла ошибка. Время выполнения {} мс",
-                        duration.toMillis()
-                    )
+                        ResponseEntity.badRequest()
+                            .body<ApiResponse<ScreenUpdateResponseRaw>>(ApiResponse.error(outcome.errors))
+                            .toMono()
                 }
             }
 }

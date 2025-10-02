@@ -1,5 +1,6 @@
 package ru.hits.bdui.admin.templates.controller
 
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -30,7 +31,7 @@ class ComponentTemplateAdminController(
     private val service: TemplateService,
 ) {
     @PostMapping("/v1/template/save")
-    fun save(@RequestBody request: ComponentTemplateSaveRequestRaw): Mono<ApiResponse<ComponentTemplateResponseRaw>> =
+    fun save(@RequestBody request: ComponentTemplateSaveRequestRaw): Mono<ResponseEntity<ApiResponse<ComponentTemplateResponseRaw>>> =
         validationService.validateAndMap(request.data.template.component)
             .flatMap { outcome ->
                 when (outcome) {
@@ -43,14 +44,17 @@ class ComponentTemplateAdminController(
                         service.save(template)
                             .map { ComponentTemplateRaw.of(it) }
                             .map { ApiResponse.success(ComponentTemplateResponseRaw(it)) }
+                            .map { ResponseEntity.ok(it) }
                     }
 
-                    is ValidationOutcome.Error -> ApiResponse.error(outcome.error).toMono()
+                    is ValidationOutcome.Error -> ResponseEntity.badRequest()
+                        .body<ApiResponse<ComponentTemplateResponseRaw>>(ApiResponse.error(outcome.error))
+                        .toMono()
                 }
             }
 
     @PutMapping("/v1/template/update")
-    fun update(@RequestBody request: ComponentTemplateUpdateRequestRaw): Mono<ApiResponse<ComponentTemplateResponseRaw>> =
+    fun update(@RequestBody request: ComponentTemplateUpdateRequestRaw): Mono<ResponseEntity<ApiResponse<ComponentTemplateResponseRaw>>> =
         validationService.validateAndMap(request.data.template.component)
             .flatMap { outcome ->
                 when (outcome) {
@@ -66,9 +70,12 @@ class ComponentTemplateAdminController(
                         service.update(templateFromDatabase)
                             .map { ComponentTemplateRaw.of(it) }
                             .map { ApiResponse.success(ComponentTemplateResponseRaw(it)) }
+                            .map { ResponseEntity.ok(it) }
                     }
 
-                    is ValidationOutcome.Error -> ApiResponse.error(outcome.error).toMono()
+                    is ValidationOutcome.Error -> ResponseEntity.badRequest()
+                        .body<ApiResponse<ComponentTemplateResponseRaw>>(ApiResponse.error(outcome.error))
+                        .toMono()
                 }
             }
 
