@@ -8,7 +8,7 @@ data class TextStyleRaw(
     val size: Int,
     val weight: Int?,
     val lineHeight: Int,
-    val decoration: String?
+    val decoration: TextDecorationRaw?
 ) {
     companion object
 }
@@ -18,5 +18,15 @@ data class TextStyleForSaveRaw(
     val size: Int,
     val weight: Int?,
     val lineHeight: Int,
-    val decoration: String?
+    val decoration: TextDecorationRaw?
 )
+
+enum class TextDecorationRaw {
+    REGULAR,
+    BOLD,
+    ITALIC,
+    UNDERLINE,
+    STRIKETHROUGH,
+    OVERLINE,
+    STRIKETHROUGH_RED
+}
