@@ -13,12 +13,16 @@ import ru.hits.bdui.engine.expression.evaluateExpression
 @Component
 class ExternalApiExpressionUtils(private val objectMapper: ObjectMapper) {
 
-    fun evaluateEndpointExpressions(interpreter: Interpreter, endpoint: Endpoint): Endpoint {
+    fun evaluateEndpointExpressions(
+        interpreter: Interpreter,
+        endpoint: Endpoint,
+        apiParams: Map<String, JsonNode>
+    ): Endpoint {
         return endpoint.copy(
             url = interpreter.evaluateExpression(endpoint.url),
             requestBody = endpoint.requestBody?.let { requestBody ->
                 traverseJsonNodeAndReplaceExpressions(interpreter, requestBody)
-            },
+            } ?: objectMapper.valueToTree(apiParams),
         )
     }
 
@@ -28,12 +32,14 @@ class ExternalApiExpressionUtils(private val objectMapper: ObjectMapper) {
                 val evaluatedText = interpreter.evaluateExpression(node.asText())
                 TextNode.valueOf(evaluatedText)
             }
+
             node.isObject -> {
                 val mappedProperties = node.properties().map { (propertyName, propertyValue) ->
                     propertyName to traverseJsonNodeAndReplaceExpressions(interpreter, propertyValue)
                 }.associate { (key, value) -> key to value }
                 ObjectNode(objectMapper.nodeFactory, mappedProperties)
             }
+
             node.isArray -> {
                 val elements = mutableListOf<JsonNode>()
                 node.elements().forEach { arrayElementNode ->
@@ -41,6 +47,7 @@ class ExternalApiExpressionUtils(private val objectMapper: ObjectMapper) {
                 }
                 ArrayNode(objectMapper.nodeFactory, elements)
             }
+
             else -> {
                 node
             }

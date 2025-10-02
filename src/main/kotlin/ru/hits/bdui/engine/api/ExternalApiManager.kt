@@ -101,7 +101,10 @@ class ExternalApiManager(
                 apiScopedInterpreter.setVariables(callWithRepresentation.apiCall.apiParams)
 
                 val evaluatedEndpoints = callWithRepresentation.apiRepresentation.api.endpoints.map { endpoint ->
-                    expressionUtils.evaluateEndpointExpressions(apiScopedInterpreter, endpoint)
+                    expressionUtils.evaluateEndpointExpressions(
+                        apiScopedInterpreter, endpoint,
+                        callWithRepresentation.apiCall.apiParams
+                    )
                 }
                 callWithRepresentation.copy(
                     apiRepresentation = callWithRepresentation.apiRepresentation.copy(
