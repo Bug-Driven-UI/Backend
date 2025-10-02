@@ -20,21 +20,37 @@ class ActionController(
     private val typeToHandler = handlers.associateBy { it.type }
 
     @PostMapping("/v1/screen/action")
-    fun handleAction(@RequestBody request: ExecuteActionsRequestRaw): Mono<ExecuteActionsResponseRaw> =
-        Flux.fromIterable(request.actions)
+    fun handleAction(@RequestBody request: ExecuteActionsRequestRaw): Mono<ExecuteActionsResponseRaw> {
+        val (updateScreens, others) = request.actions.partition { it.type == "updateScreen" }
+
+        return Flux.fromIterable(others)
             .doOnSubscribe {
-                log.info("Получен запрос на обработку действий")
+                log.info(
+                    "Получен запрос на обработку действий ({} всего, {} updateScreen в конце)",
+                    request.actions.size, updateScreens.size
+                )
             }
             .flatMap { action ->
                 val handler = typeToHandler[action.type]
                     ?: throw BadRequestException("Указан несуществующий тип действия ${action.type}")
-
                 handler.execute(action)
             }
             .collectList()
+            .flatMap { list ->
+                Flux.fromIterable(updateScreens)
+                    .doOnSubscribe { log.info("Выполняем действия на обновление экрана") }
+                    .flatMap { action ->
+                        val handler = typeToHandler[action.type]
+                            ?: throw BadRequestException("Указан несуществующий тип действия ${action.type}")
+
+                        handler.execute(action)
+                    }
+                    .collectList()
+                    .map { it + list }
+            }
             .map { list -> ExecuteActionsResponseRaw(list) }
             .doOnNextWithMeasure { duration, _ ->
                 log.info("Действия успешно обработаны за {} мс", duration.toMillis())
             }
-
+    }
 }
