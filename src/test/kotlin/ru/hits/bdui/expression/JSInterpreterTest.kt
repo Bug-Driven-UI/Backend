@@ -71,7 +71,7 @@ class JSInterpreterTest {
             function transformCartData(inputJson) {
               var data = inputJson;
             
-              var cartItems = Java.from(data.items).map(function (item) {
+              var cartItems = data.items.map(function (item) {
                 var basePrice = parseFloat(item.baseItemPrice);
                 var discountPercent = parseFloat(item.itemDiscountPercent);
                 var quantity = parseInt(item.quantity, 10);
