@@ -70,7 +70,7 @@ class CommandActionHandler(
                                     interpreter
                                 ).toRendered()
                             },
-                            fallbackMessage = it.command.fallbackMessage,
+                            fallbackMessage = null,
                         )
                     )
                 )
