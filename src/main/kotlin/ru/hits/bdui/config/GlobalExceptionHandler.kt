@@ -46,8 +46,10 @@ class GlobalExceptionHandler {
             .toMono()
 
     @ExceptionHandler(BadRequestException::class)
-    fun handle(ex: BadRequestException): Mono<ResponseEntity<ApiResponse.Error>> =
-        ResponseEntity.status(HttpStatus.BAD_REQUEST)
+    fun handle(ex: BadRequestException): Mono<ResponseEntity<ApiResponse.Error>> {
+        log.error("BadRequest", ex)
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(
                 ApiResponse.error(
                     listOfNotNull(
@@ -56,6 +58,7 @@ class GlobalExceptionHandler {
                 )
             )
             .toMono()
+    }
 
     @ExceptionHandler(NotFoundException::class)
     fun handle(ex: NotFoundException): Mono<ResponseEntity<ApiResponse.Error>> =
