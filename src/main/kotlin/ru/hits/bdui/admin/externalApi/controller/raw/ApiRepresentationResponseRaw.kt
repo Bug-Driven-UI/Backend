@@ -14,8 +14,8 @@ data class ApiDataRaw(
     val description: String,
     val params: Set<String>,
     val endpoints: List<Endpoint>,
-    val schema: Schema,
-    val mappingScript: String,
+    val schema: Schema?,
+    val mappingScript: String?,
     val createdAtTimestampMs: Long,
     val lastModifiedAtTimestampMs: Long,
 )
