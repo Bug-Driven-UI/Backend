@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import ru.hits.bdui.client.screen.ScreenRenderService
+import ru.hits.bdui.client.screen.controller.raw.RenderScreenByIdRequestRaw
 import ru.hits.bdui.client.screen.controller.raw.RenderScreenRequestRaw
 import ru.hits.bdui.client.screen.controller.raw.RenderedScreenRawWrapper
 import ru.hits.bdui.client.screen.controller.raw.utils.emerge
+import ru.hits.bdui.client.screen.models.RenderScreenByIdRequestModel
 import ru.hits.bdui.client.screen.models.RenderScreenRequestModel
 import ru.hits.bdui.common.models.api.DataModel
 import ru.hits.bdui.utils.doOnNextWithMeasure
@@ -23,6 +25,15 @@ class ScreenRenderController(
     @PostMapping("/v1/screen/render")
     fun renderScreen(@RequestBody request: DataModel<RenderScreenRequestRaw>): Mono<RenderedScreenRawWrapper> =
         screenRenderService.renderScreen(RenderScreenRequestModel.emerge(request.data))
+            .map { RenderedScreenRawWrapper.emerge(it) }
+            .doOnNextWithMeasure { duration, response ->
+                log.info("Экран был зарендерен за {} мс", duration.toMillis())
+                metrics.incrementMetrics(response.screen.screenName, duration)
+            }
+
+    @PostMapping("/v1/screen/renderById")
+    fun renderScreenById(@RequestBody request: DataModel<RenderScreenByIdRequestRaw>): Mono<RenderedScreenRawWrapper> =
+        screenRenderService.renderScreenById(RenderScreenByIdRequestModel.emerge(request.data))
             .map { RenderedScreenRawWrapper.emerge(it) }
             .doOnNextWithMeasure { duration, response ->
                 log.info("Экран был зарендерен за {} мс", duration.toMillis())
