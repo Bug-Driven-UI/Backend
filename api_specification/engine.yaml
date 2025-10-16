@@ -47,6 +47,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/RenderedScreenResponseError'
 
+  /v1/screen/renderById:
+    post:
+      summary: Получить экран с данными для отрисовки по идентификатору экрана и версии
+      tags: [ ClientEngine ]
+      parameters:
+        - in: header
+          name: userId
+          description: "Идентификатор пользователя, от которого выполняется запрос"
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScreenRenderRequestById"
+
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenderedScreenResponse'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenderedScreenResponseError'
+        '500':
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenderedScreenResponseError'
+
   /v1/screen/action:
     post:
       summary: Отвечает за выполнение действий
@@ -94,6 +131,27 @@ components:
             variables:
               type: object
               description: "Дополнительные переменные и их значения"
+              additionalProperties: true
+
+    ScreenRenderRequestById:
+      description: Запрос на отрисовку экрана
+      type: object
+      required: [ data ]
+      properties:
+        data:
+          required: [ screenId, versionId ]
+          properties:
+            screenId:
+              type: string
+              format: uuid
+              description: "Идентификатор экрана"
+            versionId:
+              type: string
+              format: uuid
+              description: "Идентификатор версии"
+            variables:
+              type: object
+              description: "Дополнительные переменные и их значения для рендеринга экрана"
               additionalProperties: true
 
     RenderedScreenResponse:
