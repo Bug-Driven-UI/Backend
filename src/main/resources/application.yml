@@ -1,4 +1,7 @@
 spring:
+  http:
+    codecs:
+      max-in-memory-size: 500MB
   application:
     name: bdui
   datasource:

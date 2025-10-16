@@ -52,5 +52,8 @@ class ActionController(
             .doOnNextWithMeasure { duration, _ ->
                 log.info("Действия успешно обработаны за {} мс", duration.toMillis())
             }
+            .doOnError { error ->
+                log.error("При обработке действия произошла ошибка", error)
+            }
     }
 }
