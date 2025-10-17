@@ -22,8 +22,8 @@ import ru.hits.bdui.common.models.admin.entity.components.SwitchEntity
 import ru.hits.bdui.common.models.admin.entity.components.TextEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.BorderEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalAlignmentEntity
+import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalAndVerticalAlignmentEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalArrangementEntity
-import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalOrVerticalAlignmentEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.RegexEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.ShapeEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.ShapeTypeEntity
@@ -63,11 +63,13 @@ import ru.hits.bdui.domain.screen.components.StatefulComponent
 import ru.hits.bdui.domain.screen.components.Switch
 import ru.hits.bdui.domain.screen.components.Text
 import ru.hits.bdui.domain.screen.components.additional.Border
+import ru.hits.bdui.domain.screen.components.additional.HorizontalAlignment
+import ru.hits.bdui.domain.screen.components.additional.HorizontalAndVerticalAlignment
 import ru.hits.bdui.domain.screen.components.additional.HorizontalArrangement
-import ru.hits.bdui.domain.screen.components.additional.HorizontalOrVerticalAlignment
 import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.additional.ShapeType
+import ru.hits.bdui.domain.screen.components.additional.VerticalAlignment
 import ru.hits.bdui.domain.screen.components.additional.VerticalArrangement
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
@@ -240,28 +242,31 @@ private fun Size.toEntity(): SizeEntity =
         is Size.Weighted -> SizeEntity.WeightedEntity(this.fraction)
     }
 
-private fun HorizontalOrVerticalAlignment.toEntity(): HorizontalOrVerticalAlignmentEntity =
+private fun HorizontalAndVerticalAlignment.toEntity(): HorizontalAndVerticalAlignmentEntity =
     when (this) {
-        is HorizontalOrVerticalAlignment.VerticalAlignment.Top -> HorizontalOrVerticalAlignmentEntity.TopEntity
-        is HorizontalOrVerticalAlignment.VerticalAlignment.Bottom -> HorizontalOrVerticalAlignmentEntity.BottomEntity
-        is HorizontalOrVerticalAlignment.VerticalAlignment.Center -> HorizontalOrVerticalAlignmentEntity.VCenterEntity
-        is HorizontalOrVerticalAlignment.HorizontalAlignment.Start -> HorizontalOrVerticalAlignmentEntity.StartEntity
-        is HorizontalOrVerticalAlignment.HorizontalAlignment.End -> HorizontalOrVerticalAlignmentEntity.EndEntity
-        is HorizontalOrVerticalAlignment.HorizontalAlignment.Center -> HorizontalOrVerticalAlignmentEntity.HCenterEntity
+        is HorizontalAndVerticalAlignment.TopStart -> HorizontalAndVerticalAlignmentEntity.TopStartEntity
+        is HorizontalAndVerticalAlignment.TopCenter -> HorizontalAndVerticalAlignmentEntity.TopCenterEntity
+        is HorizontalAndVerticalAlignment.TopEnd -> HorizontalAndVerticalAlignmentEntity.TopEndEntity
+        is HorizontalAndVerticalAlignment.CenterStart -> HorizontalAndVerticalAlignmentEntity.CenterStartEntity
+        is HorizontalAndVerticalAlignment.Center -> HorizontalAndVerticalAlignmentEntity.CenterEntity
+        is HorizontalAndVerticalAlignment.CenterEnd -> HorizontalAndVerticalAlignmentEntity.CenterEndEntity
+        is HorizontalAndVerticalAlignment.BottomStart -> HorizontalAndVerticalAlignmentEntity.BottomStartEntity
+        is HorizontalAndVerticalAlignment.BottomCenter -> HorizontalAndVerticalAlignmentEntity.BottomCenterEntity
+        is HorizontalAndVerticalAlignment.BottomEnd -> HorizontalAndVerticalAlignmentEntity.BottomEndEntity
     }
 
-private fun HorizontalOrVerticalAlignment.HorizontalAlignment.toEntity(): HorizontalAlignmentEntity =
+private fun HorizontalAlignment.toEntity(): HorizontalAlignmentEntity =
     when (this) {
-        is HorizontalOrVerticalAlignment.HorizontalAlignment.End -> HorizontalAlignmentEntity.EndEntity
-        is HorizontalOrVerticalAlignment.HorizontalAlignment.Start -> HorizontalAlignmentEntity.StartEntity
-        is HorizontalOrVerticalAlignment.HorizontalAlignment.Center -> HorizontalAlignmentEntity.CenterEntity
+        is HorizontalAlignment.End -> HorizontalAlignmentEntity.EndEntity
+        is HorizontalAlignment.Start -> HorizontalAlignmentEntity.StartEntity
+        is HorizontalAlignment.Center -> HorizontalAlignmentEntity.CenterEntity
     }
 
-private fun HorizontalOrVerticalAlignment.VerticalAlignment.toEntity(): VerticalAlignmentEntity =
+private fun VerticalAlignment.toEntity(): VerticalAlignmentEntity =
     when (this) {
-        is HorizontalOrVerticalAlignment.VerticalAlignment.Top -> VerticalAlignmentEntity.TopEntity
-        is HorizontalOrVerticalAlignment.VerticalAlignment.Bottom -> VerticalAlignmentEntity.BottomEntity
-        is HorizontalOrVerticalAlignment.VerticalAlignment.Center -> VerticalAlignmentEntity.CenterEntity
+        is VerticalAlignment.Top -> VerticalAlignmentEntity.TopEntity
+        is VerticalAlignment.Bottom -> VerticalAlignmentEntity.BottomEntity
+        is VerticalAlignment.Center -> VerticalAlignmentEntity.CenterEntity
     }
 
 private fun HorizontalArrangement.toEntity(): HorizontalArrangementEntity =

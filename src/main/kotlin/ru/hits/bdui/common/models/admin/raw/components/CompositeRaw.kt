@@ -1,8 +1,8 @@
 package ru.hits.bdui.common.models.admin.raw.components
 
 import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalAlignmentRaw
+import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalAndVerticalAlignmentRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalArrangementRaw
-import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalOrVerticalAlignmentRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.VerticalAlignmentRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.VerticalArrangementRaw
 
@@ -22,7 +22,7 @@ data class RowRaw(
 data class BoxRaw(
     override val children: List<ComponentRaw>,
     override val base: ComponentBaseRawProperties,
-    val contentAlignment: HorizontalOrVerticalAlignmentRaw?
+    val contentAlignment: HorizontalAndVerticalAlignmentRaw?
 ) : CompositeRaw {
     override val type: String = "box"
 }

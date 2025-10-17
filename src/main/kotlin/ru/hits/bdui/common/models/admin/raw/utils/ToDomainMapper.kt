@@ -19,8 +19,8 @@ import ru.hits.bdui.common.models.admin.raw.components.SwitchRaw
 import ru.hits.bdui.common.models.admin.raw.components.TextRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.BorderRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalAlignmentRaw
+import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalAndVerticalAlignmentRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalArrangementRaw
-import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalOrVerticalAlignmentRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.ShapeRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.ShapeTypeRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.VerticalAlignmentRaw
@@ -60,11 +60,13 @@ import ru.hits.bdui.domain.screen.components.StatefulComponent
 import ru.hits.bdui.domain.screen.components.Switch
 import ru.hits.bdui.domain.screen.components.Text
 import ru.hits.bdui.domain.screen.components.additional.Border
+import ru.hits.bdui.domain.screen.components.additional.HorizontalAlignment
+import ru.hits.bdui.domain.screen.components.additional.HorizontalAndVerticalAlignment
 import ru.hits.bdui.domain.screen.components.additional.HorizontalArrangement
-import ru.hits.bdui.domain.screen.components.additional.HorizontalOrVerticalAlignment
 import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.additional.ShapeType
+import ru.hits.bdui.domain.screen.components.additional.VerticalAlignment
 import ru.hits.bdui.domain.screen.components.additional.VerticalArrangement
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
@@ -191,28 +193,31 @@ private fun SizeRaw.toDomain(): Size =
         is SizeRaw.WeightedRaw -> Size.Weighted(this.fraction)
     }
 
-private fun HorizontalOrVerticalAlignmentRaw.toDomain(): HorizontalOrVerticalAlignment =
+private fun HorizontalAndVerticalAlignmentRaw.toDomain(): HorizontalAndVerticalAlignment =
     when (this) {
-        is HorizontalOrVerticalAlignmentRaw.TopRaw -> HorizontalOrVerticalAlignment.VerticalAlignment.Top
-        is HorizontalOrVerticalAlignmentRaw.BottomRaw -> HorizontalOrVerticalAlignment.VerticalAlignment.Bottom
-        is HorizontalOrVerticalAlignmentRaw.VCenterRaw -> HorizontalOrVerticalAlignment.VerticalAlignment.Center
-        is HorizontalOrVerticalAlignmentRaw.StartRaw -> HorizontalOrVerticalAlignment.HorizontalAlignment.Start
-        is HorizontalOrVerticalAlignmentRaw.EndRaw -> HorizontalOrVerticalAlignment.HorizontalAlignment.End
-        is HorizontalOrVerticalAlignmentRaw.HCenterRaw -> HorizontalOrVerticalAlignment.HorizontalAlignment.Center
+        is HorizontalAndVerticalAlignmentRaw.TopStartRaw -> HorizontalAndVerticalAlignment.TopStart
+        is HorizontalAndVerticalAlignmentRaw.TopCenterRaw -> HorizontalAndVerticalAlignment.TopCenter
+        is HorizontalAndVerticalAlignmentRaw.TopEndRaw -> HorizontalAndVerticalAlignment.TopEnd
+        is HorizontalAndVerticalAlignmentRaw.CenterStartRaw -> HorizontalAndVerticalAlignment.CenterStart
+        is HorizontalAndVerticalAlignmentRaw.CenterRaw -> HorizontalAndVerticalAlignment.Center
+        is HorizontalAndVerticalAlignmentRaw.CenterEndRaw -> HorizontalAndVerticalAlignment.CenterEnd
+        is HorizontalAndVerticalAlignmentRaw.BottomStartRaw -> HorizontalAndVerticalAlignment.BottomStart
+        is HorizontalAndVerticalAlignmentRaw.BottomCenterRaw -> HorizontalAndVerticalAlignment.BottomCenter
+        is HorizontalAndVerticalAlignmentRaw.BottomEndRaw -> HorizontalAndVerticalAlignment.BottomEnd
     }
 
-private fun HorizontalAlignmentRaw.toDomain(): HorizontalOrVerticalAlignment.HorizontalAlignment =
+private fun HorizontalAlignmentRaw.toDomain(): HorizontalAlignment =
     when (this) {
-        is HorizontalAlignmentRaw.EndRaw -> HorizontalOrVerticalAlignment.HorizontalAlignment.End
-        is HorizontalAlignmentRaw.StartRaw -> HorizontalOrVerticalAlignment.HorizontalAlignment.Start
-        is HorizontalAlignmentRaw.CenterRaw -> HorizontalOrVerticalAlignment.HorizontalAlignment.Center
+        is HorizontalAlignmentRaw.EndRaw -> HorizontalAlignment.End
+        is HorizontalAlignmentRaw.StartRaw -> HorizontalAlignment.Start
+        is HorizontalAlignmentRaw.CenterRaw -> HorizontalAlignment.Center
     }
 
-private fun VerticalAlignmentRaw.toDomain(): HorizontalOrVerticalAlignment.VerticalAlignment =
+private fun VerticalAlignmentRaw.toDomain(): VerticalAlignment =
     when (this) {
-        is VerticalAlignmentRaw.TopRaw -> HorizontalOrVerticalAlignment.VerticalAlignment.Top
-        is VerticalAlignmentRaw.BottomRaw -> HorizontalOrVerticalAlignment.VerticalAlignment.Bottom
-        is VerticalAlignmentRaw.CenterRaw -> HorizontalOrVerticalAlignment.VerticalAlignment.Center
+        is VerticalAlignmentRaw.TopRaw -> VerticalAlignment.Top
+        is VerticalAlignmentRaw.BottomRaw -> VerticalAlignment.Bottom
+        is VerticalAlignmentRaw.CenterRaw -> VerticalAlignment.Center
     }
 
 private fun HorizontalArrangementRaw.toDomain(): HorizontalArrangement =

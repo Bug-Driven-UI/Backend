@@ -1,8 +1,8 @@
 package ru.hits.bdui.common.models.admin.entity.components
 
 import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalAlignmentEntity
+import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalAndVerticalAlignmentEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalArrangementEntity
-import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalOrVerticalAlignmentEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.VerticalAlignmentEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.VerticalArrangementEntity
 
@@ -22,7 +22,7 @@ data class RowEntity(
 data class BoxEntity(
     override val children: List<ComponentEntity>,
     override val base: ComponentBaseEntityProperties,
-    val contentAlignment: HorizontalOrVerticalAlignmentEntity?
+    val contentAlignment: HorizontalAndVerticalAlignmentEntity?
 ) : CompositeEntity {
     override val type: String = "box"
 }

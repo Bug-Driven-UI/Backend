@@ -14,8 +14,13 @@ import ru.hits.bdui.common.models.client.raw.components.SpacerRawRendered
 import ru.hits.bdui.common.models.client.raw.components.SwitchRawRendered
 import ru.hits.bdui.common.models.client.raw.components.TextRawRendered
 import ru.hits.bdui.common.models.client.raw.components.additional.RenderedBorderRaw
+import ru.hits.bdui.common.models.client.raw.components.additional.RenderedHorizontalAlignmentRaw
+import ru.hits.bdui.common.models.client.raw.components.additional.RenderedHorizontalAndVerticalAlignmentRaw
+import ru.hits.bdui.common.models.client.raw.components.additional.RenderedHorizontalArrangementRaw
 import ru.hits.bdui.common.models.client.raw.components.additional.RenderedRegexRaw
 import ru.hits.bdui.common.models.client.raw.components.additional.RenderedShapeRaw
+import ru.hits.bdui.common.models.client.raw.components.additional.RenderedVerticalAlignmentRaw
+import ru.hits.bdui.common.models.client.raw.components.additional.RenderedVerticalArrangementRaw
 import ru.hits.bdui.common.models.client.raw.components.additional.ShapeTypeRaw
 import ru.hits.bdui.common.models.client.raw.components.properties.RenderedInsetsRaw
 import ru.hits.bdui.common.models.client.raw.components.properties.RenderedSizeRaw
@@ -27,6 +32,7 @@ import ru.hits.bdui.common.models.client.raw.interactions.actions.NavigateToRend
 import ru.hits.bdui.common.models.client.raw.interactions.actions.RenderedActionRaw
 import ru.hits.bdui.common.models.client.raw.interactions.actions.UpdateScreenRenderedActionRaw
 import ru.hits.bdui.common.models.client.raw.styles.color.RenderedColorStyleRaw
+import ru.hits.bdui.common.models.client.raw.styles.text.RenderedTextAlignment
 import ru.hits.bdui.common.models.client.raw.styles.text.RenderedTextStyleRaw
 import ru.hits.bdui.common.models.client.raw.styles.text.RenderedTextWithStyleRaw
 import ru.hits.bdui.common.models.client.raw.styles.text.TextDecorationRaw
@@ -46,9 +52,14 @@ import ru.hits.bdui.domain.screen.components.StatefulComponent
 import ru.hits.bdui.domain.screen.components.Switch
 import ru.hits.bdui.domain.screen.components.Text
 import ru.hits.bdui.domain.screen.components.additional.Border
+import ru.hits.bdui.domain.screen.components.additional.HorizontalAlignment
+import ru.hits.bdui.domain.screen.components.additional.HorizontalAndVerticalAlignment
+import ru.hits.bdui.domain.screen.components.additional.HorizontalArrangement
 import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.additional.ShapeType
+import ru.hits.bdui.domain.screen.components.additional.VerticalAlignment
+import ru.hits.bdui.domain.screen.components.additional.VerticalArrangement
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
@@ -59,6 +70,7 @@ import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
+import ru.hits.bdui.domain.screen.styles.text.TextAlignment
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
@@ -124,16 +136,21 @@ fun Component.toRendered(): RenderedComponentRaw =
         is Column -> ColumnRawRendered(
             children = this.children.map { it.toRendered() },
             base = this.toRenderedBaseProperties(),
+            verticalArrangement = this.verticalArrangement?.toRendered(),
+            horizontalAlignment = this.horizontalAlignment?.toRendered()
         )
 
         is Row -> RowRawRendered(
             children = this.children.map { it.toRendered() },
             base = this.toRenderedBaseProperties(),
+            horizontalArrangement = this.horizontalArrangement?.toRendered(),
+            verticalAlignment = this.verticalAlignment?.toRendered(),
         )
 
         is Box -> BoxRawRendered(
             children = this.children.map { it.toRendered() },
             base = this.toRenderedBaseProperties(),
+            contentAlignment = this.contentAlignment?.toRendered(),
         )
 
         is StatefulComponent, is DynamicColumn, is DynamicRow ->
@@ -163,6 +180,53 @@ private fun Size.toRendered(): RenderedSizeRaw =
         is Size.MatchParent -> RenderedSizeRaw.MatchParentRawRendered
         is Size.Fixed -> RenderedSizeRaw.FixedRawRendered(this.value)
         is Size.Weighted -> RenderedSizeRaw.WeightedRawRendered(this.fraction)
+    }
+
+private fun HorizontalAndVerticalAlignment.toRendered(): RenderedHorizontalAndVerticalAlignmentRaw =
+    when (this) {
+        is HorizontalAndVerticalAlignment.TopStart -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedTopStartRaw
+        is HorizontalAndVerticalAlignment.TopCenter -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedTopCenterRaw
+        is HorizontalAndVerticalAlignment.TopEnd -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedTopEndRaw
+        is HorizontalAndVerticalAlignment.CenterStart -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedCenterStartRaw
+        is HorizontalAndVerticalAlignment.Center -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedCenterRaw
+        is HorizontalAndVerticalAlignment.CenterEnd -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedCenterEndRaw
+        is HorizontalAndVerticalAlignment.BottomStart -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedBottomStartRaw
+        is HorizontalAndVerticalAlignment.BottomCenter -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedBottomCenterRaw
+        is HorizontalAndVerticalAlignment.BottomEnd -> RenderedHorizontalAndVerticalAlignmentRaw.RenderedBottomEndRaw
+    }
+
+private fun HorizontalAlignment.toRendered(): RenderedHorizontalAlignmentRaw =
+    when (this) {
+        is HorizontalAlignment.End -> RenderedHorizontalAlignmentRaw.RenderedEndRaw
+        is HorizontalAlignment.Start -> RenderedHorizontalAlignmentRaw.RenderedStartRaw
+        is HorizontalAlignment.Center -> RenderedHorizontalAlignmentRaw.RenderedCenterRaw
+    }
+
+private fun VerticalAlignment.toRendered(): RenderedVerticalAlignmentRaw =
+    when (this) {
+        is VerticalAlignment.Top -> RenderedVerticalAlignmentRaw.RenderedTopRaw
+        is VerticalAlignment.Bottom -> RenderedVerticalAlignmentRaw.RenderedBottomRaw
+        is VerticalAlignment.Center -> RenderedVerticalAlignmentRaw.RenderedCenterRaw
+    }
+
+private fun HorizontalArrangement.toRendered(): RenderedHorizontalArrangementRaw =
+    when (this) {
+        is HorizontalArrangement.Start -> RenderedHorizontalArrangementRaw.RenderedStartRaw
+        is HorizontalArrangement.End -> RenderedHorizontalArrangementRaw.RenderedEndRaw
+        is HorizontalArrangement.Center -> RenderedHorizontalArrangementRaw.RenderedCenterRaw
+        is HorizontalArrangement.SpaceAround -> RenderedHorizontalArrangementRaw.RenderedSpaceAroundRaw
+        is HorizontalArrangement.SpaceEvenly -> RenderedHorizontalArrangementRaw.RenderedSpaceEvenlyRaw
+        is HorizontalArrangement.SpaceBetween -> RenderedHorizontalArrangementRaw.RenderedSpaceBetweenRaw
+    }
+
+private fun VerticalArrangement.toRendered(): RenderedVerticalArrangementRaw =
+    when (this) {
+        is VerticalArrangement.Top -> RenderedVerticalArrangementRaw.RenderedTopRaw
+        is VerticalArrangement.Bottom -> RenderedVerticalArrangementRaw.RenderedBottomRaw
+        is VerticalArrangement.Center -> RenderedVerticalArrangementRaw.RenderedCenterRaw
+        is VerticalArrangement.SpaceAround -> RenderedVerticalArrangementRaw.RenderedSpaceAroundRaw
+        is VerticalArrangement.SpaceEvenly -> RenderedVerticalArrangementRaw.RenderedSpaceEvenlyRaw
+        is VerticalArrangement.SpaceBetween -> RenderedVerticalArrangementRaw.RenderedSpaceBetweenRaw
     }
 
 private fun Border.toRendered(): RenderedBorderRaw =
@@ -226,7 +290,14 @@ private fun TextWithStyle.toRendered(): RenderedTextWithStyleRaw =
     RenderedTextWithStyleRaw(
         text = this.text.value as String,
         textStyle = this.textStyle.toRendered(),
-        colorStyle = this.color.toRendered()
+        colorStyle = this.color.toRendered(),
+        textAlignment = this.textAlignment?.let {
+            when (it) {
+                TextAlignment.START -> RenderedTextAlignment.START
+                TextAlignment.CENTER -> RenderedTextAlignment.CENTER
+                TextAlignment.END -> RenderedTextAlignment.END
+            }
+        }
     )
 
 private fun TextStyle.toRendered(): RenderedTextStyleRaw =
