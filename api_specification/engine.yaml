@@ -211,17 +211,37 @@ components:
 
     UpdateScreenActionRequest:
       type: object
-      required: [ type, hashes, screenName ]
+      required: [ type, screenName, screen ]
       properties:
         type:
           const: updateScreen
         screenName:
           type: string
           description: "Название экрана"
-        hashes:
-          type: array
-          items:
-            $ref: '#/components/schemas/HashNode'
+        topBar:
+          type: object
+          description: "Данные топ бара"
+          required: [ hashNode ]
+          properties:
+            hashNode:
+              $ref: '#/components/schemas/HashNode'
+        bottomBar:
+          type: object
+          description: "Данные боттом бара"
+          required: [ hashNode ]
+          properties:
+            hashNode:
+              $ref: '#/components/schemas/HashNode'
+
+        screen:
+          type: object
+          description: "Данные экрана"
+          required: [ hashes ]
+          properties:
+            hashes:
+              type: array
+              items:
+                $ref: '#/components/schemas/HashNode'
         screenNavigationParams:
           description: "Передаваемые параметры для обновления экрана"
           additionalProperties: true
@@ -319,9 +339,35 @@ components:
         response:
           type: object
           description: "Ответ на обновление экрана"
-          required: [ data ]
+          required: [ screen ]
           properties:
-            data:
+            screen:
+              type: array
+              items:
+                type: object
+                required: [ target, method ]
+                properties:
+                  target:
+                    type: string
+                  method:
+                    type: string
+                    enum: [ update, insert, delete ]
+                  content:
+                    $ref: '#/components/schemas/RenderedComponent'
+            topBar:
+              type: array
+              items:
+                type: object
+                required: [ target, method ]
+                properties:
+                  target:
+                    type: string
+                  method:
+                    type: string
+                    enum: [ update, insert, delete ]
+                  content:
+                    $ref: '#/components/schemas/RenderedComponent'
+            bottomBar:
               type: array
               items:
                 type: object

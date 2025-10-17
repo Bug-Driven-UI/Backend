@@ -11,8 +11,12 @@ data class UpdateScreenActionResponseRaw(
 }
 
 data class UpdateScreenResponsePayloadRaw(
-    @JsonProperty("data")
-    val data: List<UpdateInstructionRaw>
+    @JsonProperty("screen")
+    val screen: List<UpdateInstructionRaw>,
+    @JsonProperty("topBar")
+    val topBar: List<UpdateInstructionRaw>? = null,
+    @JsonProperty("bottomBar")
+    val bottomBar: List<UpdateInstructionRaw>? = null
 )
 
 data class UpdateInstructionRaw(
