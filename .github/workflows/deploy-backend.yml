@@ -1,7 +1,7 @@
 name: deploy-backend.yml
 on:
   push:
-    branches: [ main ]
+    branches: [ final ]
 
 jobs:
   build-and-deploy:
