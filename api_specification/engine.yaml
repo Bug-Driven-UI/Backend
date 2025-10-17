@@ -985,6 +985,8 @@ components:
           required: [ type ]
           properties:
             type: { const: box }
+            contentAlignment:
+              $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignment'
 
     RenderedColumn:
       allOf:
