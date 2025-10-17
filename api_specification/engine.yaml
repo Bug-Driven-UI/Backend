@@ -342,9 +342,35 @@ components:
         response:
           type: object
           description: "Ответ на обновление экрана"
-          required: [ data ]
+          required: [ screen ]
           properties:
-            data:
+            screen:
+              type: array
+              items:
+                type: object
+                required: [ target, method ]
+                properties:
+                  target:
+                    type: string
+                  method:
+                    type: string
+                    enum: [ update, insert, delete ]
+                  content:
+                    $ref: '#/components/schemas/RenderedComponent'
+            topBar:
+              type: array
+              items:
+                type: object
+                required: [ target, method ]
+                properties:
+                  target:
+                    type: string
+                  method:
+                    type: string
+                    enum: [ update, insert, delete ]
+                  content:
+                    $ref: '#/components/schemas/RenderedComponent'
+            bottomBar:
               type: array
               items:
                 type: object
