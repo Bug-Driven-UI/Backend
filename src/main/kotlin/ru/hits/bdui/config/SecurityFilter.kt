@@ -42,7 +42,7 @@ data class SecurityProperties(
 class SecurityController(
     private val securityProperties: SecurityProperties
 ) {
-    @GetMapping("/check")
+    @GetMapping("/v1/check")
     fun check(@RequestHeader(name = HttpHeaders.AUTHORIZATION) apiKey: String): Boolean =
         securityProperties.apiKey == apiKey
 }
