@@ -34,5 +34,5 @@ management:
 
 hits:
   security:
-    enabled: true
-    api-key: "${SECURITY_API_KEY:}"
+    enabled: false
+    api-key: "${SECURITY_API_KEY}"
