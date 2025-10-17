@@ -22,7 +22,7 @@ data class UpdateScreenActionRawRequest(
     )
 
     data class ScaffoldHash(
-        val hash: HashNode
+        val hashNode: HashNode
     )
 }
 
