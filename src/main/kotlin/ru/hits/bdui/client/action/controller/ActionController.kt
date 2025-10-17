@@ -14,6 +14,7 @@ import ru.hits.bdui.utils.doOnNextWithMeasure
 
 @RestController
 class ActionController(
+    private val metrics: ActionMetrics,
     handlers: List<ActionHandler>
 ) {
     private val log = LoggerFactory.getLogger(this::class.java)
@@ -33,7 +34,11 @@ class ActionController(
             .flatMap { action ->
                 val handler = typeToHandler[action.type]
                     ?: throw BadRequestException("Указан несуществующий тип действия ${action.type}")
+
                 handler.execute(action)
+                    .doOnNextWithMeasure { duration, _ ->
+                        metrics.incrementMetrics(action.type, duration)
+                    }
             }
             .collectList()
             .flatMap { list ->
@@ -44,6 +49,9 @@ class ActionController(
                             ?: throw BadRequestException("Указан несуществующий тип действия ${action.type}")
 
                         handler.execute(action)
+                            .doOnNextWithMeasure { duration, _ ->
+                                metrics.incrementMetrics(action.type, duration)
+                            }
                     }
                     .collectList()
                     .map { it + list }

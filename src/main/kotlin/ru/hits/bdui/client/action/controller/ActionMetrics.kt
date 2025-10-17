@@ -1,4 +1,4 @@
-package ru.hits.bdui.client.screen.controller
+package ru.hits.bdui.client.action.controller
 
 import io.micrometer.core.instrument.Counter
 import io.micrometer.core.instrument.MeterRegistry
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import java.time.Duration
 
 @Component
-class ScreenRenderMetrics(
+class ActionMetrics(
     private val meterRegistry: MeterRegistry,
 ) {
     private val slaList = listOf<Long>(
@@ -18,23 +18,23 @@ class ScreenRenderMetrics(
         .map(Duration::ofMillis)
         .toTypedArray()
 
-    fun incrementMetrics(screenName: String, duration: Duration) {
-        increment(screenName)
-        recordLatency(screenName, duration)
+    fun incrementMetrics(actionName: String, duration: Duration) {
+        increment(actionName)
+        recordLatency(actionName, duration)
     }
 
-    private fun increment(screenName: String) {
+    private fun increment(actionName: String) {
         Counter
-            .builder("screen.render.request")
-            .tag("screenName", screenName)
+            .builder("action.request")
+            .tag("actionName", actionName)
             .register(meterRegistry)
             .increment()
     }
 
-    private fun recordLatency(screenName: String, duration: Duration) {
+    private fun recordLatency(actionName: String, duration: Duration) {
         Timer
-            .builder("screen.render.request.duration")
-            .tag("screenName", screenName)
+            .builder("action.request.duration")
+            .tag("actionName", actionName)
             .sla(*slaList)
             .register(meterRegistry)
             .record(duration)
