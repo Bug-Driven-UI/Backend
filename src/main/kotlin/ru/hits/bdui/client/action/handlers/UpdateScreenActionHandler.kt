@@ -99,9 +99,7 @@ class UpdateScreenActionHandler(
     private fun diff(
         roots: List<RenderedComponentRaw>,
         oldIndex: OldIndex
-    ): List<UpdateInstructionRaw> {
-        val deltas = mutableListOf<UpdateInstructionRaw>()
-
+    ): List<UpdateInstructionRaw> = buildList {
         val visitedNewPaths = mutableSetOf<String>()
 
         val coveredByParentChange = mutableSetOf<String>()
@@ -121,10 +119,12 @@ class UpdateScreenActionHandler(
             when {
                 // Узла раньше не было — вставляем целое поддерево и не спускаемся
                 oldNode == null -> {
-                    deltas += UpdateInstructionRaw(
-                        target = path,
-                        method = UpdateMethodRaw.INSERT,
-                        content = current
+                    add(
+                        UpdateInstructionRaw(
+                            target = path,
+                            method = UpdateMethodRaw.INSERT,
+                            content = current
+                        )
                     )
                     coveredByParentChange += path
                     continue
@@ -132,10 +132,12 @@ class UpdateScreenActionHandler(
 
                 // Узел был, но контент поменялся — обновляем все поддерево и не трогаем детей
                 oldNode.hash != current.base.hash -> {
-                    deltas += UpdateInstructionRaw(
-                        target = path,
-                        method = UpdateMethodRaw.UPDATE,
-                        content = current
+                    add(
+                        UpdateInstructionRaw(
+                            target = path,
+                            method = UpdateMethodRaw.UPDATE,
+                            content = current
+                        )
                     )
                     coveredByParentChange += path
                     continue
@@ -155,27 +157,28 @@ class UpdateScreenActionHandler(
         // Удаления: всё, что было в старом, но не встретилось в новом,
         // и при этом не является ребенком узла, который мы уже добавили или обновили.
         oldIndex.pathToNode.keys.forEach { oldPath ->
-            val shadowedByParent = coveredByParentChange.any { cover -> equalOrDescendant(oldPath, cover) }
+            val shadowedByParent = coveredByParentChange.any { cover -> isEqualOrDescendant(oldPath, cover) }
             if (!shadowedByParent && oldPath !in visitedNewPaths) {
-                deltas += UpdateInstructionRaw(
-                    target = oldPath,
-                    method = UpdateMethodRaw.DELETE,
-                    content = null
+                add(
+                    UpdateInstructionRaw(
+                        target = oldPath,
+                        method = UpdateMethodRaw.DELETE,
+                        content = null
+                    )
                 )
             }
         }
-
-        return deltas
     }
 
-    private fun equalOrDescendant(oldPath: String, cover: String): Boolean =
+    private fun isEqualOrDescendant(oldPath: String, cover: String): Boolean =
         oldPath == cover || oldPath.startsWith("$cover/")
 
     private fun getPath(parentPath: String, additionalPath: String): String =
-        if (parentPath != rootPath) "$parentPath/$additionalPath"
-        else "$rootPath$additionalPath"
+        buildString {
+            append(parentPath)
+            if (parentPath != "/") append('/')
+            append(additionalPath)
+        }
 
-    private class OldIndex {
-        val pathToNode = linkedMapOf<String, HashNode>()
-    }
+    private data class OldIndex(val pathToNode: LinkedHashMap<String, HashNode> = linkedMapOf())
 }

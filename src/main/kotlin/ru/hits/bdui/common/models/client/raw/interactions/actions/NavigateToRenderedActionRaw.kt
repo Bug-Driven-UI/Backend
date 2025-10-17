@@ -9,6 +9,4 @@ package ru.hits.bdui.common.models.client.raw.interactions.actions
 data class NavigateToRenderedActionRaw(
     val screenName: String,
     val screenNavigationParams: Map<String, String>
-) : RenderedActionRaw {
-    override val type: String = "navigateTo"
-}
+) : RenderedActionRaw
