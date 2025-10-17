@@ -46,25 +46,31 @@ jobs:
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.2.0
-        env:
-          POSTGRES_URL: ${{ env.POSTGRES_URL }}
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: deploy
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e
             cd /home/deploy/app
 
-            printf 'POSTGRES_URL=%s\n' "$POSTGRES_URL" > .env
-            printf 'POSTGRES_USER=%s\n' "$POSTGRES_USER" >> .env
-            printf 'POSTGRES_PASSWORD=%s\n' "$POSTGRES_PASSWORD" >> .env
+            POSTGRES_URL="${{ secrets.POSTGRES_URL || vars.POSTGRES_URL }}" \
+            POSTGRES_USER="${{ secrets.POSTGRES_USER || vars.POSTGRES_USER }}" \
+            POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            bash -c '
+              set -e
 
-            echo "Wrote .env (showing limited verification):"
-            echo "POSTGRES_URL=${POSTGRES_URL:0:30}..." || true
-            echo "POSTGRES_USER=${POSTGRES_USER}" || true
+              echo "Creating .env file..."
+              printf "POSTGRES_URL=%s\n" "$POSTGRES_URL" > .env
+              printf "POSTGRES_USER=%s\n" "$POSTGRES_USER" >> .env
+              printf "POSTGRES_PASSWORD=%s\n" "$POSTGRES_PASSWORD" >> .env
 
-            docker compose pull backend
-            docker compose up -d backend
+              echo "Wrote .env (truncated check):"
+              echo "POSTGRES_URL=${POSTGRES_URL:0:30}..."
+              echo "POSTGRES_USER=${POSTGRES_USER}"
+
+              echo "Pulling latest images..."
+              docker compose pull backend
+
+              echo "Starting backend..."
+              docker compose up -d backend
+            '
