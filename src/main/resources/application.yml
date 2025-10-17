@@ -31,3 +31,8 @@ management:
   endpoint:
     prometheus:
       access: read_only
+
+hits:
+  security:
+    enabled: true
+    api-key: "${SECURITY_API_KEY:}"

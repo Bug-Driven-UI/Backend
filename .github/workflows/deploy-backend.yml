@@ -12,6 +12,7 @@ jobs:
       POSTGRES_URL: ${{ secrets.POSTGRES_URL || vars.POSTGRES_URL }}
       POSTGRES_USER: ${{ secrets.POSTGRES_USER || vars.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      SECURITY_API_KEY: ${{ secrets.SECURITY_API_KEY }}
 
     steps:
       - name: Checkout code
@@ -56,6 +57,7 @@ jobs:
             POSTGRES_URL="${{ secrets.POSTGRES_URL || vars.POSTGRES_URL }}" \
             POSTGRES_USER="${{ secrets.POSTGRES_USER || vars.POSTGRES_USER }}" \
             POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
+            SECURITY_API_KEY="${{ secrets.SECURITY_API_KEY }}" \
             bash -c '
               set -e
 
