@@ -2508,6 +2508,9 @@ components:
           $ref: '#/components/schemas/TextStyle'
         colorStyle:
           $ref: '#/components/schemas/ColorStyle'
+        textAlignment:
+          type: string
+          enum: [ start, center, end ]
 
     StatefulComponent:
       allOf:
@@ -2539,6 +2542,10 @@ components:
           properties:
             type:
               const: dynamicColumn
+            verticalArrangement:
+              $ref: '#/components/schemas/VerticalArrangement'
+            horizontalAlignment:
+              $ref: '#/components/schemas/HorizontalAlignment'
           required: [ type ]
           additionalProperties: false
 
@@ -2549,6 +2556,10 @@ components:
           properties:
             type:
               const: dynamicRow
+            horizontalArrangement:
+              $ref: '#/components/schemas/HorizontalArrangement'
+            verticalAlignment:
+              $ref: '#/components/schemas/VerticalAlignment'
           required: [ type ]
           additionalProperties: false
 
@@ -2737,6 +2748,435 @@ components:
               const: wrapContent
       additionalProperties: false
 
+    HorizontalArrangement:
+      required: [ type ]
+      description: "Расположение элементов по горизонтали"
+      oneOf:
+        - $ref: '#/components/schemas/HorizontalArrangementStart'
+        - $ref: '#/components/schemas/HorizontalArrangementEnd'
+        - $ref: '#/components/schemas/HorizontalArrangementCenter'
+        - $ref: '#/components/schemas/HorizontalArrangementSpaceBetween'
+        - $ref: '#/components/schemas/HorizontalArrangementSpaceEvenly'
+        - $ref: '#/components/schemas/HorizontalArrangementSpaceAround'
+      discriminator:
+        propertyName: type
+        mapping:
+          start: '#/components/schemas/HorizontalArrangementStart'
+          end: '#/components/schemas/HorizontalArrangementEnd'
+          center: '#/components/schemas/HorizontalArrangementCenter'
+          spaceBetween: '#/components/schemas/HorizontalArrangementSpaceBetween'
+          spaceEvenly: '#/components/schemas/HorizontalArrangementSpaceEvenly'
+          spaceAround: '#/components/schemas/HorizontalArrangementSpaceAround'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: start, end, center, spaceBetween, spaceEvenly, spaceAround"
+      unevaluatedProperties: false
+
+    HorizontalArrangementBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ start, end, center, spaceBetween, spaceEvenly, spaceAround ]
+
+    HorizontalArrangementStart:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: start
+      additionalProperties: false
+
+    HorizontalArrangementEnd:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: end
+      additionalProperties: false
+
+    HorizontalArrangementSpaceBetween:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceBetween
+      additionalProperties: false
+
+    HorizontalArrangementSpaceEvenly:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceEvenly
+      additionalProperties: false
+
+    HorizontalArrangementSpaceAround:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceAround
+      additionalProperties: false
+
+    HorizontalArrangementCenter:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
+    VerticalArrangement:
+      required: [ type ]
+      description: "Расположение элементов по вертикали"
+      oneOf:
+        - $ref: '#/components/schemas/VerticalArrangementTop'
+        - $ref: '#/components/schemas/VerticalArrangementBottom'
+        - $ref: '#/components/schemas/VerticalArrangementCenter'
+        - $ref: '#/components/schemas/VerticalArrangementSpaceBetween'
+        - $ref: '#/components/schemas/VerticalArrangementSpaceEvenly'
+        - $ref: '#/components/schemas/VerticalArrangementSpaceAround'
+      discriminator:
+        propertyName: type
+        mapping:
+          top: '#/components/schemas/VerticalArrangementTop'
+          bottom: '#/components/schemas/VerticalArrangementBottom'
+          center: '#/components/schemas/VerticalArrangementCenter'
+          spaceBetween: '#/components/schemas/VerticalArrangementSpaceBetween'
+          spaceEvenly: '#/components/schemas/VerticalArrangementSpaceEvenly'
+          spaceAround: '#/components/schemas/VerticalArrangementSpaceAround'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: top, bottom, center, spaceBetween, spaceEvenly, spaceAround"
+      unevaluatedProperties: false
+
+    VerticalArrangementBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ top, bottom, center, spaceBetween, spaceEvenly, spaceAround ]
+
+    VerticalArrangementTop:
+      allOf:
+        - $ref: '#/components/schemas/VerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: top
+      additionalProperties: false
+
+    VerticalArrangementBottom:
+      allOf:
+        - $ref: '#/components/schemas/VerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: bottom
+      additionalProperties: false
+
+    VerticalArrangementSpaceBetween:
+      allOf:
+        - $ref: '#/components/schemas/VerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceBetween
+      additionalProperties: false
+
+    VerticalArrangementSpaceEvenly:
+      allOf:
+        - $ref: '#/components/schemas/VerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceEvenly
+      additionalProperties: false
+
+    VerticalArrangementSpaceAround:
+      allOf:
+        - $ref: '#/components/schemas/VerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceAround
+      additionalProperties: false
+
+    VerticalArrangementCenter:
+      allOf:
+        - $ref: '#/components/schemas/VerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
+    HorizontalAndVerticalAlignment:
+      required: [ type ]
+      description: "Выравнивание элементов"
+      oneOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalTopStart'
+        - $ref: '#/components/schemas/HorizontalAndVerticalTopCenter'
+        - $ref: '#/components/schemas/HorizontalAndVerticalTopEnd'
+        - $ref: '#/components/schemas/HorizontalAndVerticalCenterStart'
+        - $ref: '#/components/schemas/HorizontalAndVerticalCenter'
+        - $ref: '#/components/schemas/HorizontalAndVerticalCenterEnd'
+        - $ref: '#/components/schemas/HorizontalAndVerticalBottomStart'
+        - $ref: '#/components/schemas/HorizontalAndVerticalBottomCenter'
+        - $ref: '#/components/schemas/HorizontalAndVerticalBottomEnd'
+      discriminator:
+        propertyName: type
+        mapping:
+          topStart: '#/components/schemas/HorizontalAndVerticalTopStart'
+          topCenter: '#/components/schemas/HorizontalAndVerticalTopCenter'
+          topEnd: '#/components/schemas/HorizontalAndVerticalTopEnd'
+          centerStart: '#/components/schemas/HorizontalAndVerticalCenterStart'
+          center: '#/components/schemas/HorizontalAndVerticalCenter'
+          centerEnd: '#/components/schemas/HorizontalAndVerticalCenterEnd'
+          bottomStart: '#/components/schemas/HorizontalAndVerticalBottomStart'
+          bottomCenter: '#/components/schemas/HorizontalAndVerticalBottomCenter'
+          bottomEnd: '#/components/schemas/HorizontalAndVerticalBottomEnd'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: topStart, topCenter, topEnd, centerStart, center, centerEnd, bottomStart, bottomCenter, bottomEnd"
+      unevaluatedProperties: false
+
+    HorizontalAndVerticalAlignmentBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ topStart, topCenter, topEnd, centerStart, center, centerEnd, bottomStart, bottomCenter, bottomEnd ]
+
+    HorizontalAndVerticalTopStart:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: topStart
+      additionalProperties: false
+
+    HorizontalAndVerticalTopCenter:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: topCenter
+      additionalProperties: false
+
+    HorizontalAndVerticalTopEnd:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: topEnd
+      additionalProperties: false
+
+    HorizontalAndVerticalCenterStart:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: centerStart
+      additionalProperties: false
+
+    HorizontalAndVerticalCenter:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
+    HorizontalAndVerticalCenterEnd:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: centerEnd
+      additionalProperties: false
+
+    HorizontalAndVerticalBottomStart:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: bottomStart
+      additionalProperties: false
+
+    HorizontalAndVerticalBottomCenter:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: bottomCenter
+      additionalProperties: false
+
+    HorizontalAndVerticalBottomEnd:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAndVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: bottomEnd
+      additionalProperties: false
+
+    VerticalAlignment:
+      required: [ type ]
+      description: "Выравнивание элементов по вертикали"
+      oneOf:
+        - $ref: '#/components/schemas/VerticalAlignmentTop'
+        - $ref: '#/components/schemas/VerticalAlignmentBottom'
+        - $ref: '#/components/schemas/VerticalAlignmentCenter'
+      discriminator:
+        propertyName: type
+        mapping:
+          top: '#/components/schemas/VerticalAlignmentTop'
+          bottom: '#/components/schemas/VerticalAlignmentBottom'
+          center: '#/components/schemas/VerticalAlignmentCenter'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: top, bottom, center"
+      unevaluatedProperties: false
+
+    VerticalAlignmentBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ top, bottom, center ]
+
+    VerticalAlignmentTop:
+      allOf:
+        - $ref: '#/components/schemas/VerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: top
+      additionalProperties: false
+
+    VerticalAlignmentBottom:
+      allOf:
+        - $ref: '#/components/schemas/VerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: bottom
+      additionalProperties: false
+
+    VerticalAlignmentCenter:
+      allOf:
+        - $ref: '#/components/schemas/VerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
+    HorizontalAlignment:
+      required: [ type ]
+      description: "Выравнивание элементов по горизонтали"
+      oneOf:
+        - $ref: '#/components/schemas/HorizontalAlignmentStart'
+        - $ref: '#/components/schemas/HorizontalAlignmentEnd'
+        - $ref: '#/components/schemas/HorizontalAlignmentCenter'
+      discriminator:
+        propertyName: type
+        mapping:
+          start: '#/components/schemas/HorizontalAlignmentStart'
+          end: '#/components/schemas/HorizontalAlignmentEnd'
+          center: '#/components/schemas/HorizontalAlignmentCenter'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: start, end, center"
+      unevaluatedProperties: false
+
+    HorizontalAlignmentBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ start, end, center ]
+
+    HorizontalAlignmentStart:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: start
+      additionalProperties: false
+
+    HorizontalAlignmentEnd:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: end
+      additionalProperties: false
+
+    HorizontalAlignmentCenter:
+      allOf:
+        - $ref: '#/components/schemas/HorizontalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
     Component:
       description: "Полиморфный UI-компонент"
       oneOf:
@@ -2866,6 +3306,10 @@ components:
           required: [ type ]
           properties:
             type: { const: row }
+            horizontalArrangement:
+              $ref: '#/components/schemas/HorizontalArrangement'
+            verticalAlignment:
+              $ref: '#/components/schemas/VerticalAlignment'
 
     Box:
       allOf:
@@ -2874,6 +3318,8 @@ components:
           required: [ type ]
           properties:
             type: { const: box }
+            contentAlignment:
+              $ref: '#/components/schemas/HorizontalAndVerticalAlignment'
 
     Column:
       allOf:
@@ -2882,6 +3328,10 @@ components:
           required: [ type ]
           properties:
             type: { const: column }
+            verticalArrangement:
+              $ref: '#/components/schemas/VerticalArrangement'
+            horizontalAlignment:
+              $ref: '#/components/schemas/HorizontalAlignment'
 
     Text:
       allOf:
