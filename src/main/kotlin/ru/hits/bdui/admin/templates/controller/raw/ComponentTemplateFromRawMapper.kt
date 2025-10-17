@@ -8,7 +8,6 @@ import java.util.UUID
 
 data class UpdateComponentTemplateData(
     val id: UUID,
-    val name: String,
     val component: Component
 )
 
@@ -22,7 +21,6 @@ object ComponentTemplateFromRawMapper {
     fun ComponentTemplateUpdateCommand(data: UpdateComponentTemplateData): ComponentTemplateUpdateCommand =
         ComponentTemplateUpdateCommand(
             id = data.id,
-            name = data.name,
             component = data.component,
         )
 }

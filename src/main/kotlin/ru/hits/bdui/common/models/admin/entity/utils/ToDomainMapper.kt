@@ -20,8 +20,13 @@ import ru.hits.bdui.common.models.admin.entity.components.StatefulComponentEntit
 import ru.hits.bdui.common.models.admin.entity.components.SwitchEntity
 import ru.hits.bdui.common.models.admin.entity.components.TextEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.BorderEntity
+import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalAlignmentEntity
+import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalArrangementEntity
+import ru.hits.bdui.common.models.admin.entity.components.additional.HorizontalOrVerticalAlignmentEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.ShapeEntity
 import ru.hits.bdui.common.models.admin.entity.components.additional.ShapeTypeEntity
+import ru.hits.bdui.common.models.admin.entity.components.additional.VerticalAlignmentEntity
+import ru.hits.bdui.common.models.admin.entity.components.additional.VerticalArrangementEntity
 import ru.hits.bdui.common.models.admin.entity.components.properties.InsetsEntity
 import ru.hits.bdui.common.models.admin.entity.components.properties.SizeEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.InteractionEntity
@@ -32,6 +37,7 @@ import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateBack
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.UpdateScreenActionEntity
 import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
+import ru.hits.bdui.common.models.admin.entity.styles.text.TextAlignmentEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextDecorationEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextStyleEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextWithStyleEntity
@@ -60,9 +66,12 @@ import ru.hits.bdui.domain.screen.components.StatefulComponent
 import ru.hits.bdui.domain.screen.components.Switch
 import ru.hits.bdui.domain.screen.components.Text
 import ru.hits.bdui.domain.screen.components.additional.Border
+import ru.hits.bdui.domain.screen.components.additional.HorizontalArrangement
+import ru.hits.bdui.domain.screen.components.additional.HorizontalOrVerticalAlignment
 import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.additional.ShapeType
+import ru.hits.bdui.domain.screen.components.additional.VerticalArrangement
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
@@ -73,6 +82,7 @@ import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
+import ru.hits.bdui.domain.screen.styles.text.TextAlignment
 import ru.hits.bdui.domain.screen.styles.text.TextDecoration
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
@@ -125,16 +135,21 @@ fun ComponentEntity.toDomain(): Component =
         is ColumnEntity -> Column(
             children = this.children.map { it.toDomain() },
             base = this.base.toDomain(),
+            verticalArrangement = this.verticalArrangement?.toDomain(),
+            horizontalAlignment = this.horizontalAlignment?.toDomain(),
         )
 
         is RowEntity -> Row(
             children = this.children.map { it.toDomain() },
             base = this.base.toDomain(),
+            horizontalArrangement = this.horizontalArrangement?.toDomain(),
+            verticalAlignment = this.verticalAlignment?.toDomain(),
         )
 
         is BoxEntity -> Box(
             children = this.children.map { it.toDomain() },
             base = this.base.toDomain(),
+            contentAlignment = this.contentAlignment?.toDomain(),
         )
 
         is StatefulComponentEntity -> StatefulComponent(
@@ -146,7 +161,9 @@ fun ComponentEntity.toDomain(): Component =
             base = this.base.toDomain(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
-            itemTemplate = this.itemTemplate.toDomain()
+            itemTemplate = this.itemTemplate.toDomain(),
+            verticalArrangement = this.verticalArrangement?.toDomain(),
+            horizontalAlignment = this.horizontalAlignment?.toDomain(),
         )
 
         is DynamicRowEntity -> DynamicRow(
@@ -154,6 +171,8 @@ fun ComponentEntity.toDomain(): Component =
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
             itemTemplate = this.itemTemplate.toDomain(),
+            horizontalArrangement = this.horizontalArrangement?.toDomain(),
+            verticalAlignment = this.verticalAlignment?.toDomain(),
         )
     }
 
@@ -205,10 +224,54 @@ private fun InsetsEntity.toDomain(): Insets =
 
 private fun SizeEntity.toDomain(): Size =
     when (this) {
-        is SizeEntity.WrapContentEntity -> Size.WrapContent()
-        is SizeEntity.MatchParentEntity -> Size.MatchParent()
+        is SizeEntity.WrapContentEntity -> Size.WrapContent
+        is SizeEntity.MatchParentEntity -> Size.MatchParent
         is SizeEntity.FixedEntity -> Size.Fixed(this.value)
         is SizeEntity.WeightedEntity -> Size.Weighted(this.fraction)
+    }
+
+private fun HorizontalOrVerticalAlignmentEntity.toDomain(): HorizontalOrVerticalAlignment =
+    when (this) {
+        is HorizontalOrVerticalAlignmentEntity.TopEntity -> HorizontalOrVerticalAlignment.VerticalAlignment.Top
+        is HorizontalOrVerticalAlignmentEntity.BottomEntity -> HorizontalOrVerticalAlignment.VerticalAlignment.Bottom
+        is HorizontalOrVerticalAlignmentEntity.VCenterEntity -> HorizontalOrVerticalAlignment.VerticalAlignment.Center
+        is HorizontalOrVerticalAlignmentEntity.StartEntity -> HorizontalOrVerticalAlignment.HorizontalAlignment.Start
+        is HorizontalOrVerticalAlignmentEntity.EndEntity -> HorizontalOrVerticalAlignment.HorizontalAlignment.End
+        is HorizontalOrVerticalAlignmentEntity.HCenterEntity -> HorizontalOrVerticalAlignment.HorizontalAlignment.Center
+    }
+
+private fun HorizontalAlignmentEntity.toDomain(): HorizontalOrVerticalAlignment.HorizontalAlignment =
+    when (this) {
+        is HorizontalAlignmentEntity.EndEntity -> HorizontalOrVerticalAlignment.HorizontalAlignment.End
+        is HorizontalAlignmentEntity.StartEntity -> HorizontalOrVerticalAlignment.HorizontalAlignment.Start
+        is HorizontalAlignmentEntity.CenterEntity -> HorizontalOrVerticalAlignment.HorizontalAlignment.Center
+    }
+
+private fun VerticalAlignmentEntity.toDomain(): HorizontalOrVerticalAlignment.VerticalAlignment =
+    when (this) {
+        is VerticalAlignmentEntity.TopEntity -> HorizontalOrVerticalAlignment.VerticalAlignment.Top
+        is VerticalAlignmentEntity.BottomEntity -> HorizontalOrVerticalAlignment.VerticalAlignment.Bottom
+        is VerticalAlignmentEntity.CenterEntity -> HorizontalOrVerticalAlignment.VerticalAlignment.Center
+    }
+
+private fun HorizontalArrangementEntity.toDomain(): HorizontalArrangement =
+    when (this) {
+        is HorizontalArrangementEntity.StartEntity -> HorizontalArrangement.Start
+        is HorizontalArrangementEntity.EndEntity -> HorizontalArrangement.End
+        is HorizontalArrangementEntity.CenterEntity -> HorizontalArrangement.Center
+        is HorizontalArrangementEntity.SpaceAroundEntity -> HorizontalArrangement.SpaceAround
+        is HorizontalArrangementEntity.SpaceEvenlyEntity -> HorizontalArrangement.SpaceEvenly
+        is HorizontalArrangementEntity.SpaceBetweenEntity -> HorizontalArrangement.SpaceBetween
+    }
+
+private fun VerticalArrangementEntity.toDomain(): VerticalArrangement =
+    when (this) {
+        is VerticalArrangementEntity.TopEntity -> VerticalArrangement.Top
+        is VerticalArrangementEntity.BottomEntity -> VerticalArrangement.Bottom
+        is VerticalArrangementEntity.CenterEntity -> VerticalArrangement.Center
+        is VerticalArrangementEntity.SpaceAroundEntity -> VerticalArrangement.SpaceAround
+        is VerticalArrangementEntity.SpaceEvenlyEntity -> VerticalArrangement.SpaceEvenly
+        is VerticalArrangementEntity.SpaceBetweenEntity -> VerticalArrangement.SpaceBetween
     }
 
 private fun BorderEntity.toDomain(): Border =
@@ -281,7 +344,14 @@ private fun TextWithStyleEntity.toDomain(): TextWithStyle =
     TextWithStyle(
         text = getValueOrExpression(this.text),
         textStyle = this.textStyle.toDomain(),
-        color = this.colorStyle.toDomain()
+        color = this.colorStyle.toDomain(),
+        textAlignment = this.textAlignment?.let {
+            when (it) {
+                TextAlignmentEntity.START -> TextAlignment.START
+                TextAlignmentEntity.END -> TextAlignment.END
+                TextAlignmentEntity.CENTER -> TextAlignment.CENTER
+            }
+        }
     )
 
 private fun TextStyleEntity.toDomain(): TextStyle =

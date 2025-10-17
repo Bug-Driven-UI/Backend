@@ -61,7 +61,6 @@ class ComponentTemplateAdminController(
                     is ValidationOutcome.Success -> {
                         val updateData = UpdateComponentTemplateData(
                             id = request.data.id,
-                            name = request.data.template.name,
                             component = outcome.component
                         )
                         val templateFromDatabase =

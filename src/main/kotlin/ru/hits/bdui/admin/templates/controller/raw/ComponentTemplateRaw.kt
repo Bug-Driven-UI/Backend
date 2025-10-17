@@ -17,3 +17,7 @@ data class ComponentTemplateForSaveRaw(
     val name: String,
     val component: ComponentRaw
 )
+
+data class ComponentTemplateForUpdateRaw(
+    val component: ComponentRaw
+)

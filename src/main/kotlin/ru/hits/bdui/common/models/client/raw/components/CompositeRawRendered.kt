@@ -7,20 +7,14 @@ sealed interface CompositeRawRendered : RenderedComponentRaw {
 data class RowRawRendered(
     override val children: List<RenderedComponentRaw>,
     override val base: RenderedComponentBaseRawProperties,
-) : CompositeRawRendered {
-    override val type: String = "row"
-}
+) : CompositeRawRendered
 
 data class BoxRawRendered(
     override val children: List<RenderedComponentRaw>,
     override val base: RenderedComponentBaseRawProperties,
-) : CompositeRawRendered {
-    override val type: String = "box"
-}
+) : CompositeRawRendered
 
 data class ColumnRawRendered(
     override val children: List<RenderedComponentRaw>,
     override val base: RenderedComponentBaseRawProperties,
-) : CompositeRawRendered {
-    override val type: String = "column"
-}
+) : CompositeRawRendered

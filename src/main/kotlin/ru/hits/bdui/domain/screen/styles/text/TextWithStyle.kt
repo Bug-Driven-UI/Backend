@@ -7,4 +7,11 @@ data class TextWithStyle(
     val text: ValueOrExpression,
     val textStyle: TextStyle,
     val color: ColorStyle,
+    val textAlignment: TextAlignment?
 )
+
+enum class TextAlignment {
+    START,
+    CENTER,
+    END
+}

@@ -1929,7 +1929,7 @@ components:
               format: uuid
               description: Идентификатор шаблона
             template:
-              $ref: "#/components/schemas/ComponentTemplateForSave"
+              $ref: "#/components/schemas/ComponentTemplateForUpdate"
 
     TemplateUpdateResponseSuccess:
       type: object
@@ -2843,6 +2843,13 @@ components:
         lastModifiedAtTimestampMs:
           type: integer
           format: int64
+
+    ComponentTemplateForUpdate:
+      type: object
+      required: [ component ]
+      properties:
+        component:
+          $ref: '#/components/schemas/Component'
 
     ComponentTemplateForSave:
       type: object

@@ -159,8 +159,8 @@ private fun Insets.toRendered(): RenderedInsetsRaw =
 
 private fun Size.toRendered(): RenderedSizeRaw =
     when (this) {
-        is Size.WrapContent -> RenderedSizeRaw.WrapContentRawRendered()
-        is Size.MatchParent -> RenderedSizeRaw.MatchParentRawRendered()
+        is Size.WrapContent -> RenderedSizeRaw.WrapContentRawRendered
+        is Size.MatchParent -> RenderedSizeRaw.MatchParentRawRendered
         is Size.Fixed -> RenderedSizeRaw.FixedRawRendered(this.value)
         is Size.Weighted -> RenderedSizeRaw.WeightedRawRendered(this.fraction)
     }
