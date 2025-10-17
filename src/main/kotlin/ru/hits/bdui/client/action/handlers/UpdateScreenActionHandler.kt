@@ -45,13 +45,13 @@ class UpdateScreenActionHandler(
                     diff(roots, oldIndex)
                 }
                 val topBarDeltas = rendered.screen.scaffold?.topBar?.let { root ->
-                    val oldIndex = action.topBar?.hash?.let { prepareOldIndex(listOf(it)) }
+                    val oldIndex = action.topBar?.hashNode?.let { prepareOldIndex(listOf(it)) }
                         ?: OldIndex()
 
                     diff(listOf(root), oldIndex)
                 }
                 val bottomBarDeltas = rendered.screen.scaffold?.bottomBar?.let { root ->
-                    val oldIndex = action.bottomBar?.hash?.let { prepareOldIndex(listOf(it)) }
+                    val oldIndex = action.bottomBar?.hashNode?.let { prepareOldIndex(listOf(it)) }
                         ?: OldIndex()
 
                     diff(listOf(root), oldIndex)
