@@ -23,11 +23,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build with Gradle
-        run: ./gradlew build
-
       - name: Make gradlew executable
         run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Run tests
         run: ./gradlew test
@@ -55,15 +55,16 @@ jobs:
           username: deploy
           key: ${{ secrets.SSH_KEY }}
           script: |
-            export POSTGRES_URL="$POSTGRES_URL"
-            export POSTGRES_USER="$POSTGRES_USER"
-            export POSTGRES_PASSWORD="$POSTGRES_PASSWORD"
+            set -e
             cd /home/deploy/app
-            # опция: создать .env перед запуском
-            cat > .env <<EOF
-            POSTGRES_URL=${POSTGRES_URL}
-            POSTGRES_USER=${POSTGRES_USER}
-            POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-            EOF
+
+            printf 'POSTGRES_URL=%s\n' "$POSTGRES_URL" > .env
+            printf 'POSTGRES_USER=%s\n' "$POSTGRES_USER" >> .env
+            printf 'POSTGRES_PASSWORD=%s\n' "$POSTGRES_PASSWORD" >> .env
+
+            echo "Wrote .env (showing limited verification):"
+            echo "POSTGRES_URL=${POSTGRES_URL:0:30}..." || true
+            echo "POSTGRES_USER=${POSTGRES_USER}" || true
+
             docker compose pull backend
             docker compose up -d backend
