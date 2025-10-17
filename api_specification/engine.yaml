@@ -416,6 +416,9 @@ components:
           $ref: '#/components/schemas/RenderedTextStyle'
         colorStyle:
           $ref: '#/components/schemas/RenderedColorStyle'
+        textAlignment:
+          type: string
+          enum: [ start, center, end ]
 
     RenderedInsets:
       type: object
@@ -578,6 +581,312 @@ components:
               const: wrapContent
       additionalProperties: false
 
+    RenderedHorizontalArrangement:
+      required: [ type ]
+      description: "Расположение элементов по горизонтали"
+      oneOf:
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementStart'
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementEnd'
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementCenter'
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementSpaceBetween'
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementSpaceEvenly'
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementSpaceAround'
+      discriminator:
+        propertyName: type
+        mapping:
+          start: '#/components/schemas/RenderedHorizontalArrangementStart'
+          end: '#/components/schemas/RenderedHorizontalArrangementEnd'
+          center: '#/components/schemas/RenderedHorizontalArrangementCenter'
+          spaceBetween: '#/components/schemas/RenderedHorizontalArrangementSpaceBetween'
+          spaceEvenly: '#/components/schemas/RenderedHorizontalArrangementSpaceEvenly'
+          spaceAround: '#/components/schemas/RenderedHorizontalArrangementSpaceAround'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: start, end, center, spaceBetween, spaceEvenly, spaceAround"
+      unevaluatedProperties: false
+
+    RenderedHorizontalArrangementBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ start, end, center, spaceBetween, spaceEvenly, spaceAround ]
+
+    RenderedHorizontalArrangementStart:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: start
+      additionalProperties: false
+
+    RenderedHorizontalArrangementEnd:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: end
+      additionalProperties: false
+
+    RenderedHorizontalArrangementSpaceBetween:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceBetween
+      additionalProperties: false
+
+    RenderedHorizontalArrangementSpaceEvenly:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceEvenly
+      additionalProperties: false
+
+    RenderedHorizontalArrangementSpaceAround:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceAround
+      additionalProperties: false
+
+    RenderedHorizontalArrangementCenter:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
+    RenderedVerticalArrangement:
+      required: [ type ]
+      description: "Расположение элементов по вертикали"
+      oneOf:
+        - $ref: '#/components/schemas/RenderedVerticalArrangementTop'
+        - $ref: '#/components/schemas/RenderedVerticalArrangementBottom'
+        - $ref: '#/components/schemas/RenderedVerticalArrangementCenter'
+        - $ref: '#/components/schemas/RenderedVerticalArrangementSpaceBetween'
+        - $ref: '#/components/schemas/RenderedVerticalArrangementSpaceEvenly'
+        - $ref: '#/components/schemas/RenderedVerticalArrangementSpaceAround'
+      discriminator:
+        propertyName: type
+        mapping:
+          top: '#/components/schemas/RenderedVerticalArrangementTop'
+          bottom: '#/components/schemas/RenderedVerticalArrangementBottom'
+          center: '#/components/schemas/RenderedVerticalArrangementCenter'
+          spaceBetween: '#/components/schemas/RenderedVerticalArrangementSpaceBetween'
+          spaceEvenly: '#/components/schemas/RenderedVerticalArrangementSpaceEvenly'
+          spaceAround: '#/components/schemas/RenderedVerticalArrangementSpaceAround'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: top, bottom, center, spaceBetween, spaceEvenly, spaceAround"
+      unevaluatedProperties: false
+
+    RenderedVerticalArrangementBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ top, bottom, center, spaceBetween, spaceEvenly, spaceAround ]
+
+    RenderedVerticalArrangementTop:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: top
+      additionalProperties: false
+
+    RenderedVerticalArrangementBottom:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: bottom
+      additionalProperties: false
+
+    RenderedVerticalArrangementSpaceBetween:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceBetween
+      additionalProperties: false
+
+    RenderedVerticalArrangementSpaceEvenly:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceEvenly
+      additionalProperties: false
+
+    RenderedVerticalArrangementSpaceAround:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: spaceAround
+      additionalProperties: false
+
+    RenderedVerticalArrangementCenter:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalArrangementBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
+    RenderedHorizontalOrVerticalAlignment:
+      oneOf:
+        - $ref: '#/components/schemas/RenderedVerticalAlignment'
+        - $ref: '#/components/schemas/RenderedHorizontalAlignment'
+      description: "Выравнивание по вертикали или горизонтали."
+
+    RenderedVerticalAlignment:
+      required: [ type ]
+      description: "Выравнивание элементов по вертикали"
+      oneOf:
+        - $ref: '#/components/schemas/RenderedVerticalAlignmentTop'
+        - $ref: '#/components/schemas/RenderedVerticalAlignmentBottom'
+        - $ref: '#/components/schemas/RenderedVerticalAlignmentCenter'
+      discriminator:
+        propertyName: type
+        mapping:
+          top: '#/components/schemas/RenderedVerticalAlignmentTop'
+          bottom: '#/components/schemas/RenderedVerticalAlignmentBottom'
+          center: '#/components/schemas/RenderedVerticalAlignmentCenter'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: top, bottom, center"
+      unevaluatedProperties: false
+
+    RenderedVerticalAlignmentBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ top, bottom, center ]
+
+    RenderedVerticalAlignmentTop:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: top
+      additionalProperties: false
+
+    RenderedVerticalAlignmentBottom:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: bottom
+      additionalProperties: false
+
+    RenderedVerticalAlignmentCenter:
+      allOf:
+        - $ref: '#/components/schemas/RenderedVerticalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
+    RenderedHorizontalAlignment:
+      required: [ type ]
+      description: "Выравнивание элементов по вертикали"
+      oneOf:
+        - $ref: '#/components/schemas/RenderedHorizontalAlignmentStart'
+        - $ref: '#/components/schemas/RenderedHorizontalAlignmentEnd'
+        - $ref: '#/components/schemas/RenderedHorizontalAlignmentCenter'
+      discriminator:
+        propertyName: type
+        mapping:
+          start: '#/components/schemas/RenderedHorizontalAlignmentStart'
+          end: '#/components/schemas/RenderedHorizontalAlignmentEnd'
+          center: '#/components/schemas/RenderedHorizontalAlignmentCenter'
+      properties:
+        type:
+          type: string
+          description: "Допустимые значения: start, end, center"
+      unevaluatedProperties: false
+
+    RenderedHorizontalAlignmentBase:
+      type: object
+      required: [ type ]
+      properties:
+        type:
+          type: string
+          enum: [ start, end, center ]
+
+    RenderedHorizontalAlignmentStart:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: start
+      additionalProperties: false
+
+    RenderedHorizontalAlignmentEnd:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: end
+      additionalProperties: false
+
+    RenderedHorizontalAlignmentCenter:
+      allOf:
+        - $ref: '#/components/schemas/RenderedHorizontalAlignmentBase'
+        - type: object
+          required: [ type ]
+          properties:
+            type:
+              const: center
+      additionalProperties: false
+
     RenderedComponent:
       required: [ type ]
       description: "Полиморфный UI-компонент"
@@ -664,6 +973,10 @@ components:
           required: [ type ]
           properties:
             type: { const: row }
+            horizontalArrangement:
+              $ref: '#/components/schemas/RenderedHorizontalArrangement'
+            verticalAlignment:
+              $ref: '#/components/schemas/RenderedVerticalAlignment'
 
     RenderedBox:
       allOf:
@@ -680,6 +993,10 @@ components:
           required: [ type ]
           properties:
             type: { const: column }
+            verticalArrangement:
+              $ref: '#/components/schemas/RenderedVerticalArrangement'
+            horizontalAlignment:
+              $ref: '#/components/schemas/RenderedHorizontalAlignment'
 
     RenderedText:
       allOf:
