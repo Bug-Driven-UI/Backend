@@ -767,38 +767,38 @@ components:
               const: center
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalAlignment:
+    RenderedHorizontalAndVerticalAlignment:
       required: [ type ]
       description: "Выравнивание элементов"
       oneOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalTopStart'
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalTopCenter'
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalTopEnd'
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalCenterStart'
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalCenter'
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalCenterEnd'
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalBottomStart'
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalBottomCenter'
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalBottomEnd'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalTopStart'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalTopCenter'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalTopEnd'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalCenterStart'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalCenter'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalCenterEnd'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalBottomStart'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalBottomCenter'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalBottomEnd'
       discriminator:
         propertyName: type
         mapping:
-          topStart: '#/components/schemas/RenderedHorizontalOrVerticalTopStart'
-          topCenter: '#/components/schemas/RenderedHorizontalOrVerticalTopCenter'
-          topEnd: '#/components/schemas/RenderedHorizontalOrVerticalTopEnd'
-          centerStart: '#/components/schemas/RenderedHorizontalOrVerticalCenterStart'
-          center: '#/components/schemas/RenderedHorizontalOrVerticalCenter'
-          centerEnd: '#/components/schemas/RenderedHorizontalOrVerticalCenterEnd'
-          bottomStart: '#/components/schemas/RenderedHorizontalOrVerticalBottomStart'
-          bottomCenter: '#/components/schemas/RenderedHorizontalOrVerticalBottomCenter'
-          bottomEnd: '#/components/schemas/RenderedHorizontalOrVerticalBottomEnd'
+          topStart: '#/components/schemas/RenderedHorizontalAndVerticalTopStart'
+          topCenter: '#/components/schemas/RenderedHorizontalAndVerticalTopCenter'
+          topEnd: '#/components/schemas/RenderedHorizontalAndVerticalTopEnd'
+          centerStart: '#/components/schemas/RenderedHorizontalAndVerticalCenterStart'
+          center: '#/components/schemas/RenderedHorizontalAndVerticalCenter'
+          centerEnd: '#/components/schemas/RenderedHorizontalAndVerticalCenterEnd'
+          bottomStart: '#/components/schemas/RenderedHorizontalAndVerticalBottomStart'
+          bottomCenter: '#/components/schemas/RenderedHorizontalAndVerticalBottomCenter'
+          bottomEnd: '#/components/schemas/RenderedHorizontalAndVerticalBottomEnd'
       properties:
         type:
           type: string
           description: "Допустимые значения: topStart, topCenter, topEnd, centerStart, center, centerEnd, bottomStart, bottomCenter, bottomEnd"
       unevaluatedProperties: false
 
-    RenderedHorizontalOrVerticalAlignmentBase:
+    RenderedHorizontalAndVerticalAlignmentBase:
       type: object
       required: [ type ]
       properties:
@@ -806,9 +806,9 @@ components:
           type: string
           enum: [ topStart, topCenter, topEnd, centerStart, center, centerEnd, bottomStart, bottomCenter, bottomEnd ]
 
-    RenderedHorizontalOrVerticalTopStart:
+    RenderedHorizontalAndVerticalTopStart:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -816,9 +816,9 @@ components:
               const: topStart
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalTopCenter:
+    RenderedHorizontalAndVerticalTopCenter:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -826,9 +826,9 @@ components:
               const: topCenter
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalTopEnd:
+    RenderedHorizontalAndVerticalTopEnd:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -836,9 +836,9 @@ components:
               const: topEnd
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalCenterStart:
+    RenderedHorizontalAndVerticalCenterStart:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -846,9 +846,9 @@ components:
               const: centerStart
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalCenter:
+    RenderedHorizontalAndVerticalCenter:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -856,9 +856,9 @@ components:
               const: center
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalCenterEnd:
+    RenderedHorizontalAndVerticalCenterEnd:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -866,9 +866,9 @@ components:
               const: centerEnd
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalBottomStart:
+    RenderedHorizontalAndVerticalBottomStart:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -876,9 +876,9 @@ components:
               const: bottomStart
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalBottomCenter:
+    RenderedHorizontalAndVerticalBottomCenter:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -886,9 +886,9 @@ components:
               const: bottomCenter
       additionalProperties: false
 
-    RenderedHorizontalOrVerticalBottomEnd:
+    RenderedHorizontalAndVerticalBottomEnd:
       allOf:
-        - $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignmentBase'
+        - $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignmentBase'
         - type: object
           required: [ type ]
           properties:
@@ -1109,7 +1109,7 @@ components:
           properties:
             type: { const: box }
             contentAlignment:
-              $ref: '#/components/schemas/RenderedHorizontalOrVerticalAlignment'
+              $ref: '#/components/schemas/RenderedHorizontalAndVerticalAlignment'
 
     RenderedColumn:
       allOf:
