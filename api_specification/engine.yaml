@@ -955,7 +955,7 @@ components:
 
     RenderedHorizontalAlignment:
       required: [ type ]
-      description: "Выравнивание элементов по вертикали"
+      description: "Выравнивание элементов по горизонтали"
       oneOf:
         - $ref: '#/components/schemas/RenderedHorizontalAlignmentStart'
         - $ref: '#/components/schemas/RenderedHorizontalAlignmentEnd'

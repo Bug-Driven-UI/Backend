@@ -3122,7 +3122,7 @@ components:
 
     HorizontalAlignment:
       required: [ type ]
-      description: "Выравнивание элементов по вертикали"
+      description: "Выравнивание элементов по горизонтали"
       oneOf:
         - $ref: '#/components/schemas/HorizontalAlignmentStart'
         - $ref: '#/components/schemas/HorizontalAlignmentEnd'
