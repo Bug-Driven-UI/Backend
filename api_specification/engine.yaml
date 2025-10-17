@@ -211,17 +211,40 @@ components:
 
     UpdateScreenActionRequest:
       type: object
-      required: [ type, hashes, screenName ]
+      required: [ type, screenName, screen ]
       properties:
         type:
           const: updateScreen
         screenName:
           type: string
           description: "Название экрана"
-        hashes:
-          type: array
-          items:
-            $ref: '#/components/schemas/HashNode'
+        topBar:
+          type: object
+          description: "Данные топ бара"
+          required: [ hashes ]
+          properties:
+            hashes:
+              type: array
+              items:
+                $ref: '#/components/schemas/HashNode'
+        bottomBar:
+          type: object
+          description: "Данные боттом бара"
+          required: [ hashes ]
+          properties:
+            hashes:
+              type: array
+              items:
+                $ref: '#/components/schemas/HashNode'
+        screen:
+          type: object
+          description: "Данные экрана"
+          required: [ hashes ]
+          properties:
+            hashes:
+              type: array
+              items:
+                $ref: '#/components/schemas/HashNode'
         screenNavigationParams:
           description: "Передаваемые параметры для обновления экрана"
           additionalProperties: true
