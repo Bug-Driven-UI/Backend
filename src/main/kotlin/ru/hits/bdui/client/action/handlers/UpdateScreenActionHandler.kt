@@ -39,12 +39,30 @@ class UpdateScreenActionHandler(
         return screenRenderService.renderScreen(request)
             .map<ActionResponseRaw> { screen ->
                 val rendered = RenderedScreenRawWrapper.emerge(screen)
-                val roots: List<RenderedComponentRaw> = rendered.screen.components
-                val oldIndex = prepareOldIndex(action)
-                val deltas = diff(roots, oldIndex)
+                val screenDeltas = rendered.screen.components.let { roots ->
+                    val oldIndex = prepareOldIndex(action.screen.hashes)
+
+                    diff(roots, oldIndex)
+                }
+                val topBarDeltas = rendered.screen.scaffold?.topBar?.let { root ->
+                    val oldIndex = action.topBar?.hash?.let { prepareOldIndex(listOf(it)) }
+                        ?: OldIndex()
+
+                    diff(listOf(root), oldIndex)
+                }
+                val bottomBarDeltas = rendered.screen.scaffold?.bottomBar?.let { root ->
+                    val oldIndex = action.bottomBar?.hash?.let { prepareOldIndex(listOf(it)) }
+                        ?: OldIndex()
+
+                    diff(listOf(root), oldIndex)
+                }
 
                 UpdateScreenActionResponseRaw(
-                    response = UpdateScreenResponsePayloadRaw(deltas)
+                    response = UpdateScreenResponsePayloadRaw(
+                        screen = screenDeltas,
+                        topBar = topBarDeltas,
+                        bottomBar = bottomBarDeltas
+                    )
                 )
             }
             .doOnError { ex ->
@@ -52,11 +70,11 @@ class UpdateScreenActionHandler(
             }
     }
 
-    private fun prepareOldIndex(action: UpdateScreenActionRawRequest): OldIndex {
+    private fun prepareOldIndex(hashes: List<HashNode>): OldIndex {
         val oldIndex = OldIndex()
         val stack = ArrayDeque<Pair<HashNode, String>>()
-        for (i in action.hashes.indices.reversed()) {
-            stack.addLast(action.hashes[i] to rootPath)
+        for (i in hashes.indices.reversed()) {
+            stack.addLast(hashes[i] to rootPath)
         }
 
         while (stack.isNotEmpty()) {
