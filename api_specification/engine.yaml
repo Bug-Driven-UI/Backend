@@ -768,10 +768,15 @@ components:
       additionalProperties: false
 
     RenderedHorizontalOrVerticalAlignment:
+      description: "Выравнивание по вертикали или горизонтали."
       oneOf:
         - $ref: '#/components/schemas/RenderedVerticalAlignment'
         - $ref: '#/components/schemas/RenderedHorizontalAlignment'
-      description: "Выравнивание по вертикали или горизонтали."
+      discriminator:
+        propertyName: axis
+        mapping:
+          vertical: '#/components/schemas/RenderedVerticalAlignment'
+          horizontal: '#/components/schemas/RenderedHorizontalAlignment'
 
     RenderedVerticalAlignment:
       required: [ type ]

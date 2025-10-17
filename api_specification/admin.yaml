@@ -2935,10 +2935,15 @@ components:
       additionalProperties: false
 
     HorizontalOrVerticalAlignment:
+      description: "Выравнивание по вертикали или горизонтали."
       oneOf:
         - $ref: '#/components/schemas/VerticalAlignment'
         - $ref: '#/components/schemas/HorizontalAlignment'
-      description: "Выравнивание по вертикали или горизонтали."
+      discriminator:
+        propertyName: axis
+        mapping:
+          vertical: '#/components/schemas/VerticalAlignment'
+          horizontal: '#/components/schemas/HorizontalAlignment'
 
     VerticalAlignment:
       required: [ type ]
