@@ -24,8 +24,6 @@ import ru.hits.bdui.common.models.client.raw.styles.color.RenderedColorStyleRaw
     JsonSubTypes.Type(value = BoxRawRendered::class, name = "box"),
 )
 sealed interface RenderedComponentRaw {
-    val type: String
-
     @get:JsonUnwrapped
     val base: RenderedComponentBaseRawProperties
 

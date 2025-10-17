@@ -11,9 +11,7 @@ sealed interface LeafRawRendered : RenderedComponentRaw
 data class TextRawRendered(
     val textWithStyle: RenderedTextWithStyleRaw,
     override val base: RenderedComponentBaseRawProperties,
-) : LeafRawRendered {
-    override val type: String = "text"
-}
+) : LeafRawRendered
 
 data class InputRawRendered(
     val textWithStyle: RenderedTextWithStyleRaw,
@@ -24,8 +22,6 @@ data class InputRawRendered(
     val placeholder: RenderedPlaceholderRaw?,
     override val base: RenderedComponentBaseRawProperties,
 ) : LeafRawRendered {
-    override val type: String = "input"
-
     data class RenderedHintRaw(
         val textWithStyle: RenderedTextWithStyleRaw
     )
@@ -45,8 +41,6 @@ data class ImageRawRendered(
     val badge: RenderedBadgeRaw?,
     override val base: RenderedComponentBaseRawProperties,
 ) : LeafRawRendered {
-    override val type: String = "image"
-
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
     @JsonSubTypes(
         JsonSubTypes.Type(value = RenderedBadgeRaw.BadgeWithTextRaw::class, name = "badgeWithText"),
@@ -56,44 +50,30 @@ data class ImageRawRendered(
         ),
     )
     sealed interface RenderedBadgeRaw {
-        val type: String
-
         data class BadgeWithTextRaw(
             val textWithStyle: RenderedTextWithStyleRaw,
-        ) : RenderedBadgeRaw {
-            override val type: String = "badgeWithText"
-        }
+        ) : RenderedBadgeRaw
 
         data class BadgeWithImageRaw(
             val imageUrl: String,
-        ) : RenderedBadgeRaw {
-            override val type: String = "badgeWithImage"
-        }
+        ) : RenderedBadgeRaw
     }
 }
 
 data class SpacerRawRendered(
     override val base: RenderedComponentBaseRawProperties,
-) : LeafRawRendered {
-    override val type: String = "spacer"
-}
+) : LeafRawRendered
 
 data class ProgressBarRawRendered(
     override val base: RenderedComponentBaseRawProperties,
-) : LeafRawRendered {
-    override val type: String = "progressBar"
-}
+) : LeafRawRendered
 
 data class SwitchRawRendered(
     override val base: RenderedComponentBaseRawProperties,
-) : LeafRawRendered {
-    override val type: String = "switch"
-}
+) : LeafRawRendered
 
 data class ButtonRawRendered(
     val text: TextRawRendered,
     val enabled: Boolean,
     override val base: RenderedComponentBaseRawProperties,
-) : LeafRawRendered {
-    override val type: String = "button"
-}
+) : LeafRawRendered

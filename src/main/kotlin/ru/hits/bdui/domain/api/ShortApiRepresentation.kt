@@ -1,6 +1,6 @@
 package ru.hits.bdui.domain.api
 
-import java.util.*
+import java.util.UUID
 
 /**
  * Короткое представление внешнего API

@@ -1,6 +1,6 @@
 package ru.hits.bdui.admin.templates.controller.raw.update
 
-import ru.hits.bdui.admin.templates.controller.raw.ComponentTemplateForSaveRaw
+import ru.hits.bdui.admin.templates.controller.raw.ComponentTemplateForUpdateRaw
 import java.util.UUID
 
 data class ComponentTemplateUpdateRequestRaw(
@@ -8,6 +8,6 @@ data class ComponentTemplateUpdateRequestRaw(
 ) {
     data class DataRaw(
         val id: UUID,
-        val template: ComponentTemplateForSaveRaw
+        val template: ComponentTemplateForUpdateRaw
     )
 }

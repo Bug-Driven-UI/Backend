@@ -13,7 +13,6 @@ import ru.hits.bdui.admin.templates.database.emerge.emerge
 import ru.hits.bdui.admin.templates.database.entity.TemplateEntity
 import ru.hits.bdui.admin.templates.database.repository.ComponentTemplateJpaRepository
 import ru.hits.bdui.admin.templates.models.ComponentTemplateUpdateCommand
-import ru.hits.bdui.domain.TemplateName
 import ru.hits.bdui.domain.template.ComponentTemplate
 import ru.hits.bdui.domain.template.ComponentTemplateFromDatabase
 import java.time.Instant
@@ -105,7 +104,7 @@ class TemplateRepositoryImpl(
     ): Mono<SaveResponse> {
         val updatedTemplate = template.copy(
             template = ComponentTemplate(
-                name = TemplateName(updateCommand.name),
+                name = template.template.name,
                 component = updateCommand.component
             ),
             lastModifiedTimestampMs = Instant.now().toEpochMilli()

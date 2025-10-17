@@ -49,6 +49,7 @@ class ComponentEvaluationGatewayImpl(
                 Box(
                     children = listOf(evaluatedChild),
                     base = component.base.copyWithEvaluatedProperties(interpreter),
+                    contentAlignment = null,
                 )
             }
 
@@ -57,7 +58,9 @@ class ComponentEvaluationGatewayImpl(
 
                 Column(
                     children = evaluatedChildren,
-                    base = component.base.copyWithEvaluatedProperties(interpreter)
+                    base = component.base.copyWithEvaluatedProperties(interpreter),
+                    verticalArrangement = component.verticalArrangement,
+                    horizontalAlignment = component.horizontalAlignment,
                 )
             }
 
@@ -66,7 +69,9 @@ class ComponentEvaluationGatewayImpl(
 
                 Row(
                     children = evaluatedChildren,
-                    base = component.base.copyWithEvaluatedProperties(interpreter)
+                    base = component.base.copyWithEvaluatedProperties(interpreter),
+                    horizontalArrangement = component.horizontalArrangement,
+                    verticalAlignment = component.verticalAlignment,
                 )
             }
         }

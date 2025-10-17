@@ -11,31 +11,21 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     JsonSubTypes.Type(value = SizeRaw.WrapContentRaw::class, name = "wrapContent"),
 )
 sealed interface SizeRaw {
-    val type: String
-
     /**
      * @property value >= 0
      */
     data class FixedRaw(
         val value: Int
-    ) : SizeRaw {
-        override val type: String = "fixed"
-    }
+    ) : SizeRaw
 
     /**
      * @property fraction значение в диапазоне от 0 до 1 (включительно)
      */
     data class WeightedRaw(
         val fraction: Double
-    ) : SizeRaw {
-        override val type: String = "weighted"
-    }
+    ) : SizeRaw
 
-    class MatchParentRaw : SizeRaw {
-        override val type: String = "matchParent"
-    }
+    data object MatchParentRaw : SizeRaw
 
-    class WrapContentRaw : SizeRaw {
-        override val type: String = "wrapContent"
-    }
+    data object WrapContentRaw : SizeRaw
 }

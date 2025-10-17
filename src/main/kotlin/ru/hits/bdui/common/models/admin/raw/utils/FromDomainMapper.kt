@@ -18,9 +18,14 @@ import ru.hits.bdui.common.models.admin.raw.components.StatefulComponentRaw
 import ru.hits.bdui.common.models.admin.raw.components.SwitchRaw
 import ru.hits.bdui.common.models.admin.raw.components.TextRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.BorderRaw
+import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalAlignmentRaw
+import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalAndVerticalAlignmentRaw
+import ru.hits.bdui.common.models.admin.raw.components.additional.HorizontalArrangementRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.RegexRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.ShapeRaw
 import ru.hits.bdui.common.models.admin.raw.components.additional.ShapeTypeRaw
+import ru.hits.bdui.common.models.admin.raw.components.additional.VerticalAlignmentRaw
+import ru.hits.bdui.common.models.admin.raw.components.additional.VerticalArrangementRaw
 import ru.hits.bdui.common.models.admin.raw.components.properties.InsetsRaw
 import ru.hits.bdui.common.models.admin.raw.components.properties.SizeRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.InteractionRaw
@@ -31,6 +36,7 @@ import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateBackAct
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateToActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.UpdateScreenActionRaw
 import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
+import ru.hits.bdui.common.models.admin.raw.styles.text.TextAlignmentRaw
 import ru.hits.bdui.common.models.admin.raw.styles.text.TextStyleRaw
 import ru.hits.bdui.common.models.admin.raw.styles.text.TextWithStyleRaw
 import ru.hits.bdui.domain.screen.components.Box
@@ -51,9 +57,14 @@ import ru.hits.bdui.domain.screen.components.StatefulComponent
 import ru.hits.bdui.domain.screen.components.Switch
 import ru.hits.bdui.domain.screen.components.Text
 import ru.hits.bdui.domain.screen.components.additional.Border
+import ru.hits.bdui.domain.screen.components.additional.HorizontalAlignment
+import ru.hits.bdui.domain.screen.components.additional.HorizontalAndVerticalAlignment
+import ru.hits.bdui.domain.screen.components.additional.HorizontalArrangement
 import ru.hits.bdui.domain.screen.components.additional.Regex
 import ru.hits.bdui.domain.screen.components.additional.Shape
 import ru.hits.bdui.domain.screen.components.additional.ShapeType
+import ru.hits.bdui.domain.screen.components.additional.VerticalAlignment
+import ru.hits.bdui.domain.screen.components.additional.VerticalArrangement
 import ru.hits.bdui.domain.screen.components.properties.Insets
 import ru.hits.bdui.domain.screen.components.properties.Size
 import ru.hits.bdui.domain.screen.interactions.Interaction
@@ -64,6 +75,7 @@ import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
+import ru.hits.bdui.domain.screen.styles.text.TextAlignment
 import ru.hits.bdui.domain.screen.styles.text.TextStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
 
@@ -127,16 +139,21 @@ fun Component.toRaw(): ComponentRaw =
         is Column -> ColumnRaw(
             children = this.children.map { it.toRaw() },
             base = this.base.toRaw(),
+            verticalArrangement = this.verticalArrangement?.toRaw(),
+            horizontalAlignment = this.horizontalAlignment?.toRaw(),
         )
 
         is Row -> RowRaw(
             children = this.children.map { it.toRaw() },
             base = this.base.toRaw(),
+            horizontalArrangement = this.horizontalArrangement?.toRaw(),
+            verticalAlignment = this.verticalAlignment?.toRaw(),
         )
 
         is Box -> BoxRaw(
             children = this.children.map { it.toRaw() },
             base = this.base.toRaw(),
+            contentAlignment = this.contentAlignment?.toRaw(),
         )
 
         is StatefulComponent -> StatefulComponentRaw(
@@ -148,14 +165,18 @@ fun Component.toRaw(): ComponentRaw =
             base = this.base.toRaw(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
-            itemTemplateName = this.itemTemplate.name.value
+            itemTemplateName = this.itemTemplate.name.value,
+            verticalArrangement = this.verticalArrangement?.toRaw(),
+            horizontalAlignment = this.horizontalAlignment?.toRaw(),
         )
 
         is DynamicRow -> DynamicRowRaw(
             base = this.base.toRaw(),
             itemsData = this.itemsData,
             itemAlias = this.itemAlias,
-            itemTemplateName = this.itemTemplate.name.value
+            itemTemplateName = this.itemTemplate.name.value,
+            horizontalArrangement = this.horizontalArrangement?.toRaw(),
+            verticalAlignment = this.verticalAlignment?.toRaw(),
         )
     }
 
@@ -177,10 +198,57 @@ private fun Insets.toRaw(): InsetsRaw =
 
 private fun Size.toRaw(): SizeRaw =
     when (this) {
-        is Size.WrapContent -> SizeRaw.WrapContentRaw()
-        is Size.MatchParent -> SizeRaw.MatchParentRaw()
+        is Size.WrapContent -> SizeRaw.WrapContentRaw
+        is Size.MatchParent -> SizeRaw.MatchParentRaw
         is Size.Fixed -> SizeRaw.FixedRaw(this.value)
         is Size.Weighted -> SizeRaw.WeightedRaw(this.fraction)
+    }
+
+private fun HorizontalAndVerticalAlignment.toRaw(): HorizontalAndVerticalAlignmentRaw =
+    when (this) {
+        is HorizontalAndVerticalAlignment.TopStart -> HorizontalAndVerticalAlignmentRaw.TopStartRaw
+        is HorizontalAndVerticalAlignment.TopCenter -> HorizontalAndVerticalAlignmentRaw.TopCenterRaw
+        is HorizontalAndVerticalAlignment.TopEnd -> HorizontalAndVerticalAlignmentRaw.TopEndRaw
+        is HorizontalAndVerticalAlignment.CenterStart -> HorizontalAndVerticalAlignmentRaw.CenterStartRaw
+        is HorizontalAndVerticalAlignment.Center -> HorizontalAndVerticalAlignmentRaw.CenterRaw
+        is HorizontalAndVerticalAlignment.CenterEnd -> HorizontalAndVerticalAlignmentRaw.CenterEndRaw
+        is HorizontalAndVerticalAlignment.BottomStart -> HorizontalAndVerticalAlignmentRaw.BottomStartRaw
+        is HorizontalAndVerticalAlignment.BottomCenter -> HorizontalAndVerticalAlignmentRaw.BottomCenterRaw
+        is HorizontalAndVerticalAlignment.BottomEnd -> HorizontalAndVerticalAlignmentRaw.BottomEndRaw
+    }
+
+private fun HorizontalAlignment.toRaw(): HorizontalAlignmentRaw =
+    when (this) {
+        is HorizontalAlignment.End -> HorizontalAlignmentRaw.EndRaw
+        is HorizontalAlignment.Start -> HorizontalAlignmentRaw.StartRaw
+        is HorizontalAlignment.Center -> HorizontalAlignmentRaw.CenterRaw
+    }
+
+private fun VerticalAlignment.toRaw(): VerticalAlignmentRaw =
+    when (this) {
+        is VerticalAlignment.Top -> VerticalAlignmentRaw.TopRaw
+        is VerticalAlignment.Bottom -> VerticalAlignmentRaw.BottomRaw
+        is VerticalAlignment.Center -> VerticalAlignmentRaw.CenterRaw
+    }
+
+private fun HorizontalArrangement.toRaw(): HorizontalArrangementRaw =
+    when (this) {
+        is HorizontalArrangement.Start -> HorizontalArrangementRaw.StartRaw
+        is HorizontalArrangement.End -> HorizontalArrangementRaw.EndRaw
+        is HorizontalArrangement.Center -> HorizontalArrangementRaw.CenterRaw
+        is HorizontalArrangement.SpaceAround -> HorizontalArrangementRaw.SpaceAroundRaw
+        is HorizontalArrangement.SpaceEvenly -> HorizontalArrangementRaw.SpaceEvenlyRaw
+        is HorizontalArrangement.SpaceBetween -> HorizontalArrangementRaw.SpaceBetweenRaw
+    }
+
+private fun VerticalArrangement.toRaw(): VerticalArrangementRaw =
+    when (this) {
+        is VerticalArrangement.Top -> VerticalArrangementRaw.TopRaw
+        is VerticalArrangement.Bottom -> VerticalArrangementRaw.BottomRaw
+        is VerticalArrangement.Center -> VerticalArrangementRaw.CenterRaw
+        is VerticalArrangement.SpaceAround -> VerticalArrangementRaw.SpaceAroundRaw
+        is VerticalArrangement.SpaceEvenly -> VerticalArrangementRaw.SpaceEvenlyRaw
+        is VerticalArrangement.SpaceBetween -> VerticalArrangementRaw.SpaceBetweenRaw
     }
 
 private fun Border.toRaw(): BorderRaw =
@@ -250,7 +318,14 @@ private fun TextWithStyle.toRaw(): TextWithStyleRaw =
     TextWithStyleRaw(
         text = this.text.value as String,
         textStyle = this.textStyle.toRaw(),
-        colorStyle = this.color.toRaw()
+        colorStyle = this.color.toRaw(),
+        textAlignment = this.textAlignment?.let {
+            when (it) {
+                TextAlignment.END -> TextAlignmentRaw.END
+                TextAlignment.START -> TextAlignmentRaw.START
+                TextAlignment.CENTER -> TextAlignmentRaw.CENTER
+            }
+        }
     )
 
 private fun TextStyle.toRaw(): TextStyleRaw =

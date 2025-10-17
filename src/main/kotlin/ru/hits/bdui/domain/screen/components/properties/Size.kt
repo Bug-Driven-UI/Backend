@@ -1,31 +1,21 @@
 package ru.hits.bdui.domain.screen.components.properties
 
 sealed interface Size {
-    val type: String
-
     /**
      * @property value >= 0
      */
     data class Fixed(
         val value: Int
-    ) : Size {
-        override val type: String = "fixed"
-    }
+    ) : Size
 
     /**
      * @property fraction значение в диапазоне от 0 до 1 (включительно)
      */
     data class Weighted(
         val fraction: Double
-    ) : Size {
-        override val type: String = "weighted"
-    }
+    ) : Size
 
-    class MatchParent : Size {
-        override val type: String = "matchParent"
-    }
+    data object MatchParent : Size
 
-    class WrapContent : Size {
-        override val type: String = "wrapContent"
-    }
+    data object WrapContent : Size
 }
