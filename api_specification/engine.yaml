@@ -221,21 +221,18 @@ components:
         topBar:
           type: object
           description: "Данные топ бара"
-          required: [ hashes ]
+          required: [ hash ]
           properties:
-            hashes:
-              type: array
-              items:
-                $ref: '#/components/schemas/HashNode'
+            hash:
+              $ref: '#/components/schemas/HashNode'
         bottomBar:
           type: object
           description: "Данные боттом бара"
-          required: [ hashes ]
+          required: [ hash ]
           properties:
-            hashes:
-              type: array
-              items:
-                $ref: '#/components/schemas/HashNode'
+            hash:
+              $ref: '#/components/schemas/HashNode'
+
         screen:
           type: object
           description: "Данные экрана"
