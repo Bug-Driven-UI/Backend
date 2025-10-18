@@ -2659,10 +2659,13 @@ components:
 
     NavigateBackAction:
       type: object
-      required: [ type ]
+      required: [ type, updatePreviousScreen ]
       properties:
         type:
           const: navigateBack
+        updatePreviousScreen:
+          type: boolean
+          description: "Нужно ли обновлять предыдущий экран, переход на который осуществляется"
 
     Interaction:
       type: object

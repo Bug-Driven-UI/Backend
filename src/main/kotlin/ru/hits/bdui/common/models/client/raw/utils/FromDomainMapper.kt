@@ -272,7 +272,9 @@ private fun Action.toRendered(): RenderedActionRaw =
             screenNavigationParams = this.screenNavigationParams.mapValues { it.value.value as String }
         )
 
-        is NavigateBackAction -> NavigateBackRenderedActionRaw()
+        is NavigateBackAction -> NavigateBackRenderedActionRaw(
+            updatePreviousScreen = this.updatePreviousScreen
+        )
     }
 
 private fun Image.Badge.toRendered(): ImageRawRendered.RenderedBadgeRaw =
