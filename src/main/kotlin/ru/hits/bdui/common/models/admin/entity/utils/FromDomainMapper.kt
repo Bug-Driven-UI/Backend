@@ -80,7 +80,6 @@ import ru.hits.bdui.domain.screen.interactions.actions.Action
 import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
-import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
@@ -159,6 +158,7 @@ fun Component.toEntity(): ComponentEntity =
             base = this.base.toEntity(),
             horizontalArrangement = this.horizontalArrangement?.toEntity(),
             verticalAlignment = this.verticalAlignment?.toEntity(),
+            isScrollable = this.isScrollable,
         )
 
         is Box -> BoxEntity(
@@ -187,7 +187,7 @@ fun Component.toEntity(): ComponentEntity =
             itemAlias = this.itemAlias,
             itemTemplate = this.itemTemplate.toEntity(),
             horizontalArrangement = this.horizontalArrangement?.toEntity(),
-            verticalAlignment = this.verticalAlignment?.toEntity()
+            verticalAlignment = this.verticalAlignment?.toEntity(),
         )
     }
 
@@ -334,11 +334,13 @@ private fun Action.toEntity(): ActionEntity =
             screenNavigationParams = this.screenNavigationParams.mapValues { it.value.value as String }
         )
 
-        is NavigateBackAction -> NavigateBackActionEntity
-
         is NavigateToBottomSheetAction -> NavigateToBottomSheetActionEntity(
             screenName = this.screenName.value,
             screenNavigationParams = this.screenNavigationParams.mapValues { it.value.value as String }
+        )
+
+        is NavigateBackAction -> NavigateBackActionEntity(
+            updatePreviousScreen = this.updatePreviousScreen
         )
     }
 

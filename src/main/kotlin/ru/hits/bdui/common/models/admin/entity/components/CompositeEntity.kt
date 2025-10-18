@@ -14,7 +14,8 @@ data class RowEntity(
     override val children: List<ComponentEntity>,
     override val base: ComponentBaseEntityProperties,
     val horizontalArrangement: HorizontalArrangementEntity?,
-    val verticalAlignment: VerticalAlignmentEntity?
+    val verticalAlignment: VerticalAlignmentEntity?,
+    val isScrollable: Boolean?,
 ) : CompositeEntity
 
 data class BoxEntity(

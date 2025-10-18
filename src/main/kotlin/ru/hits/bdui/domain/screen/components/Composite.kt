@@ -14,7 +14,8 @@ data class Row(
     override val children: List<Component>,
     override val base: ComponentBaseProperties,
     val horizontalArrangement: HorizontalArrangement?,
-    val verticalAlignment: VerticalAlignment?
+    val verticalAlignment: VerticalAlignment?,
+    val isScrollable: Boolean?,
 ) : Composite {
     override val type: String = "row"
 }

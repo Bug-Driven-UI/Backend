@@ -74,7 +74,6 @@ import ru.hits.bdui.domain.screen.interactions.actions.Action
 import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
-import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
@@ -150,6 +149,7 @@ fun Component.toRaw(): ComponentRaw =
             base = this.base.toRaw(),
             horizontalArrangement = this.horizontalArrangement?.toRaw(),
             verticalAlignment = this.verticalAlignment?.toRaw(),
+            isScrollable = this.isScrollable,
         )
 
         is Box -> BoxRaw(
@@ -296,7 +296,9 @@ private fun Action.toRaw(): ActionRaw =
             screenNavigationParams = this.screenNavigationParams.mapValues { it.value.value as String }
         )
 
-        is NavigateBackAction -> NavigateBackActionRaw()
+        is NavigateBackAction -> NavigateBackActionRaw(
+            updatePreviousScreen = this.updatePreviousScreen,
+        )
 
         is NavigateToBottomSheetAction -> NavigateToBottomSheetActionRaw(
             screenName = this.screenName.value,

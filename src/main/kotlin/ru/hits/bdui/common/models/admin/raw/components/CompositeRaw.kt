@@ -14,7 +14,8 @@ data class RowRaw(
     override val children: List<ComponentRaw>,
     override val base: ComponentBaseRawProperties,
     val horizontalArrangement: HorizontalArrangementRaw?,
-    val verticalAlignment: VerticalAlignmentRaw?
+    val verticalAlignment: VerticalAlignmentRaw?,
+    val isScrollable: Boolean?,
 ) : CompositeRaw
 
 data class BoxRaw(

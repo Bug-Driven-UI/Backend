@@ -72,6 +72,7 @@ class ComponentEvaluationGatewayImpl(
                     base = component.base.copyWithEvaluatedProperties(interpreter),
                     horizontalArrangement = component.horizontalArrangement,
                     verticalAlignment = component.verticalAlignment,
+                    isScrollable = component.isScrollable,
                 )
             }
         }

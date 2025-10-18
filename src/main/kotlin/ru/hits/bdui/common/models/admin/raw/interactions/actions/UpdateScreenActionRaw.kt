@@ -9,6 +9,4 @@ package ru.hits.bdui.common.models.admin.raw.interactions.actions
 data class UpdateScreenActionRaw(
     val screenName: String,
     val screenNavigationParams: Map<String, String>
-) : ActionRaw {
-    override val type: String = "updateScreen"
-}
+) : ActionRaw
