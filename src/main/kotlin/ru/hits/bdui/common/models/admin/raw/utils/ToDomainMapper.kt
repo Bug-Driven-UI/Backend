@@ -167,7 +167,6 @@ fun ComponentRaw.toDomain(ctx: MappingContext): Component =
             itemTemplate = ctx.template(this.itemTemplateName),
             horizontalArrangement = this.horizontalArrangement?.toDomain(),
             verticalAlignment = this.verticalAlignment?.toDomain(),
-            isScrollable = this.isScrollable,
         )
     }
 

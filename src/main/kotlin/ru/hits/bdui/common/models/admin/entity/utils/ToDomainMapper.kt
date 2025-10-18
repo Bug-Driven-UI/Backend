@@ -176,7 +176,6 @@ fun ComponentEntity.toDomain(): Component =
             itemTemplate = this.itemTemplate.toDomain(),
             horizontalArrangement = this.horizontalArrangement?.toDomain(),
             verticalAlignment = this.verticalAlignment?.toDomain(),
-            isScrollable = this.isScrollable,
         )
     }
 

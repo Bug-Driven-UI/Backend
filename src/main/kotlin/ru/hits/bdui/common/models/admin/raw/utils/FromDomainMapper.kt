@@ -178,7 +178,6 @@ fun Component.toRaw(): ComponentRaw =
             itemTemplateName = this.itemTemplate.name.value,
             horizontalArrangement = this.horizontalArrangement?.toRaw(),
             verticalAlignment = this.verticalAlignment?.toRaw(),
-            isScrollable = this.isScrollable,
         )
     }
 

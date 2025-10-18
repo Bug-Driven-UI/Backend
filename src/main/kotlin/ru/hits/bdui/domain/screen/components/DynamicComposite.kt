@@ -40,7 +40,7 @@ data class DynamicRow(
     override val base: ComponentBaseProperties,
     val horizontalArrangement: HorizontalArrangement?,
     val verticalAlignment: VerticalAlignment?,
-    val isScrollable: Boolean?,
 ) : DynamicComposite {
     override val type: String = "dynamicRow"
+    val isScrollable: Boolean = true
 }

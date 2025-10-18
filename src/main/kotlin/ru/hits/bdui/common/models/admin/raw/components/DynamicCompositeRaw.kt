@@ -33,5 +33,4 @@ data class DynamicRowRaw(
     override val base: ComponentBaseRawProperties,
     val horizontalArrangement: HorizontalArrangementRaw?,
     val verticalAlignment: VerticalAlignmentRaw?,
-    val isScrollable: Boolean?,
 ) : DynamicCompositeRaw

@@ -187,7 +187,6 @@ fun Component.toEntity(): ComponentEntity =
             itemTemplate = this.itemTemplate.toEntity(),
             horizontalArrangement = this.horizontalArrangement?.toEntity(),
             verticalAlignment = this.verticalAlignment?.toEntity(),
-            isScrollable = this.isScrollable,
         )
     }
 
