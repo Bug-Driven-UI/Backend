@@ -2553,6 +2553,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/DynamicCompositeBase'
         - type: object
+          required: [ type ]
           properties:
             type:
               const: dynamicRow
@@ -2560,7 +2561,6 @@ components:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:
               $ref: '#/components/schemas/VerticalAlignment'
-          required: [ type ]
           additionalProperties: false
 
     ShortApiRepresentation:
@@ -3331,6 +3331,8 @@ components:
           required: [ type ]
           properties:
             type: { const: row }
+            isScrollable:
+              type: boolean
             horizontalArrangement:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:

@@ -1175,6 +1175,8 @@ components:
           required: [ type ]
           properties:
             type: { const: row }
+            isScrollable:
+              type: boolean
             horizontalArrangement:
               $ref: '#/components/schemas/RenderedHorizontalArrangement'
             verticalAlignment:
