@@ -28,7 +28,7 @@ dependencies {
     implementation 'io.projectreactor.kotlin:reactor-kotlin-extensions'
     implementation "io.projectreactor:reactor-core:${reactorVersion}"
     implementation "io.hypersistence:hypersistence-utils-hibernate-63:${hibernateTypesVersion}"
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}"
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

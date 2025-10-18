@@ -26,7 +26,6 @@ import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
     JsonSubTypes.Type(value = BoxEntity::class, name = "box"),
 )
 sealed interface ComponentEntity {
-    val type: String
     val base: ComponentBaseEntityProperties
 
     companion object

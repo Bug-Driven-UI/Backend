@@ -9,6 +9,4 @@ package ru.hits.bdui.common.models.admin.entity.interactions.actions
 data class NavigateToActionEntity(
     val screenName: String,
     val screenNavigationParams: Map<String, String>
-) : ActionEntity {
-    override val type: String = "navigateTo"
-}
+) : ActionEntity

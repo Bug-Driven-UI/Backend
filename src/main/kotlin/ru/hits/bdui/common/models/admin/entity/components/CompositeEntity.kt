@@ -15,23 +15,17 @@ data class RowEntity(
     override val base: ComponentBaseEntityProperties,
     val horizontalArrangement: HorizontalArrangementEntity?,
     val verticalAlignment: VerticalAlignmentEntity?
-) : CompositeEntity {
-    override val type: String = "row"
-}
+) : CompositeEntity
 
 data class BoxEntity(
     override val children: List<ComponentEntity>,
     override val base: ComponentBaseEntityProperties,
     val contentAlignment: HorizontalAndVerticalAlignmentEntity?
-) : CompositeEntity {
-    override val type: String = "box"
-}
+) : CompositeEntity
 
 data class ColumnEntity(
     override val children: List<ComponentEntity>,
     override val base: ComponentBaseEntityProperties,
     val verticalArrangement: VerticalArrangementEntity?,
     val horizontalAlignment: HorizontalAlignmentEntity?
-) : CompositeEntity {
-    override val type: String = "column"
-}
+) : CompositeEntity

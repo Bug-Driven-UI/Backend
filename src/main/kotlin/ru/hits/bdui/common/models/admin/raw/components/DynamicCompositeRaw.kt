@@ -21,9 +21,7 @@ data class DynamicColumnRaw(
     override val base: ComponentBaseRawProperties,
     val verticalArrangement: VerticalArrangementRaw?,
     val horizontalAlignment: HorizontalAlignmentRaw?
-) : DynamicCompositeRaw {
-    override val type: String = "dynamicColumn"
-}
+) : DynamicCompositeRaw
 
 /**
  * Динамически заполняемая строка
@@ -35,6 +33,4 @@ data class DynamicRowRaw(
     override val base: ComponentBaseRawProperties,
     val horizontalArrangement: HorizontalArrangementRaw?,
     val verticalAlignment: VerticalAlignmentRaw?
-) : DynamicCompositeRaw {
-    override val type: String = "dynamicRow"
-}
+) : DynamicCompositeRaw

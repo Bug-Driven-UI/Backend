@@ -9,6 +9,4 @@ package ru.hits.bdui.common.models.admin.entity.interactions.actions
 data class CommandActionEntity(
     val name: String,
     val params: Map<String, String>
-) : ActionEntity {
-    override val type: String = "command"
-}
+) : ActionEntity

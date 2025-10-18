@@ -322,7 +322,7 @@ private fun ActionEntity.toDomain(): Action =
             screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
         )
 
-        is NavigateBackActionEntity -> NavigateBackAction()
+        is NavigateBackActionEntity -> NavigateBackAction
     }
 
 private fun Any.toDomainValueOrExpression(): ValueOrExpression =

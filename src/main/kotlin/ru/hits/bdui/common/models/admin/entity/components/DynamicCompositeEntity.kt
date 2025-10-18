@@ -21,9 +21,7 @@ data class DynamicColumnEntity(
     override val base: ComponentBaseEntityProperties,
     val verticalArrangement: VerticalArrangementEntity?,
     val horizontalAlignment: HorizontalAlignmentEntity?
-) : DynamicCompositeEntity {
-    override val type: String = "dynamicColumn"
-}
+) : DynamicCompositeEntity
 
 /**
  * Динамически заполняемая строка
@@ -35,6 +33,4 @@ data class DynamicRowEntity(
     override val base: ComponentBaseEntityProperties,
     val horizontalArrangement: HorizontalArrangementEntity?,
     val verticalAlignment: VerticalAlignmentEntity?
-) : DynamicCompositeEntity {
-    override val type: String = "dynamicRow"
-}
+) : DynamicCompositeEntity
