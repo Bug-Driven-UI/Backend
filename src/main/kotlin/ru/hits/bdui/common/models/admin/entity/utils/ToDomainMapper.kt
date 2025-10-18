@@ -146,6 +146,7 @@ fun ComponentEntity.toDomain(): Component =
             base = this.base.toDomain(),
             horizontalArrangement = this.horizontalArrangement?.toDomain(),
             verticalAlignment = this.verticalAlignment?.toDomain(),
+            isScrollable = this.isScrollable,
         )
 
         is BoxEntity -> Box(
