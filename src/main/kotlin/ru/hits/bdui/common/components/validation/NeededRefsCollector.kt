@@ -63,7 +63,6 @@ class NeededRefsCollector {
 
                 is InputRaw -> {
                     extractTokensFromTextWithStyle(component.textWithStyle)
-                    component.hint?.let { extractTokensFromTextWithStyle(it.textWithStyle) }
                     component.placeholder?.let { extractTokensFromTextWithStyle(it.textWithStyle) }
                     val badge = component.rightIcon?.badge
                     if (badge is ImageRaw.BadgeRaw.BadgeWithTextRaw) {

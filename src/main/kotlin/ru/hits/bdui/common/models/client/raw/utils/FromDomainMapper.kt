@@ -102,11 +102,6 @@ fun Component.toRendered(): RenderedComponentRaw =
                 }
             },
             rightIcon = this.rightIcon?.toRendered() as ImageRawRendered?,
-            hint = this.hint?.let {
-                InputRawRendered.RenderedHintRaw(
-                    it.textWithStyle.toRendered()
-                )
-            },
             placeholder = this.placeholder?.let {
                 InputRawRendered.RenderedPlaceholderRaw(
                     it.textWithStyle.toRendered()

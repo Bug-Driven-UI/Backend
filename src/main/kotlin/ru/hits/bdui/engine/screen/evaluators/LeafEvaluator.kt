@@ -35,9 +35,6 @@ class InputEvaluator : LeafEvaluator<Input> {
         component.evaluateBaseProperties(interpreter).copy(
             textWithStyle = component.textWithStyle.evaluate(interpreter),
             rightIcon = component.rightIcon?.let { imageEvaluator.evaluateTyped(it, interpreter) },
-            hint = component.hint?.copy(
-                textWithStyle = component.hint.textWithStyle.evaluate(interpreter),
-            ),
             placeholder = component.placeholder?.copy(
                 textWithStyle = component.placeholder.textWithStyle.evaluate(interpreter),
             ),
