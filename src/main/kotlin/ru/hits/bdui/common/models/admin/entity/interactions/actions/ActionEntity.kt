@@ -9,5 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     JsonSubTypes.Type(value = UpdateScreenActionEntity::class, name = "updateScreen"),
     JsonSubTypes.Type(value = NavigateToActionEntity::class, name = "navigateTo"),
     JsonSubTypes.Type(value = NavigateBackActionEntity::class, name = "navigateBack"),
+    JsonSubTypes.Type(value = NavigateToBottomSheetActionEntity::class, name = "navigateToBottomSheet"),
 )
 sealed interface ActionEntity
