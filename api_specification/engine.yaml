@@ -197,6 +197,7 @@ components:
         - $ref: '#/components/schemas/UpdateScreenActionRequest'
         - $ref: '#/components/schemas/NavigateToActionRequest'
         - $ref: '#/components/schemas/NavigateBackActionRequest'
+        - $ref: '#/components/schemas/NavigateToBottomSheetActionRequest'
       discriminator:
         propertyName: type
         mapping:
@@ -204,6 +205,7 @@ components:
           updateScreen: '#/components/schemas/UpdateScreenActionRequest'
           navigateTo: '#/components/schemas/NavigateToActionRequest'
           navigateBack: '#/components/schemas/NavigateBackActionRequest'
+          navigateToBottomSheet: '#/components/schemas/NavigateToBottomSheetActionRequest'
       properties:
         type:
           type: string
@@ -281,6 +283,19 @@ components:
         updatePreviousScreen:
           type: boolean
           description: "Нужно ли обновлять предыдущий экран, переход на который осуществляется"
+
+    NavigateToBottomSheetActionRequest:
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: navigateToBottomSheet
+        screenName:
+          type: string
+          description: "Название экрана с bottomSheet"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     HashNode:
       type: object
@@ -487,6 +502,7 @@ components:
         - $ref: '#/components/schemas/RenderedUpdateScreenAction'
         - $ref: '#/components/schemas/RenderedNavigateToAction'
         - $ref: '#/components/schemas/RenderedNavigateBackAction'
+        - $ref: '#/components/schemas/RenderedNavigateToBottomSheetAction'
       discriminator:
         propertyName: type
         mapping:
@@ -494,6 +510,7 @@ components:
           updateScreen: '#/components/schemas/RenderedUpdateScreenAction'
           navigateTo: '#/components/schemas/RenderedNavigateToAction'
           navigateBack: '#/components/schemas/RenderedNavigateBackAction'
+          navigateToBottomSheet: '#/components/schemas/RenderedNavigateToBottomSheetAction'
       properties:
         type:
           type: string
@@ -544,6 +561,19 @@ components:
       properties:
         type:
           const: navigateBack
+
+    RenderedNavigateToBottomSheetAction:
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: navigateToBottomSheet
+        screenName:
+          type: string
+          description: "Название экрана с bottomSheet"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     RenderedInteraction:
       type: object
