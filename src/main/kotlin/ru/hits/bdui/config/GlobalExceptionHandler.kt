@@ -1,6 +1,12 @@
 package ru.hits.bdui.config
 
+import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.databind.JsonMappingException
+import com.fasterxml.jackson.databind.exc.InvalidFormatException
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
+import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import org.slf4j.LoggerFactory
+import org.springframework.core.codec.DecodingException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -22,15 +28,68 @@ class GlobalExceptionHandler {
     fun handle(ex: ServerWebInputException): Mono<ResponseEntity<ApiResponse.Error>> {
         log.error("Ошибка инпута", ex)
 
+        val message = friendlyMessage(ex)
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(
                 ApiResponse.error(
                     listOfNotNull(
-                        "Не удалось распарсить тело запроса".let(ErrorContentRaw.Companion::emerge)
+                        ErrorContentRaw.emerge(message)
                     )
                 )
             )
             .toMono()
+    }
+
+    private fun friendlyMessage(ex: ServerWebInputException): String {
+        val allCauses = generateSequence<Throwable>(ex) { it.cause }.toList()
+
+        val jme = allCauses.firstOrNull { it is JsonMappingException } as JsonMappingException?
+        if (jme != null) {
+            val path = jsonPath(jme)
+
+            return when (jme) {
+                is MissingKotlinParameterException ->
+                    "Поле \"$path\" обязательно для заполнения"
+
+                is InvalidFormatException -> {
+                    val expected = jme.targetType?.simpleName ?: "нужный тип"
+                    val got = jme.value?.toString()?.take(60)
+                    if (got != null) "Поле \"$path\" имеет неверный формат: ожидается $expected, получено \"$got\""
+                    else "Поле \"$path\" имеет неверный формат: ожидается $expected"
+                }
+
+                is MismatchedInputException -> {
+                    val expected = jme.targetType?.simpleName ?: "нужный тип"
+                    "Поле \"$path\" имеет неверный тип: ожидается $expected"
+                }
+
+                else -> "Поле \"$path\" некорректно заполнено"
+            }
+        }
+
+        val parse = allCauses.firstOrNull { it is JsonParseException } as JsonParseException?
+        if (parse != null) {
+            return "Некорректный JSON: ${parse.originalMessage}"
+        }
+
+        val dec = allCauses.firstOrNull { it is DecodingException } as DecodingException?
+        if (dec != null) {
+            return "Не удалось распарсить тело запроса"
+        }
+
+        return ex.reason ?: "Не удалось распарсить тело запроса"
+    }
+
+    private fun jsonPath(e: JsonMappingException): String {
+        val raw = e.path.joinToString(".") { ref ->
+            when {
+                ref.fieldName != null -> ref.fieldName
+                ref.index >= 0 -> "[${ref.index}]"
+                else -> "?"
+            }
+        }
+        return raw.replace(".[", "[")
     }
 
     @ExceptionHandler(AlreadyExistsException::class)
