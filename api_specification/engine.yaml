@@ -1139,7 +1139,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/RenderedCompositeBase'
         - type: object
-          required: [ type, isScrollable ]
+          required: [ type ]
           properties:
             type: { const: row }
             isScrollable:

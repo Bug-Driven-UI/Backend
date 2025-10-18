@@ -2553,7 +2553,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/DynamicCompositeBase'
         - type: object
-          required: [ type, isScrollable ]
+          required: [ type ]
           properties:
             type:
               const: dynamicRow
@@ -3312,7 +3312,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/CompositeBase'
         - type: object
-          required: [ type, isScrollable ]
+          required: [ type ]
           properties:
             type: { const: row }
             isScrollable:
