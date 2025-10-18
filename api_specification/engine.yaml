@@ -412,6 +412,11 @@ components:
           type: string
         version:
           type: integer
+        localStates:
+          type: array
+          description: "Описание значений локального состояния экрана"
+          items:
+            additionalProperties: true
         components:
           type: array
           items:
@@ -484,6 +489,8 @@ components:
         - $ref: '#/components/schemas/RenderedUpdateScreenAction'
         - $ref: '#/components/schemas/RenderedNavigateToAction'
         - $ref: '#/components/schemas/RenderedNavigateBackAction'
+        - $ref: '#/components/schemas/RenderedSetLocalStateAction'
+        - $ref: '#/components/schemas/RenderedSetLocalStateFromInputAction'
       discriminator:
         propertyName: type
         mapping:
@@ -491,6 +498,8 @@ components:
           updateScreen: '#/components/schemas/RenderedUpdateScreenAction'
           navigateTo: '#/components/schemas/RenderedNavigateToAction'
           navigateBack: '#/components/schemas/RenderedNavigateBackAction'
+          setLocalState: '#/components/schemas/RenderedSetLocalStateAction'
+          setLocalStateFromInput: '#/components/schemas/RenderedSetLocalStateFromInputAction'
       properties:
         type:
           type: string
@@ -541,6 +550,28 @@ components:
       properties:
         type:
           const: navigateBack
+
+    RenderedSetLocalStateFromInputAction:
+      type: object
+      required: [ type, target ]
+      properties:
+        type:
+          const: setLocalStateFromInput
+        target:
+          type: string
+          description: "Путь куда нужно установить значение"
+
+    RenderedSetLocalStateAction:
+      type: object
+      required: [ type, target, value ]
+      properties:
+        type:
+          const: setLocalState
+        target:
+          type: string
+          description: "Путь куда нужно установить значение"
+        value:
+          description: "Любое JSON значение"
 
     RenderedInteraction:
       type: object
