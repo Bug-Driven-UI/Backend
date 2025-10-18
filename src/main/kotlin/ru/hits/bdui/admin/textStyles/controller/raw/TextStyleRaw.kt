@@ -32,12 +32,12 @@ enum class TextDecorationRaw {
     @JsonProperty("underline")
     UNDERLINE,
 
-    @JsonProperty("strikethrough")
+    @JsonProperty("strikeThrough")
     STRIKETHROUGH,
 
     @JsonProperty("overline")
     OVERLINE,
 
-    @JsonProperty("strikethroughRed")
+    @JsonProperty("strikeThroughRed")
     STRIKETHROUGH_RED
 }
