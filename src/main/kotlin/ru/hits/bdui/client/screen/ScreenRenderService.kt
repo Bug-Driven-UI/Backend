@@ -62,8 +62,7 @@ class ScreenRenderServiceImpl(
         val interpreter = JSInterpreter(objectMapper)
         interpreter.setVariables(variables)
 
-        return this
-            .flatMap { screen ->
+        return this.flatMap { screen ->
                 externalApiManager.getData(interpreter, screen.screen.apis)
                     .map { apiData ->
                         when (apiData) {

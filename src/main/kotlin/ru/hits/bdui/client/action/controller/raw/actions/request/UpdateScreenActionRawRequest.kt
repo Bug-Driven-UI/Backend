@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode
  */
 data class UpdateScreenActionRawRequest(
     val screenName: String,
-    val screenNavigationParams: Map<String, JsonNode>,
+    val screenNavigationParams: Map<String, JsonNode> = emptyMap(),
     val screen: ScreenHashes,
     val topBar: ScaffoldHash?,
     val bottomBar: ScaffoldHash?,
