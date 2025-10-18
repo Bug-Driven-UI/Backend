@@ -23,7 +23,7 @@ data class DynamicColumn(
     override val itemTemplate: ComponentTemplate,
     override val base: ComponentBaseProperties,
     val verticalArrangement: VerticalArrangement?,
-    val horizontalAlignment: HorizontalAlignment?
+    val horizontalAlignment: HorizontalAlignment?,
 ) : DynamicComposite {
     override val type: String = "dynamicColumn"
 }
@@ -39,7 +39,8 @@ data class DynamicRow(
     override val itemTemplate: ComponentTemplate,
     override val base: ComponentBaseProperties,
     val horizontalArrangement: HorizontalArrangement?,
-    val verticalAlignment: VerticalAlignment?
+    val verticalAlignment: VerticalAlignment?,
+    val isScrollable: Boolean?,
 ) : DynamicComposite {
     override val type: String = "dynamicRow"
 }

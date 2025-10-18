@@ -157,6 +157,7 @@ fun Component.toEntity(): ComponentEntity =
             base = this.base.toEntity(),
             horizontalArrangement = this.horizontalArrangement?.toEntity(),
             verticalAlignment = this.verticalAlignment?.toEntity(),
+            isScrollable = this.isScrollable,
         )
 
         is Box -> BoxEntity(
@@ -185,7 +186,8 @@ fun Component.toEntity(): ComponentEntity =
             itemAlias = this.itemAlias,
             itemTemplate = this.itemTemplate.toEntity(),
             horizontalArrangement = this.horizontalArrangement?.toEntity(),
-            verticalAlignment = this.verticalAlignment?.toEntity()
+            verticalAlignment = this.verticalAlignment?.toEntity(),
+            isScrollable = this.isScrollable,
         )
     }
 

@@ -145,6 +145,7 @@ fun Component.toRendered(): RenderedComponentRaw =
             base = this.toRenderedBaseProperties(),
             horizontalArrangement = this.horizontalArrangement?.toRendered(),
             verticalAlignment = this.verticalAlignment?.toRendered(),
+            isScrollable = this.isScrollable,
         )
 
         is Box -> BoxRawRendered(

@@ -148,6 +148,7 @@ fun Component.toRaw(): ComponentRaw =
             base = this.base.toRaw(),
             horizontalArrangement = this.horizontalArrangement?.toRaw(),
             verticalAlignment = this.verticalAlignment?.toRaw(),
+            isScrollable = this.isScrollable,
         )
 
         is Box -> BoxRaw(
@@ -177,6 +178,7 @@ fun Component.toRaw(): ComponentRaw =
             itemTemplateName = this.itemTemplate.name.value,
             horizontalArrangement = this.horizontalArrangement?.toRaw(),
             verticalAlignment = this.verticalAlignment?.toRaw(),
+            isScrollable = this.isScrollable,
         )
     }
 
