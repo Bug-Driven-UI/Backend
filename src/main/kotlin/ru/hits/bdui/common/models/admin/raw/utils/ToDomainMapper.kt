@@ -33,6 +33,7 @@ import ru.hits.bdui.common.models.admin.raw.interactions.actions.ActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.CommandActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateBackActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateToActionRaw
+import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateToBottomSheetActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.UpdateScreenActionRaw
 import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
 import ru.hits.bdui.common.models.admin.raw.styles.text.TextAlignmentRaw
@@ -76,6 +77,7 @@ import ru.hits.bdui.domain.screen.interactions.actions.Action
 import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
@@ -137,6 +139,7 @@ fun ComponentRaw.toDomain(ctx: MappingContext): Component =
             base = this.base.toDomain(ctx),
             horizontalArrangement = this.horizontalArrangement?.toDomain(),
             verticalAlignment = this.verticalAlignment?.toDomain(),
+            isScrollable = this.isScrollable,
         )
 
         is BoxRaw -> Box(
@@ -283,7 +286,14 @@ private fun ActionRaw.toDomain(): Action =
             screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
         )
 
-        is NavigateBackActionRaw -> NavigateBackAction
+        is NavigateBackActionRaw -> NavigateBackAction(
+            updatePreviousScreen = this.updatePreviousScreen,
+        )
+
+        is NavigateToBottomSheetActionRaw -> NavigateToBottomSheetAction(
+            screenName = ScreenName(this.screenName),
+            screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
+        )
     }
 
 private fun Any.toDomainValueOrExpression(): ValueOrExpression =

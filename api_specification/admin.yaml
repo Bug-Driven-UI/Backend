@@ -2559,6 +2559,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/DynamicCompositeBase'
         - type: object
+          required: [ type ]
           properties:
             type:
               const: dynamicRow
@@ -2566,7 +2567,6 @@ components:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:
               $ref: '#/components/schemas/VerticalAlignment'
-          required: [ type ]
           additionalProperties: false
 
     ShortApiRepresentation:
@@ -2612,6 +2612,7 @@ components:
         - $ref: '#/components/schemas/UpdateScreenAction'
         - $ref: '#/components/schemas/NavigateToAction'
         - $ref: '#/components/schemas/NavigateBackAction'
+        - $ref: '#/components/schemas/NavigateToBottomSheetAction'
         - $ref: '#/components/schemas/SetLocalStateAction'
         - $ref: '#/components/schemas/SetLocalStateFromInputAction'
       discriminator:
@@ -2623,6 +2624,7 @@ components:
           navigateBack: '#/components/schemas/NavigateBackAction'
           setLocalState: '#/components/schemas/SetLocalStateAction'
           setLocalStateFromInput: '#/components/schemas/SetLocalStateFromInputAction'
+          navigateToBottomSheet: '#/components/schemas/NavigateToBottomSheetAction'
       properties:
         type:
           type: string
@@ -2669,10 +2671,26 @@ components:
 
     NavigateBackAction:
       type: object
-      required: [ type ]
+      required: [ type, updatePreviousScreen ]
       properties:
         type:
           const: navigateBack
+        updatePreviousScreen:
+          type: boolean
+          description: "Нужно ли обновлять предыдущий экран, переход на который осуществляется"
+
+    NavigateToBottomSheetAction:
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: navigateToBottomSheet
+        screenName:
+          type: string
+          description: "Название экрана с bottomSheet"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     SetLocalStateFromInputAction:
       type: object
@@ -3345,6 +3363,8 @@ components:
           required: [ type ]
           properties:
             type: { const: row }
+            isScrollable:
+              type: boolean
             horizontalArrangement:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:

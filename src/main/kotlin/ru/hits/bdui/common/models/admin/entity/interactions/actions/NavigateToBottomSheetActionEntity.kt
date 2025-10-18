@@ -1,4 +1,4 @@
-package ru.hits.bdui.common.models.admin.raw.interactions.actions
+package ru.hits.bdui.common.models.admin.entity.interactions.actions
 
 /**
  * Действие, отвечающее за навигацию
@@ -6,7 +6,7 @@ package ru.hits.bdui.common.models.admin.raw.interactions.actions
  * @property screenName название экрана, куда требуется перейти
  * @property screenNavigationParams параметры для получения экрана
  */
-data class NavigateToActionRaw(
+data class NavigateToBottomSheetActionEntity(
     val screenName: String,
     val screenNavigationParams: Map<String, String>
-) : ActionRaw
+) : ActionEntity

@@ -35,6 +35,7 @@ import ru.hits.bdui.common.models.admin.entity.interactions.actions.ActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.CommandActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateBackActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToBottomSheetActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.UpdateScreenActionEntity
 import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextAlignmentEntity
@@ -82,6 +83,7 @@ import ru.hits.bdui.domain.screen.interactions.actions.Action
 import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
@@ -146,6 +148,7 @@ fun ComponentEntity.toDomain(): Component =
             base = this.base.toDomain(),
             horizontalArrangement = this.horizontalArrangement?.toDomain(),
             verticalAlignment = this.verticalAlignment?.toDomain(),
+            isScrollable = this.isScrollable,
         )
 
         is BoxEntity -> Box(
@@ -322,7 +325,14 @@ private fun ActionEntity.toDomain(): Action =
             screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
         )
 
-        is NavigateBackActionEntity -> NavigateBackAction
+        is NavigateBackActionEntity -> NavigateBackAction(
+            updatePreviousScreen = this.updatePreviousScreen,
+        )
+
+        is NavigateToBottomSheetActionEntity -> NavigateToBottomSheetAction(
+            screenName = ScreenName(this.screenName),
+            screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
+        )
     }
 
 private fun Any.toDomainValueOrExpression(): ValueOrExpression =

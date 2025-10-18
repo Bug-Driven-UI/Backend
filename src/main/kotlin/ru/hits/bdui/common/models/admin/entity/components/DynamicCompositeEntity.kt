@@ -32,5 +32,5 @@ data class DynamicRowEntity(
     override val itemTemplate: ComponentTemplateEntity,
     override val base: ComponentBaseEntityProperties,
     val horizontalArrangement: HorizontalArrangementEntity?,
-    val verticalAlignment: VerticalAlignmentEntity?
+    val verticalAlignment: VerticalAlignmentEntity?,
 ) : DynamicCompositeEntity

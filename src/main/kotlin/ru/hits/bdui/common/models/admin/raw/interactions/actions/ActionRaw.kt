@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     JsonSubTypes.Type(value = UpdateScreenActionRaw::class, name = "updateScreen"),
     JsonSubTypes.Type(value = NavigateToActionRaw::class, name = "navigateTo"),
     JsonSubTypes.Type(value = NavigateBackActionRaw::class, name = "navigateBack"),
+    JsonSubTypes.Type(value = NavigateToBottomSheetActionRaw::class, name = "navigateToBottomSheet"),
 )
-sealed interface ActionRaw {
-    val type: String
-}
+sealed interface ActionRaw
