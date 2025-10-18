@@ -430,6 +430,9 @@ components:
           type: string
         version:
           type: integer
+        localStates:
+          additionalProperties: true
+          description: "Описание значений локального состояния экрана"
         components:
           type: array
           items:
@@ -502,6 +505,8 @@ components:
         - $ref: '#/components/schemas/RenderedUpdateScreenAction'
         - $ref: '#/components/schemas/RenderedNavigateToAction'
         - $ref: '#/components/schemas/RenderedNavigateBackAction'
+        - $ref: '#/components/schemas/RenderedSetLocalStateAction'
+        - $ref: '#/components/schemas/RenderedSetLocalStateFromInputAction'
         - $ref: '#/components/schemas/RenderedNavigateToBottomSheetAction'
       discriminator:
         propertyName: type
@@ -511,6 +516,8 @@ components:
           navigateTo: '#/components/schemas/RenderedNavigateToAction'
           navigateBack: '#/components/schemas/RenderedNavigateBackAction'
           navigateToBottomSheet: '#/components/schemas/RenderedNavigateToBottomSheetAction'
+          setLocalState: '#/components/schemas/RenderedSetLocalStateAction'
+          setLocalStateFromInput: '#/components/schemas/RenderedSetLocalStateFromInputAction'
       properties:
         type:
           type: string
@@ -574,6 +581,28 @@ components:
         screenNavigationParams:
           description: "Передаваемые параметры для исполнения команды"
           additionalProperties: true
+
+    RenderedSetLocalStateFromInputAction:
+      type: object
+      required: [ type, target ]
+      properties:
+        type:
+          const: setLocalStateFromInput
+        target:
+          type: string
+          description: "Путь куда нужно установить значение"
+
+    RenderedSetLocalStateAction:
+      type: object
+      required: [ type, target, value ]
+      properties:
+        type:
+          const: setLocalState
+        target:
+          type: string
+          description: "Путь куда нужно установить значение"
+        value:
+          description: "Любое JSON значение"
 
     RenderedInteraction:
       type: object
