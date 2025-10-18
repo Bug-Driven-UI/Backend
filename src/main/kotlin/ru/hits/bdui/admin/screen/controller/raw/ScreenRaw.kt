@@ -1,5 +1,6 @@
 package ru.hits.bdui.admin.screen.controller.raw
 
+import com.fasterxml.jackson.databind.JsonNode
 import ru.hits.bdui.common.models.admin.raw.components.ComponentRaw
 
 /**
@@ -15,6 +16,7 @@ import ru.hits.bdui.common.models.admin.raw.components.ComponentRaw
 data class ScreenRaw(
     val screenName: String,
     val description: String,
+    val localStates: Map<String, JsonNode>?,
     val screenNavigationParams: Set<String>,
     val apis: List<ApiCallRepresentationRaw>,
     val components: List<ComponentRaw>,

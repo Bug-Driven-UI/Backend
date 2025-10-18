@@ -8,8 +8,11 @@ import reactor.core.publisher.Mono
 import ru.hits.bdui.admin.externalApi.ApiRepresentationStorageService
 import ru.hits.bdui.domain.api.ApiCallRepresentation
 import ru.hits.bdui.domain.api.ApiRepresentationFromDatabase
+import ru.hits.bdui.domain.api.Endpoint
 import ru.hits.bdui.engine.Interpreter
+import ru.hits.bdui.engine.JsonNodeTraverser
 import ru.hits.bdui.engine.api.caller.ExternalApiCaller
+import ru.hits.bdui.engine.expression.evaluateExpression
 import ru.hits.bdui.engine.setVariables
 
 data class ApiCallWithRepresentation(
@@ -33,7 +36,7 @@ sealed interface ExternalApisCallResult {
 class ExternalApiManager(
     private val apiCaller: ExternalApiCaller,
     private val objectMapper: ObjectMapper,
-    private val expressionUtils: ExternalApiExpressionUtils,
+    private val jsonNodeTraverser: JsonNodeTraverser,
     private val apiRepresentationStorageService: ApiRepresentationStorageService,
 ) {
     /**
@@ -85,7 +88,7 @@ class ExternalApiManager(
         this.flatMap { callWithRepresentation ->
             Flux.fromIterable(callWithRepresentation.apiCall.apiParams.entries)
                 .flatMap { (name, value) ->
-                    Mono.just(name to expressionUtils.traverseJsonNodeAndReplaceExpressions(interpreter, value))
+                    Mono.just(name to jsonNodeTraverser.traverseJsonNodeAndReplaceExpressions(interpreter, value))
                 }
                 .collectMap({ it.first }, { it.second })
                 .map { evaluatedParameters ->
@@ -101,7 +104,7 @@ class ExternalApiManager(
                 apiScopedInterpreter.setVariables(callWithRepresentation.apiCall.apiParams)
 
                 val evaluatedEndpoints = callWithRepresentation.apiRepresentation.api.endpoints.map { endpoint ->
-                    expressionUtils.evaluateEndpointExpressions(
+                    evaluateEndpointExpressions(
                         apiScopedInterpreter, endpoint,
                         callWithRepresentation.apiCall.apiParams
                     )
@@ -162,4 +165,16 @@ class ExternalApiManager(
                 callWithRepresentationAndResults.apiCall.apiResultAlias to mappingResult
             }
         }
+
+    private fun evaluateEndpointExpressions(
+        interpreter: Interpreter,
+        endpoint: Endpoint,
+        apiParams: Map<String, JsonNode>
+    ): Endpoint =
+        endpoint.copy(
+            url = interpreter.evaluateExpression(endpoint.url),
+            requestBody = endpoint.requestBody?.let { requestBody ->
+                jsonNodeTraverser.traverseJsonNodeAndReplaceExpressions(interpreter, requestBody)
+            } ?: objectMapper.valueToTree(apiParams),
+        )
 }

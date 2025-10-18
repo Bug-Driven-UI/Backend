@@ -2,6 +2,7 @@ package ru.hits.bdui.domain.screen.components
 
 import ru.hits.bdui.domain.ValueOrExpression
 import ru.hits.bdui.domain.screen.components.additional.Regex
+import ru.hits.bdui.domain.screen.interactions.actions.Action
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
 
 sealed interface Leaf : Component
@@ -20,9 +21,10 @@ data class Input(
     val rightIcon: Image?,
     val hint: Hint?,
     val placeholder: Placeholder?,
+    val onValueChanged: List<Action>?,
     override val base: ComponentBaseProperties,
 ) : Leaf {
-    override val type: String = "textField"
+    override val type: String = "input"
 
     data class Hint(
         val textWithStyle: TextWithStyle

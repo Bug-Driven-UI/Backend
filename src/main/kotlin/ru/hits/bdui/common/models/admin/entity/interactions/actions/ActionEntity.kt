@@ -10,5 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     JsonSubTypes.Type(value = NavigateToActionEntity::class, name = "navigateTo"),
     JsonSubTypes.Type(value = NavigateBackActionEntity::class, name = "navigateBack"),
     JsonSubTypes.Type(value = NavigateToBottomSheetActionEntity::class, name = "navigateToBottomSheet"),
+    JsonSubTypes.Type(value = SetLocalStateActionEntity::class, name = "setLocalState"),
+    JsonSubTypes.Type(value = SetLocalStateFromInputActionEntity::class, name = "setLocalStateFromInput"),
 )
 sealed interface ActionEntity

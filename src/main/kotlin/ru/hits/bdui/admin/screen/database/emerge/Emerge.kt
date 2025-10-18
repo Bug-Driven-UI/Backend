@@ -79,7 +79,8 @@ private fun ScreenEntity.Companion.emerge(screen: Screen): ScreenEntity =
         scaffold = ScaffoldEntity(
             topBar = screen.scaffold?.topBar?.toEntity(),
             bottomBar = screen.scaffold?.bottomBar?.toEntity(),
-        )
+        ),
+        localStates = screen.localStates
     )
 
 fun Screen.Companion.emerge(screen: ScreenEntity): Screen =
@@ -98,5 +99,6 @@ fun Screen.Companion.emerge(screen: ScreenEntity): Screen =
         scaffold = Scaffold(
             topBar = screen.scaffold?.topBar?.toDomain(),
             bottomBar = screen.scaffold?.bottomBar?.toDomain()
-        )
+        ),
+        localStates = screen.localStates
     )

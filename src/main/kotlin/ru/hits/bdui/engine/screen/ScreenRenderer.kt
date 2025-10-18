@@ -2,10 +2,12 @@ package ru.hits.bdui.engine.screen
 
 import ru.hits.bdui.domain.screen.ScreenFromDatabase
 import ru.hits.bdui.engine.Interpreter
+import ru.hits.bdui.engine.JsonNodeTraverser
 
 @org.springframework.stereotype.Component
 class ScreenRenderer(
-    private val gateway: ComponentEvaluationGateway
+    private val gateway: ComponentEvaluationGateway,
+    private val jsonNodeTraverser: JsonNodeTraverser,
 ) {
     /**
      * @param screen модель экрана (шаблон)
@@ -31,6 +33,9 @@ class ScreenRenderer(
                         },
                     )
                 },
-            ),
+                localStates = screen.screen.localStates?.mapValues { (_, value) ->
+                    jsonNodeTraverser.traverseJsonNodeAndReplaceExpressions(interpreter, value)
+                }
+            )
         )
 }

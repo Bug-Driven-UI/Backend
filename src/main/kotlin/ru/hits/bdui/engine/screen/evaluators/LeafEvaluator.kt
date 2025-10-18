@@ -41,6 +41,9 @@ class InputEvaluator : LeafEvaluator<Input> {
             placeholder = component.placeholder?.copy(
                 textWithStyle = component.placeholder.textWithStyle.evaluate(interpreter),
             ),
+            onValueChanged = component.onValueChanged?.map { action ->
+                action.evaluate(interpreter)
+            }
         )
 }
 

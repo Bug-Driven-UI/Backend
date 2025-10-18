@@ -38,6 +38,8 @@ import ru.hits.bdui.common.models.admin.entity.interactions.actions.CommandActio
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateBackActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToBottomSheetActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.SetLocalStateActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.SetLocalStateFromInputActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.UpdateScreenActionEntity
 import ru.hits.bdui.common.models.admin.entity.screen.ApiCallRepresentationEntity
 import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
@@ -81,6 +83,8 @@ import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateFromInputAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
@@ -121,6 +125,7 @@ fun Component.toEntity(): ComponentEntity =
                 )
             },
             base = this.base.toEntity(),
+            onValueChanged = this.onValueChanged?.map { it.toEntity() }
         )
 
         is Image -> ImageEntity(
@@ -342,6 +347,15 @@ private fun Action.toEntity(): ActionEntity =
 
         is NavigateBackAction -> NavigateBackActionEntity(
             updatePreviousScreen = this.updatePreviousScreen
+        )
+
+        is SetLocalStateAction -> SetLocalStateActionEntity(
+            target = this.target.value as String,
+            value = this.value.value as String
+        )
+
+        is SetLocalStateFromInputAction -> SetLocalStateFromInputActionEntity(
+            target = this.target.value as String,
         )
     }
 

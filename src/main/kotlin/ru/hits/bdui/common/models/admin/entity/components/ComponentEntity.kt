@@ -12,7 +12,7 @@ import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
     JsonSubTypes.Type(value = TextEntity::class, name = "text"),
-    JsonSubTypes.Type(value = InputEntity::class, name = "textField"),
+    JsonSubTypes.Type(value = InputEntity::class, name = "input"),
     JsonSubTypes.Type(value = ImageEntity::class, name = "image"),
     JsonSubTypes.Type(value = SpacerEntity::class, name = "spacer"),
     JsonSubTypes.Type(value = ProgressBarEntity::class, name = "progressBar"),
