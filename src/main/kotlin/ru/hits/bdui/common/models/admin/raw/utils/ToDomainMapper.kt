@@ -77,6 +77,7 @@ import ru.hits.bdui.domain.screen.interactions.actions.Action
 import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
+import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
