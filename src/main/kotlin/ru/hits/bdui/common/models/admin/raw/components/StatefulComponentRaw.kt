@@ -6,9 +6,7 @@ package ru.hits.bdui.common.models.admin.raw.components
 data class StatefulComponentRaw(
     override val base: ComponentBaseRawProperties,
     val states: List<StateDefinitionRaw>,
-) : ComponentRaw {
-    override val type: String = "stateful"
-}
+) : ComponentRaw
 
 /**
  * @property condition условие, которое должно выполниться для использования объекта из данного состояния

@@ -6,9 +6,7 @@ package ru.hits.bdui.common.models.admin.entity.components
 data class StatefulComponentEntity(
     override val base: ComponentBaseEntityProperties,
     val states: List<StateDefinitionEntity>,
-) : ComponentEntity {
-    override val type: String = "stateful"
-}
+) : ComponentEntity
 
 /**
  * @property condition условие, которое должно выполниться для использования объекта из данного состояния

@@ -11,9 +11,7 @@ sealed interface LeafEntity : ComponentEntity
 data class TextEntity(
     val textWithStyle: TextWithStyleEntity,
     override val base: ComponentBaseEntityProperties
-) : LeafEntity {
-    override val type: String = "text"
-}
+) : LeafEntity
 
 data class InputEntity(
     val textWithStyle: TextWithStyleEntity,
@@ -24,8 +22,6 @@ data class InputEntity(
     val placeholder: PlaceholderEntity?,
     override val base: ComponentBaseEntityProperties
 ) : LeafEntity {
-    override val type: String = "textField"
-
     data class HintEntity(
         val textWithStyle: TextWithStyleEntity
     )
@@ -45,8 +41,6 @@ data class ImageEntity(
     val badge: BadgeEntity?,
     override val base: ComponentBaseEntityProperties
 ) : LeafEntity {
-    override val type: String = "image"
-
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
     @JsonSubTypes(
         JsonSubTypes.Type(value = BadgeEntity.BadgeWithTextEntity::class, name = "badgeWithText"),
@@ -56,44 +50,30 @@ data class ImageEntity(
         ),
     )
     sealed interface BadgeEntity {
-        val type: String
-
         data class BadgeWithTextEntity(
             val textWithStyle: TextWithStyleEntity,
-        ) : BadgeEntity {
-            override val type: String = "badgeWithText"
-        }
+        ) : BadgeEntity
 
         data class BadgeWithImageEntity(
             val imageUrl: String,
-        ) : BadgeEntity {
-            override val type: String = "badgeWithImage"
-        }
+        ) : BadgeEntity
     }
 }
 
 data class SpacerEntity(
     override val base: ComponentBaseEntityProperties
-) : LeafEntity {
-    override val type: String = "spacer"
-}
+) : LeafEntity
 
 data class ProgressBarEntity(
     override val base: ComponentBaseEntityProperties
-) : LeafEntity {
-    override val type: String = "progressBar"
-}
+) : LeafEntity
 
 data class SwitchEntity(
     override val base: ComponentBaseEntityProperties
-) : LeafEntity {
-    override val type: String = "switch"
-}
+) : LeafEntity
 
 data class ButtonEntity(
     val text: TextEntity,
     val enabled: Boolean,
     override val base: ComponentBaseEntityProperties
-) : LeafEntity {
-    override val type: String = "button"
-}
+) : LeafEntity
