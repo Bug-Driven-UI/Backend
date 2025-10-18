@@ -2559,7 +2559,6 @@ components:
               const: dynamicRow
             isScrollable:
               type: boolean
-              default: true
             horizontalArrangement:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:
@@ -3318,7 +3317,6 @@ components:
             type: { const: row }
             isScrollable:
               type: boolean
-              default: true
             horizontalArrangement:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:
