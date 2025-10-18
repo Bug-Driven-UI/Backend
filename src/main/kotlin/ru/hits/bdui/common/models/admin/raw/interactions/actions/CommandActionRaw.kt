@@ -9,6 +9,4 @@ package ru.hits.bdui.common.models.admin.raw.interactions.actions
 data class CommandActionRaw(
     val name: String,
     val params: Map<String, String>
-) : ActionRaw {
-    override val type: String = "command"
-}
+) : ActionRaw

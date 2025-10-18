@@ -296,7 +296,9 @@ private fun Action.toRaw(): ActionRaw =
             screenNavigationParams = this.screenNavigationParams.mapValues { it.value.value as String }
         )
 
-        is NavigateBackAction -> NavigateBackActionRaw()
+        is NavigateBackAction -> NavigateBackActionRaw(
+            updatePreviousScreen = this.updatePreviousScreen,
+        )
     }
 
 private fun Image.Badge.toRaw(): ImageRaw.BadgeRaw =
