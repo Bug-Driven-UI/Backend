@@ -12,6 +12,4 @@ import ru.hits.bdui.domain.ValueOrExpression
 data class NavigateToAction(
     val screenName: ScreenName,
     val screenNavigationParams: Map<String, ValueOrExpression>
-) : Action {
-    override val type: String = "navigateTo"
-}
+) : LocalAction

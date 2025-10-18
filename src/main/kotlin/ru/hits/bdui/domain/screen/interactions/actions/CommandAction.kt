@@ -12,6 +12,4 @@ import ru.hits.bdui.domain.ValueOrExpression
 data class CommandAction(
     val name: CommandName,
     val params: Map<String, ValueOrExpression>
-) : Action {
-    override val type: String = "command"
-}
+) : RemoteAction

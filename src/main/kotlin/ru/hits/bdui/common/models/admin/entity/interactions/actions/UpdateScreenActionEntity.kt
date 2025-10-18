@@ -9,6 +9,4 @@ package ru.hits.bdui.common.models.admin.entity.interactions.actions
 data class UpdateScreenActionEntity(
     val screenName: String,
     val screenNavigationParams: Map<String, String>
-) : ActionEntity {
-    override val type: String = "updateScreen"
-}
+) : ActionEntity

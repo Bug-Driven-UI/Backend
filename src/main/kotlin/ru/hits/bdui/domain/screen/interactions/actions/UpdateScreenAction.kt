@@ -12,6 +12,4 @@ import ru.hits.bdui.domain.ValueOrExpression
 data class UpdateScreenAction(
     val screenName: ScreenName,
     val screenNavigationParams: Map<String, ValueOrExpression>
-) : Action {
-    override val type: String = "updateScreen"
-}
+) : RemoteAction

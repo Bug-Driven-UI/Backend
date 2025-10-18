@@ -15,23 +15,17 @@ data class RowRaw(
     override val base: ComponentBaseRawProperties,
     val horizontalArrangement: HorizontalArrangementRaw?,
     val verticalAlignment: VerticalAlignmentRaw?
-) : CompositeRaw {
-    override val type: String = "row"
-}
+) : CompositeRaw
 
 data class BoxRaw(
     override val children: List<ComponentRaw>,
     override val base: ComponentBaseRawProperties,
     val contentAlignment: HorizontalAndVerticalAlignmentRaw?
-) : CompositeRaw {
-    override val type: String = "box"
-}
+) : CompositeRaw
 
 data class ColumnRaw(
     override val children: List<ComponentRaw>,
     override val base: ComponentBaseRawProperties,
     val verticalArrangement: VerticalArrangementRaw?,
     val horizontalAlignment: HorizontalAlignmentRaw?
-) : CompositeRaw {
-    override val type: String = "column"
-}
+) : CompositeRaw

@@ -11,9 +11,7 @@ sealed interface LeafRaw : ComponentRaw
 data class TextRaw(
     val textWithStyle: TextWithStyleRaw,
     override val base: ComponentBaseRawProperties,
-) : LeafRaw {
-    override val type: String = "text"
-}
+) : LeafRaw
 
 data class InputRaw(
     val textWithStyle: TextWithStyleRaw,
@@ -24,8 +22,6 @@ data class InputRaw(
     val placeholder: PlaceholderRaw?,
     override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
-    override val type: String = "input"
-
     data class HintRaw(
         val textWithStyle: TextWithStyleRaw
     )
@@ -45,8 +41,6 @@ data class ImageRaw(
     val badge: BadgeRaw?,
     override val base: ComponentBaseRawProperties,
 ) : LeafRaw {
-    override val type: String = "image"
-
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
     @JsonSubTypes(
         JsonSubTypes.Type(value = BadgeRaw.BadgeWithTextRaw::class, name = "badgeWithText"),
@@ -56,44 +50,30 @@ data class ImageRaw(
         ),
     )
     sealed interface BadgeRaw {
-        val type: String
-
         data class BadgeWithTextRaw(
             val textWithStyle: TextWithStyleRaw,
-        ) : BadgeRaw {
-            override val type: String = "badgeWithText"
-        }
+        ) : BadgeRaw
 
         data class BadgeWithImageRaw(
             val imageUrl: String,
-        ) : BadgeRaw {
-            override val type: String = "badgeWithImage"
-        }
+        ) : BadgeRaw
     }
 }
 
 data class SpacerRaw(
     override val base: ComponentBaseRawProperties,
-) : LeafRaw {
-    override val type: String = "spacer"
-}
+) : LeafRaw
 
 data class ProgressBarRaw(
     override val base: ComponentBaseRawProperties,
-) : LeafRaw {
-    override val type: String = "progressBar"
-}
+) : LeafRaw
 
 data class SwitchRaw(
     override val base: ComponentBaseRawProperties,
-) : LeafRaw {
-    override val type: String = "switch"
-}
+) : LeafRaw
 
 data class ButtonRaw(
     val text: TextRaw,
     val enabled: Boolean,
     override val base: ComponentBaseRawProperties,
-) : LeafRaw {
-    override val type: String = "button"
-}
+) : LeafRaw

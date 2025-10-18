@@ -283,7 +283,9 @@ private fun ActionRaw.toDomain(): Action =
             screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
         )
 
-        is NavigateBackActionRaw -> NavigateBackAction()
+        is NavigateBackActionRaw -> NavigateBackAction(
+            updatePreviousScreen = this.updatePreviousScreen,
+        )
     }
 
 private fun Any.toDomainValueOrExpression(): ValueOrExpression =

@@ -332,7 +332,9 @@ private fun Action.toEntity(): ActionEntity =
             screenNavigationParams = this.screenNavigationParams.mapValues { it.value.value as String }
         )
 
-        is NavigateBackAction -> NavigateBackActionEntity()
+        is NavigateBackAction -> NavigateBackActionEntity(
+            updatePreviousScreen = this.updatePreviousScreen
+        )
     }
 
 private fun Image.Badge.toEntity(): ImageEntity.BadgeEntity =
