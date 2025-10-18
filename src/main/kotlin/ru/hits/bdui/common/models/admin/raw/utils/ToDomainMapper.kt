@@ -102,7 +102,6 @@ fun ComponentRaw.toDomain(ctx: MappingContext): Component =
             mask = this.mask?.let { Mask.valueOf(it.name) },
             regex = this.regex?.let { Regex.valueOf(it.name) },
             rightIcon = this.rightIcon?.let { it.toDomain(ctx) as Image? },
-            hint = this.hint?.let { Input.Hint(it.textWithStyle.toDomain(ctx)) },
             placeholder = this.placeholder?.let { Input.Placeholder(it.textWithStyle.toDomain(ctx)) },
             base = this.base.toDomain(ctx),
             onValueChanged = this.onValueChanged?.map { it.toDomain() },

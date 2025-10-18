@@ -19,15 +19,10 @@ data class InputRawRendered(
     val mask: RenderedMaskRaw?,
     val regex: RenderedRegexRaw?,
     val rightIcon: ImageRawRendered?,
-    val hint: RenderedHintRaw?,
     val placeholder: RenderedPlaceholderRaw?,
     val onValueChanged: List<RenderedActionRaw>?,
     override val base: RenderedComponentBaseRawProperties,
 ) : LeafRawRendered {
-    data class RenderedHintRaw(
-        val textWithStyle: RenderedTextWithStyleRaw
-    )
-
     data class RenderedPlaceholderRaw(
         val textWithStyle: RenderedTextWithStyleRaw
     )

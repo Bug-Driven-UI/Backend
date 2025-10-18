@@ -19,15 +19,10 @@ data class InputEntity(
     val mask: MaskEntity?,
     val regex: RegexEntity?,
     val rightIcon: ImageEntity?,
-    val hint: HintEntity?,
     val placeholder: PlaceholderEntity?,
     val onValueChanged: List<ActionEntity>?,
     override val base: ComponentBaseEntityProperties
 ) : LeafEntity {
-    data class HintEntity(
-        val textWithStyle: TextWithStyleEntity
-    )
-
     data class PlaceholderEntity(
         val textWithStyle: TextWithStyleEntity
     )

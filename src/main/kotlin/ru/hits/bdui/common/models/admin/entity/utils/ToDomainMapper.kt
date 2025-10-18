@@ -111,7 +111,6 @@ fun ComponentEntity.toDomain(): Component =
             mask = this.mask?.let { Mask.valueOf(it.name) },
             regex = this.regex?.let { Regex.valueOf(it.name) },
             rightIcon = this.rightIcon?.toDomain() as Image?,
-            hint = this.hint?.let { Input.Hint(it.textWithStyle.toDomain()) },
             placeholder = this.placeholder?.let { Input.Placeholder(it.textWithStyle.toDomain()) },
             base = this.base.toDomain(),
             onValueChanged = this.onValueChanged?.map { it.toDomain() },

@@ -3426,19 +3426,9 @@ components:
               $ref: '#/components/schemas/Regex'
             placeholder:
               $ref: '#/components/schemas/Placeholder'
-            hint:
-              $ref: '#/components/schemas/Hint'
           additionalProperties: false
 
     Placeholder:
-      type: object
-      required: [ text, textWithStyle ]
-      properties:
-        textWithStyle:
-          $ref: '#/components/schemas/StyledTextRepresentation'
-      additionalProperties: false
-
-    Hint:
       type: object
       required: [ text, textWithStyle ]
       properties:

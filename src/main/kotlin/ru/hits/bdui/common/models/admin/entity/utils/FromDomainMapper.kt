@@ -114,11 +114,6 @@ fun Component.toEntity(): ComponentEntity =
                 }
             },
             rightIcon = this.rightIcon?.toEntity() as ImageEntity?,
-            hint = this.hint?.let {
-                InputEntity.HintEntity(
-                    it.textWithStyle.toEntity()
-                )
-            },
             placeholder = this.placeholder?.let {
                 InputEntity.PlaceholderEntity(
                     it.textWithStyle.toEntity()

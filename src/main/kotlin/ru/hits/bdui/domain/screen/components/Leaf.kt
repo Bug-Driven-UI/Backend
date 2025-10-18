@@ -19,16 +19,11 @@ data class Input(
     val mask: Mask?,
     val regex: Regex?,
     val rightIcon: Image?,
-    val hint: Hint?,
     val placeholder: Placeholder?,
     val onValueChanged: List<Action>?,
     override val base: ComponentBaseProperties,
 ) : Leaf {
     override val type: String = "input"
-
-    data class Hint(
-        val textWithStyle: TextWithStyle
-    )
 
     data class Placeholder(
         val textWithStyle: TextWithStyle

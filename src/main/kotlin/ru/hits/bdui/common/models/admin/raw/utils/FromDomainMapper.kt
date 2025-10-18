@@ -105,11 +105,6 @@ fun Component.toRaw(): ComponentRaw =
                 }
             },
             rightIcon = this.rightIcon?.toRaw() as ImageRaw?,
-            hint = this.hint?.let {
-                InputRaw.HintRaw(
-                    it.textWithStyle.toRaw()
-                )
-            },
             placeholder = this.placeholder?.let {
                 InputRaw.PlaceholderRaw(
                     it.textWithStyle.toRaw()

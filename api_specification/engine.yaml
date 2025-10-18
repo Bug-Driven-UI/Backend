@@ -1262,8 +1262,6 @@ components:
               $ref: '#/components/schemas/RenderedRegex'
             placeholder:
               $ref: '#/components/schemas/RenderedPlaceholder'
-            hint:
-              $ref: '#/components/schemas/RenderedHint'
           additionalProperties: false
 
     RenderedPlaceholder:
@@ -1273,15 +1271,6 @@ components:
         textWithStyle:
           $ref: '#/components/schemas/RenderedStyledTextRepresentation'
       additionalProperties: false
-
-    RenderedHint:
-      type: object
-      required: [ textWithStyle ]
-      properties:
-        textWithStyle:
-          $ref: '#/components/schemas/RenderedStyledTextRepresentation'
-      additionalProperties: false
-
 
     RenderedRegex:
       type: string
