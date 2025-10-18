@@ -1,5 +1,6 @@
 package ru.hits.bdui.admin.screen.controller.raw
 
+import com.fasterxml.jackson.databind.JsonNode
 import ru.hits.bdui.common.models.admin.raw.components.ComponentRaw
 import java.util.UUID
 
@@ -16,6 +17,7 @@ import java.util.UUID
 data class ScreenFromDatabaseRaw(
     val screenId: UUID,
     val screenName: String,
+    val localStates: Map<String, JsonNode>?,
     val version: ScreenVersionRaw,
     val description: String,
     val screenNavigationParams: Set<String>,

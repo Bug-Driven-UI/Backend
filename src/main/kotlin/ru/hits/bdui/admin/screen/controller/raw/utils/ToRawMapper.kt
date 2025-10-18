@@ -38,7 +38,8 @@ fun ScreenFromDatabaseRaw.Companion.emerge(screen: ScreenFromDatabase): ScreenFr
         scaffold = ScaffoldRaw(
             topBar = screen.screen.scaffold?.topBar?.toRaw(),
             bottomBar = screen.screen.scaffold?.bottomBar?.toRaw(),
-        )
+        ),
+        localStates = screen.screen.localStates,
     )
 
 fun ScreenVersionRaw.Companion.emerge(version: ScreenVersion) =
