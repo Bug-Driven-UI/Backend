@@ -413,10 +413,8 @@ components:
         version:
           type: integer
         localStates:
-          type: array
+          additionalProperties: true
           description: "Описание значений локального состояния экрана"
-          items:
-            additionalProperties: true
         components:
           type: array
           items:

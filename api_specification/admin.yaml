@@ -2287,10 +2287,8 @@ components:
           type: string
           description: "Описание экрана"
         localStates:
-          type: array
+          additionalProperties: true
           description: "Описание значений локального состояния экрана"
-          items:
-            additionalProperties: true
         version:
           $ref: '#/components/schemas/ScreenVersion'
         screenNavigationParams:
@@ -2320,10 +2318,8 @@ components:
           items:
             type: string
         localStates:
-          type: array
+          additionalProperties: true
           description: "Описание значений локального состояния экрана"
-          items:
-            additionalProperties: true
         description:
           type: string
           description: "Описание экрана"
