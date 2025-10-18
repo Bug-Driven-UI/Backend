@@ -2553,14 +2553,17 @@ components:
       allOf:
         - $ref: '#/components/schemas/DynamicCompositeBase'
         - type: object
+          required: [ type, isScrollable ]
           properties:
             type:
               const: dynamicRow
+            isScrollable:
+              type: boolean
+              default: true
             horizontalArrangement:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:
               $ref: '#/components/schemas/VerticalAlignment'
-          required: [ type ]
           additionalProperties: false
 
     ShortApiRepresentation:
@@ -3310,9 +3313,12 @@ components:
       allOf:
         - $ref: '#/components/schemas/CompositeBase'
         - type: object
-          required: [ type ]
+          required: [ type, isScrollable ]
           properties:
             type: { const: row }
+            isScrollable:
+              type: boolean
+              default: true
             horizontalArrangement:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:

@@ -1139,9 +1139,12 @@ components:
       allOf:
         - $ref: '#/components/schemas/RenderedCompositeBase'
         - type: object
-          required: [ type ]
+          required: [ type, isScrollable ]
           properties:
             type: { const: row }
+            isScrollable:
+              type: boolean
+              default: true
             horizontalArrangement:
               $ref: '#/components/schemas/RenderedHorizontalArrangement'
             verticalAlignment:
