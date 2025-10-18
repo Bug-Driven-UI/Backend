@@ -2557,8 +2557,6 @@ components:
           properties:
             type:
               const: dynamicRow
-            isScrollable:
-              type: boolean
             horizontalArrangement:
               $ref: '#/components/schemas/HorizontalArrangement'
             verticalAlignment:
