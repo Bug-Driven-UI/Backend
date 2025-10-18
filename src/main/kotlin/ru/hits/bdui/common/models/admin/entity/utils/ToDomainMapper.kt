@@ -36,6 +36,8 @@ import ru.hits.bdui.common.models.admin.entity.interactions.actions.CommandActio
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateBackActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.NavigateToBottomSheetActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.SetLocalStateActionEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.SetLocalStateFromInputActionEntity
 import ru.hits.bdui.common.models.admin.entity.interactions.actions.UpdateScreenActionEntity
 import ru.hits.bdui.common.models.admin.entity.styles.color.ColorStyleEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextAlignmentEntity
@@ -84,6 +86,8 @@ import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateFromInputAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
@@ -110,6 +114,7 @@ fun ComponentEntity.toDomain(): Component =
             hint = this.hint?.let { Input.Hint(it.textWithStyle.toDomain()) },
             placeholder = this.placeholder?.let { Input.Placeholder(it.textWithStyle.toDomain()) },
             base = this.base.toDomain(),
+            onValueChanged = this.onValueChanged?.map { it.toDomain() },
         )
 
         is ImageEntity -> Image(
@@ -332,6 +337,15 @@ private fun ActionEntity.toDomain(): Action =
         is NavigateToBottomSheetActionEntity -> NavigateToBottomSheetAction(
             screenName = ScreenName(this.screenName),
             screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
+        )
+
+        is SetLocalStateActionEntity -> SetLocalStateAction(
+            target = getValueOrExpression(this.target),
+            value = getValueOrExpression(this.value),
+        )
+
+        is SetLocalStateFromInputActionEntity -> SetLocalStateFromInputAction(
+            target = getValueOrExpression(this.target),
         )
     }
 

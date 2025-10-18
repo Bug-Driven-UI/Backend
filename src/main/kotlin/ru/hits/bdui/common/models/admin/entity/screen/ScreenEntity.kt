@@ -17,6 +17,7 @@ import java.util.UUID
 data class ScreenEntity(
     val screenName: String,
     val description: String,
+    val localStates: Map<String, JsonNode>?,
     val screenNavigationParams: Set<String>,
     val apis: List<ApiCallRepresentationEntity>,
     val components: List<ComponentEntity>,

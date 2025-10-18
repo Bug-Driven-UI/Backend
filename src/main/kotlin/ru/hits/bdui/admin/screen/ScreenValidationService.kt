@@ -89,7 +89,8 @@ class ScreenValidationService(
             scaffold = Scaffold(
                 topBar = topBar,
                 bottomBar = bottomBar
-            )
+            ),
+            localStates = raw.localStates,
         )
 
     private fun ApiCallRepresentation(raw: ApiCallRepresentationRaw): ApiCallRepresentation =

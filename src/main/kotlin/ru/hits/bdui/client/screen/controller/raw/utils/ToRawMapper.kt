@@ -15,6 +15,7 @@ fun RenderedScreenRawWrapper.Companion.emerge(screen: ScreenFromDatabase): Rende
             scaffold = RenderedScaffoldRaw(
                 topBar = screen.screen.scaffold?.topBar?.toRendered(),
                 bottomBar = screen.screen.scaffold?.bottomBar?.toRendered(),
-            )
+            ),
+            localStates = screen.screen.localStates,
         ),
     )

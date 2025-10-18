@@ -1,5 +1,6 @@
 package ru.hits.bdui.domain.screen
 
+import com.fasterxml.jackson.databind.JsonNode
 import ru.hits.bdui.domain.ScreenName
 import ru.hits.bdui.domain.api.ApiCallRepresentation
 import ru.hits.bdui.domain.screen.components.Component
@@ -17,6 +18,7 @@ import ru.hits.bdui.domain.screen.components.Component
 data class Screen(
     val screenName: ScreenName,
     val description: String,
+    val localStates: Map<String, JsonNode>?,
     val screenNavigationParams: Set<String>,
     val apis: List<ApiCallRepresentation>,
     val components: List<Component>,

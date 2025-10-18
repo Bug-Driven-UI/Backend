@@ -10,5 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     JsonSubTypes.Type(value = NavigateToActionRaw::class, name = "navigateTo"),
     JsonSubTypes.Type(value = NavigateBackActionRaw::class, name = "navigateBack"),
     JsonSubTypes.Type(value = NavigateToBottomSheetActionRaw::class, name = "navigateToBottomSheet"),
+    JsonSubTypes.Type(value = SetLocalStateActionRaw::class, name = "setLocalState"),
+    JsonSubTypes.Type(value = SetLocalStateFromInputActionRaw::class, name = "setLocalStateFromInput"),
 )
 sealed interface ActionRaw

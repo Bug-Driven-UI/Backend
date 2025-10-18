@@ -22,6 +22,8 @@ import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateFromInputAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextWithStyle
@@ -100,6 +102,15 @@ fun Action.evaluate(
             screenNavigationParams = screenNavigationParams.mapValues {
                 interpreter.evaluateExpressionIfNeeded(it.value)
             }
+        )
+
+        is SetLocalStateAction -> copy(
+            target = interpreter.evaluateExpressionIfNeeded(target),
+            value = interpreter.evaluateExpressionIfNeeded(value)
+        )
+
+        is SetLocalStateFromInputAction -> copy(
+            target = interpreter.evaluateExpressionIfNeeded(target)
         )
     }
 

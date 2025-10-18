@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import ru.hits.bdui.common.models.admin.entity.components.additional.RegexEntity
+import ru.hits.bdui.common.models.admin.entity.interactions.actions.ActionEntity
 import ru.hits.bdui.common.models.admin.entity.styles.text.TextWithStyleEntity
 
 sealed interface LeafEntity : ComponentEntity
@@ -20,6 +21,7 @@ data class InputEntity(
     val rightIcon: ImageEntity?,
     val hint: HintEntity?,
     val placeholder: PlaceholderEntity?,
+    val onValueChanged: List<ActionEntity>?,
     override val base: ComponentBaseEntityProperties
 ) : LeafEntity {
     data class HintEntity(

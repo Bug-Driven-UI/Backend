@@ -1,4 +1,4 @@
-package ru.hits.bdui.engine.api
+package ru.hits.bdui.engine
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -6,28 +6,14 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
 import org.springframework.stereotype.Component
-import ru.hits.bdui.domain.api.Endpoint
-import ru.hits.bdui.engine.Interpreter
 import ru.hits.bdui.engine.expression.evaluateExpression
 
 @Component
-class ExternalApiExpressionUtils(private val objectMapper: ObjectMapper) {
-
-    fun evaluateEndpointExpressions(
-        interpreter: Interpreter,
-        endpoint: Endpoint,
-        apiParams: Map<String, JsonNode>
-    ): Endpoint {
-        return endpoint.copy(
-            url = interpreter.evaluateExpression(endpoint.url),
-            requestBody = endpoint.requestBody?.let { requestBody ->
-                traverseJsonNodeAndReplaceExpressions(interpreter, requestBody)
-            } ?: objectMapper.valueToTree(apiParams),
-        )
-    }
-
-    fun traverseJsonNodeAndReplaceExpressions(interpreter: Interpreter, node: JsonNode): JsonNode {
-        return when {
+class JsonNodeTraverser(
+    private val objectMapper: ObjectMapper,
+) {
+    fun traverseJsonNodeAndReplaceExpressions(interpreter: Interpreter, node: JsonNode): JsonNode =
+        when {
             node.isTextual -> {
                 val evaluatedText = interpreter.evaluateExpression(node.asText())
                 TextNode.valueOf(evaluatedText)
@@ -52,5 +38,4 @@ class ExternalApiExpressionUtils(private val objectMapper: ObjectMapper) {
                 node
             }
         }
-    }
 }

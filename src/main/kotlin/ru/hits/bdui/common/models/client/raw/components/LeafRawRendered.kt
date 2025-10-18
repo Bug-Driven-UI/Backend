@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import ru.hits.bdui.common.models.client.raw.components.additional.RenderedRegexRaw
+import ru.hits.bdui.common.models.client.raw.interactions.actions.RenderedActionRaw
 import ru.hits.bdui.common.models.client.raw.styles.text.RenderedTextWithStyleRaw
 
 sealed interface LeafRawRendered : RenderedComponentRaw
@@ -20,6 +21,7 @@ data class InputRawRendered(
     val rightIcon: ImageRawRendered?,
     val hint: RenderedHintRaw?,
     val placeholder: RenderedPlaceholderRaw?,
+    val onValueChanged: List<RenderedActionRaw>?,
     override val base: RenderedComponentBaseRawProperties,
 ) : LeafRawRendered {
     data class RenderedHintRaw(

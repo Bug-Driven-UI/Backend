@@ -35,6 +35,8 @@ import ru.hits.bdui.common.models.admin.raw.interactions.actions.CommandActionRa
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateBackActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateToActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateToBottomSheetActionRaw
+import ru.hits.bdui.common.models.admin.raw.interactions.actions.SetLocalStateActionRaw
+import ru.hits.bdui.common.models.admin.raw.interactions.actions.SetLocalStateFromInputActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.UpdateScreenActionRaw
 import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
 import ru.hits.bdui.common.models.admin.raw.styles.text.TextAlignmentRaw
@@ -75,6 +77,8 @@ import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateFromInputAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
@@ -112,6 +116,7 @@ fun Component.toRaw(): ComponentRaw =
                 )
             },
             base = this.base.toRaw(),
+            onValueChanged = this.onValueChanged?.map { it.toRaw() },
         )
 
         is Image -> ImageRaw(
@@ -304,6 +309,15 @@ private fun Action.toRaw(): ActionRaw =
         is NavigateToBottomSheetAction -> NavigateToBottomSheetActionRaw(
             screenName = this.screenName.value,
             screenNavigationParams = this.screenNavigationParams.mapValues { it.value.value as String }
+        )
+
+        is SetLocalStateAction -> SetLocalStateActionRaw(
+            target = this.target.value as String,
+            value = this.value.value as String
+        )
+
+        is SetLocalStateFromInputAction -> SetLocalStateFromInputActionRaw(
+            target = this.target.value as String,
         )
     }
 

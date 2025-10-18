@@ -34,6 +34,8 @@ import ru.hits.bdui.common.models.admin.raw.interactions.actions.CommandActionRa
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateBackActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateToActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.NavigateToBottomSheetActionRaw
+import ru.hits.bdui.common.models.admin.raw.interactions.actions.SetLocalStateActionRaw
+import ru.hits.bdui.common.models.admin.raw.interactions.actions.SetLocalStateFromInputActionRaw
 import ru.hits.bdui.common.models.admin.raw.interactions.actions.UpdateScreenActionRaw
 import ru.hits.bdui.common.models.admin.raw.styles.color.ColorStyleRaw
 import ru.hits.bdui.common.models.admin.raw.styles.text.TextAlignmentRaw
@@ -78,6 +80,8 @@ import ru.hits.bdui.domain.screen.interactions.actions.CommandAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateBackAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToAction
 import ru.hits.bdui.domain.screen.interactions.actions.NavigateToBottomSheetAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateAction
+import ru.hits.bdui.domain.screen.interactions.actions.SetLocalStateFromInputAction
 import ru.hits.bdui.domain.screen.interactions.actions.UpdateScreenAction
 import ru.hits.bdui.domain.screen.styles.color.ColorStyle
 import ru.hits.bdui.domain.screen.styles.text.TextAlignment
@@ -101,6 +105,7 @@ fun ComponentRaw.toDomain(ctx: MappingContext): Component =
             hint = this.hint?.let { Input.Hint(it.textWithStyle.toDomain(ctx)) },
             placeholder = this.placeholder?.let { Input.Placeholder(it.textWithStyle.toDomain(ctx)) },
             base = this.base.toDomain(ctx),
+            onValueChanged = this.onValueChanged?.map { it.toDomain() },
         )
 
         is ImageRaw -> Image(
@@ -293,6 +298,15 @@ private fun ActionRaw.toDomain(): Action =
         is NavigateToBottomSheetActionRaw -> NavigateToBottomSheetAction(
             screenName = ScreenName(this.screenName),
             screenNavigationParams = this.screenNavigationParams.mapValues { getValueOrExpression(it.value) }
+        )
+
+        is SetLocalStateActionRaw -> SetLocalStateAction(
+            target = getValueOrExpression(this.target),
+            value = getValueOrExpression(this.value),
+        )
+
+        is SetLocalStateFromInputActionRaw -> SetLocalStateFromInputAction(
+            target = getValueOrExpression(this.target),
         )
     }
 

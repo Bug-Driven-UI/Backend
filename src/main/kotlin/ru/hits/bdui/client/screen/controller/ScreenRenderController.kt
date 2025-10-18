@@ -27,7 +27,7 @@ class ScreenRenderController(
         screenRenderService.renderScreen(RenderScreenRequestModel.emerge(request.data))
             .map { RenderedScreenRawWrapper.emerge(it) }
             .doOnNextWithMeasure { duration, response ->
-                log.info("Экран был зарендерен за {} мс", duration.toMillis())
+                log.info("Экран - {}, был зарендерен за {} мс", request.data.screenName, duration.toMillis())
                 metrics.incrementMetrics(response.screen.screenName, duration)
             }
 
@@ -36,7 +36,12 @@ class ScreenRenderController(
         screenRenderService.renderScreenById(RenderScreenByIdRequestModel.emerge(request.data))
             .map { RenderedScreenRawWrapper.emerge(it) }
             .doOnNextWithMeasure { duration, response ->
-                log.info("Экран был зарендерен за {} мс", duration.toMillis())
+                log.info(
+                    "Экран с id {} и версией {} был зарендерен за {} мс",
+                    request.data.screenId,
+                    request.data.versionId,
+                    duration.toMillis()
+                )
                 metrics.incrementMetrics(response.screen.screenName, duration)
             }
 }
