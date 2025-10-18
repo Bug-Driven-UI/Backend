@@ -2606,6 +2606,7 @@ components:
         - $ref: '#/components/schemas/UpdateScreenAction'
         - $ref: '#/components/schemas/NavigateToAction'
         - $ref: '#/components/schemas/NavigateBackAction'
+        - $ref: '#/components/schemas/NavigateToBottomSheetAction'
       discriminator:
         propertyName: type
         mapping:
@@ -2613,6 +2614,7 @@ components:
           updateScreen: '#/components/schemas/UpdateScreenAction'
           navigateTo: '#/components/schemas/NavigateToAction'
           navigateBack: '#/components/schemas/NavigateBackAction'
+          navigateToBottomSheet: '#/components/schemas/NavigateToBottomSheetAction'
       properties:
         type:
           type: string
@@ -2663,6 +2665,19 @@ components:
       properties:
         type:
           const: navigateBack
+
+    NavigateToBottomSheetAction:
+      type: object
+      required: [ type, screenName ]
+      properties:
+        type:
+          const: navigateToBottomSheet
+        screenName:
+          type: string
+          description: "Название экрана с bottomSheet"
+        screenNavigationParams:
+          description: "Передаваемые параметры для исполнения команды"
+          additionalProperties: true
 
     Interaction:
       type: object
