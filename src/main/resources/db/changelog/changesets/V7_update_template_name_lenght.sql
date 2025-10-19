@@ -1,0 +1,2 @@
+ALTER TABLE templates
+    ALTER COLUMN name TYPE VARCHAR(100)
