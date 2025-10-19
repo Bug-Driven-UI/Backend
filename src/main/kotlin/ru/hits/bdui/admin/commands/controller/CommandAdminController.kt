@@ -1,6 +1,5 @@
 package ru.hits.bdui.admin.commands.controller
 
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -11,8 +10,6 @@ import ru.hits.bdui.admin.commands.controller.raw.CommandFromDatabaseRaw
 import ru.hits.bdui.admin.commands.controller.raw.CommandFromRawMapper
 import ru.hits.bdui.admin.commands.controller.raw.CommandListResponseRaw
 import ru.hits.bdui.admin.commands.controller.raw.CommandResponseRaw
-import ru.hits.bdui.admin.commands.controller.raw.delete.CommandDeleteRequestRaw
-import ru.hits.bdui.admin.commands.controller.raw.delete.CommandDeleteResponseRaw
 import ru.hits.bdui.admin.commands.controller.raw.emerge
 import ru.hits.bdui.admin.commands.controller.raw.get.CommandGetByNameRequestRaw
 import ru.hits.bdui.admin.commands.controller.raw.get.CommandGetRequestRaw
@@ -52,11 +49,11 @@ class CommandAdminController(
             .map { ApiResponse.success(CommandUpdateResponseRaw(it)) }
     }
 
-    @DeleteMapping("/v1/command/delete")
-    fun delete(@RequestBody request: CommandDeleteRequestRaw): Mono<ApiResponse<CommandDeleteResponseRaw>> =
-        service.delete(request.data.id)
-            .map { CommandDeleteResponseRaw("Команда с id: ${request.data.id} успешно удалена") }
-            .map { ApiResponse.success(it) }
+    /*    @DeleteMapping("/v1/command/delete")
+        fun delete(@RequestBody request: CommandDeleteRequestRaw): Mono<ApiResponse<CommandDeleteResponseRaw>> =
+            service.delete(request.data.id)
+                .map { CommandDeleteResponseRaw("Команда с id: ${request.data.id} успешно удалена") }
+                .map { ApiResponse.success(it) }*/
 
     @PostMapping("/v1/command/get")
     fun get(@RequestBody request: CommandGetRequestRaw): Mono<ApiResponse<CommandResponseRaw>> =

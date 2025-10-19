@@ -1,7 +1,6 @@
 package ru.hits.bdui.admin.textStyles.controller
 
 import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -12,8 +11,6 @@ import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleFromRawMapper
 import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleListResponseRaw
 import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleRaw
 import ru.hits.bdui.admin.textStyles.controller.raw.TextStyleResponseRaw
-import ru.hits.bdui.admin.textStyles.controller.raw.delete.TextStyleDeleteRequestRaw
-import ru.hits.bdui.admin.textStyles.controller.raw.delete.TextStyleDeleteResponseSuccessRaw
 import ru.hits.bdui.admin.textStyles.controller.raw.get.TextStyleGetByTokenRequestRaw
 import ru.hits.bdui.admin.textStyles.controller.raw.get.TextStyleGetRequestRaw
 import ru.hits.bdui.admin.textStyles.controller.raw.of
@@ -48,14 +45,14 @@ class TextStyleAdminController(
             .map { TextStyleRaw.of(it) }
             .map { ApiResponse.success(TextStyleResponseRaw(it)) }
 
-    @DeleteMapping("/v1/textStyle/delete")
-    fun delete(@RequestBody request: TextStyleDeleteRequestRaw): Mono<ApiResponse<TextStyleDeleteResponseSuccessRaw>> =
-        service.delete(request.data.id)
-            .doOnNextWithMeasure { duration, _ ->
-                log.info("Стиль текста удален за {} мс", duration.toMillis())
-            }
-            .map { TextStyleDeleteResponseSuccessRaw("Текстовый стиль с id: ${request.data.id} успешно удален") }
-            .map { ApiResponse.success(it) }
+    /*    @DeleteMapping("/v1/textStyle/delete")
+        fun delete(@RequestBody request: TextStyleDeleteRequestRaw): Mono<ApiResponse<TextStyleDeleteResponseSuccessRaw>> =
+            service.delete(request.data.id)
+                .doOnNextWithMeasure { duration, _ ->
+                    log.info("Стиль текста удален за {} мс", duration.toMillis())
+                }
+                .map { TextStyleDeleteResponseSuccessRaw("Текстовый стиль с id: ${request.data.id} успешно удален") }
+                .map { ApiResponse.success(it) }*/
 
     @PostMapping("/v1/textStyle/get")
     fun get(@RequestBody request: TextStyleGetRequestRaw): Mono<ApiResponse<TextStyleResponseRaw>> =

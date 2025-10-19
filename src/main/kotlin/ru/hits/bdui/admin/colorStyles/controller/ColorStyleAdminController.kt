@@ -1,6 +1,5 @@
 package ru.hits.bdui.admin.colorStyles.controller
 
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -11,8 +10,6 @@ import ru.hits.bdui.admin.colorStyles.controller.raw.ColorStyleFromRawMapper
 import ru.hits.bdui.admin.colorStyles.controller.raw.ColorStyleListResponseRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.ColorStyleRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.ColorStyleResponseRaw
-import ru.hits.bdui.admin.colorStyles.controller.raw.delete.ColorStyleDeleteRequestRaw
-import ru.hits.bdui.admin.colorStyles.controller.raw.delete.ColorStyleDeleteResponseRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.emerge
 import ru.hits.bdui.admin.colorStyles.controller.raw.get.ColorStyleGetByTokenRequestRaw
 import ru.hits.bdui.admin.colorStyles.controller.raw.get.ColorStyleGetRequestRaw
@@ -38,11 +35,11 @@ class ColorStyleAdminController(
             .map { ColorStyleRaw.emerge(it) }
             .map { ApiResponse.success(ColorStyleResponseRaw(it)) }
 
-    @DeleteMapping("/v1/colorStyle/delete")
-    fun delete(@RequestBody request: ColorStyleDeleteRequestRaw): Mono<ApiResponse<ColorStyleDeleteResponseRaw>> =
-        service.delete(request.data.id)
-            .map { ColorStyleDeleteResponseRaw("Текстовый стиль с id: ${request.data.id} успешно удален") }
-            .map { ApiResponse.success(it) }
+//    @DeleteMapping("/v1/colorStyle/delete")
+//    fun delete(@RequestBody request: ColorStyleDeleteRequestRaw): Mono<ApiResponse<ColorStyleDeleteResponseRaw>> =
+//        service.delete(request.data.id)
+//            .map { ColorStyleDeleteResponseRaw("Текстовый стиль с id: ${request.data.id} успешно удален") }
+//            .map { ApiResponse.success(it) }
 
     @PostMapping("/v1/colorStyle/get")
     fun get(@RequestBody request: ColorStyleGetRequestRaw): Mono<ApiResponse<ColorStyleResponseRaw>> =

@@ -1,7 +1,6 @@
 package ru.hits.bdui.admin.templates.controller
 
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -14,8 +13,6 @@ import ru.hits.bdui.admin.templates.controller.raw.ComponentTemplateListResponse
 import ru.hits.bdui.admin.templates.controller.raw.ComponentTemplateRaw
 import ru.hits.bdui.admin.templates.controller.raw.ComponentTemplateResponseRaw
 import ru.hits.bdui.admin.templates.controller.raw.UpdateComponentTemplateData
-import ru.hits.bdui.admin.templates.controller.raw.delete.ComponentTemplateDeleteRequestRaw
-import ru.hits.bdui.admin.templates.controller.raw.delete.ComponentTemplateDeleteResponseRaw
 import ru.hits.bdui.admin.templates.controller.raw.get.ComponentTemplateGetByTokenRequestRaw
 import ru.hits.bdui.admin.templates.controller.raw.get.ComponentTemplateGetRequestRaw
 import ru.hits.bdui.admin.templates.controller.raw.of
@@ -78,11 +75,11 @@ class ComponentTemplateAdminController(
                 }
             }
 
-    @DeleteMapping("/v1/template/delete")
-    fun delete(@RequestBody request: ComponentTemplateDeleteRequestRaw): Mono<ApiResponse<ComponentTemplateDeleteResponseRaw>> =
-        service.delete(request.data.id)
-            .map { ComponentTemplateDeleteResponseRaw("Шаблон компонента с id: ${request.data.id} успешно удален") }
-            .map { ApiResponse.success(it) }
+    /*    @DeleteMapping("/v1/template/delete")
+        fun delete(@RequestBody request: ComponentTemplateDeleteRequestRaw): Mono<ApiResponse<ComponentTemplateDeleteResponseRaw>> =
+            service.delete(request.data.id)
+                .map { ComponentTemplateDeleteResponseRaw("Шаблон компонента с id: ${request.data.id} успешно удален") }
+                .map { ApiResponse.success(it) }*/
 
     @PostMapping("/v1/template/get")
     fun get(@RequestBody request: ComponentTemplateGetRequestRaw): Mono<ApiResponse<ComponentTemplateResponseRaw>> =
