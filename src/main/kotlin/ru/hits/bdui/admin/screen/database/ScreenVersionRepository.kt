@@ -13,6 +13,7 @@ import ru.hits.bdui.admin.screen.database.ScreenVersionRepository.SaveResponse
 import ru.hits.bdui.admin.screen.database.emerge.emerge
 import ru.hits.bdui.admin.screen.database.entity.ScreenMetaEntity
 import ru.hits.bdui.admin.screen.database.entity.ScreenVersionEntity
+import ru.hits.bdui.admin.screen.database.outbox.ScreenVersionOutboxRepository
 import ru.hits.bdui.admin.screen.database.repository.ScreenVersionJpaRepository
 import ru.hits.bdui.domain.ScreenId
 import ru.hits.bdui.domain.screen.ScreenFromDatabase
@@ -49,6 +50,7 @@ interface ScreenVersionRepository {
 @Repository
 class ScreenVersionRepositoryImpl(
     private val repository: ScreenVersionJpaRepository,
+    private val outboxRepository: ScreenVersionOutboxRepository,
     private val entityManager: EntityManager
 ) : ScreenVersionRepository {
     private val log = LoggerFactory.getLogger(this::class.java)
@@ -78,7 +80,6 @@ class ScreenVersionRepositoryImpl(
             .doOnError { e -> log.error("Ошибка при получении последней версии экрана", e) }
             .subscribeOn(Schedulers.boundedElastic())
 
-    @Transactional
     override fun save(screen: ScreenFromDatabase): Mono<SaveResponse> {
         val managedMetaRef = entityManager.getReference(ScreenMetaEntity::class.java, screen.meta.id.value)
         val versionEntity = ScreenVersionEntity.emerge(screen, managedMetaRef)
@@ -86,13 +87,15 @@ class ScreenVersionRepositoryImpl(
         return save(versionEntity)
     }
 
-    @Transactional
-    override fun update(screen: ScreenFromDatabase): Mono<SaveResponse> {
-        val managedMetaRef = entityManager.getReference(ScreenMetaEntity::class.java, screen.meta.id.value)
-        val entity = ScreenVersionEntity.emerge(screen, managedMetaRef)
-
-        return save(entity)
-    }
+    override fun update(screen: ScreenFromDatabase): Mono<SaveResponse> =
+        Mono.fromCallable {
+            outboxRepository.update(screen)
+        }
+            .map(ScreenFromDatabase::emerge)
+            .map<SaveResponse>(SaveResponse::Success)
+            .doOnError { error -> log.error("При обновлении экрана произошла ошибка", error) }
+            .onErrorResume { SaveResponse.Error(it).toMono() }
+            .subscribeOn(Schedulers.boundedElastic())
 
     override fun findAllVersions(screenId: ScreenId): Mono<FindAllResponse> =
         Mono.fromCallable { repository.findAllVersionsByScreenId(screenId.value) }
