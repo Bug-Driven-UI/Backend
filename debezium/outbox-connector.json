@@ -1,0 +1,29 @@
+{
+  "name": "outbox-events-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "admin",
+    "database.dbname": "bdui",
+    "topic.prefix": "bdui",
+    "plugin.name": "pgoutput",
+    "schema.include.list": "public",
+    "table.include.list": "public.outbox_events",
+    "slot.name": "debezium_outbox_slot",
+    "publication.autocreate.mode": "all_tables",
+    "include.schema.changes": "false",
+    "tombstones.on.delete": "false",
+    "transforms": "outbox",
+    "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
+    "transforms.outbox.route.by.field": "event_type",
+    "transforms.outbox.route.topic.replacement": "outbox_${routedByValue}",
+    "transforms.outbox.table.field.event.id": "id",
+    "transforms.outbox.table.field.event.key": "id",
+    "transforms.outbox.table.field.event.type": "event_type",
+    "transforms.outbox.table.field.event.payload": "payload",
+    "transforms.outbox.table.field.event.timestamp": "created_at"
+  }
+}
