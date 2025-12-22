@@ -10,8 +10,8 @@ import ru.hits.bdui.admin.screen.database.entity.ScreenVersionEntity
 import ru.hits.bdui.admin.screen.database.repository.ScreenVersionJpaRepository
 import ru.hits.bdui.domain.screen.ScreenFromDatabase
 import ru.hits.bdui.outbox.entity.OutboxEventEntity
+import ru.hits.bdui.outbox.event.ScreenOutboxEventType
 import ru.hits.bdui.outbox.repository.OutboxEventJpaRepository
-import ru.hits.bdui.outbox.screen.ScreenOutboxEvent
 import java.time.Instant
 import java.util.UUID
 
@@ -30,7 +30,7 @@ class ScreenVersionOutboxRepository(
         val saveEvent = OutboxEventEntity(
             id = UUID.randomUUID(),
             createdAt = Instant.now(),
-            eventType = ScreenOutboxEvent.ScreenUpdated.value,
+            eventType = ScreenOutboxEventType.ScreenUpdated.value,
             payload = objectMapper.writeValueAsString(ScreenOutboxEventPayload.emerge(screen))
         )
 
